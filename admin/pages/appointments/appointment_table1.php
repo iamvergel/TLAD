@@ -1,0 +1,27 @@
+<?php
+
+include('../../config/dbconn.php');
+
+$table = 'tblwalkinappointment';
+$primaryKey = 'id';
+
+$columns = array(
+    array('db' => 'patient_name', 'dt' => 'patient_name'),
+    array('db' => 'created_at',  'dt' => 'created_at'),
+    array('db' => 'schedule',   'dt' => 'schedule'),
+    array('db' => 'starttime',  'dt' => 'starttime'),
+    array('db' => 'endtime',   'dt' => 'endtime'),
+    array('db' => 'payment',   'dt' => 'payment'),
+    array('db' => 'payment_option',   'dt' => 'payment_option'),
+    array('db' => 'status',   'dt' => 'status'),
+    array('db' => 'id',   'dt' => 'id'),
+);
+
+require('../../config/sspconn.php');
+
+require('../../ssp.class.php');
+
+$where = "schedtype ='Walk-in Schedule'";
+echo json_encode(
+    SSP::complex($_POST, $sql_details, $table, $primaryKey, $columns, $where)
+);
