@@ -710,7 +710,29 @@ CREATE TABLE `users` (
 --
 DROP TABLE IF EXISTS `users`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `users`  AS SELECT `tbladmin`.`id` AS `id`, `tbladmin`.`name` AS `name`, `tbladmin`.`email` AS `email`, `tbladmin`.`role` AS `role`, `tbladmin`.`status` AS `status`, `tbladmin`.`password` AS `password`, `tbladmin`.`verify_token` AS `verify_token` FROM `tbladmin`union all select `tblstaff`.`id` AS `id`,`tblstaff`.`name` AS `name`,`tblstaff`.`email` AS `email`,`tblstaff`.`role` AS `role`,`tblstaff`.`status` AS `status`,`tblstaff`.`password` AS `password`,`tblstaff`.`verify_token` AS `verify_token` from `tblstaff` union all select `tblpatient`.`id` AS `id`,concat(`tblpatient`.`fname`,' ',`tblpatient`.`lname`) AS `name`,`tblpatient`.`email` AS `email`,`tblpatient`.`role` AS `role`,`tblpatient`.`verify_status` AS `status`,`tblpatient`.`password` AS `password`,`tblpatient`.`verify_token` AS `verify_token` from `tblpatient` union all select `tbldoctor`.`id` AS `id`,`tbldoctor`.`name` AS `name`,`tbldoctor`.`email` AS `email`,`tbldoctor`.`role` AS `role`,`tbldoctor`.`status` AS `status`,`tbldoctor`.`password` AS `password`,`tbldoctor`.`verify_token` AS `verify_token` from `tbldoctor`  ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `users` AS 
+SELECT 
+    `tbladmin`.`id` AS `id`, 
+    `tbladmin`.`name` AS `name`, 
+    `tbladmin`.`email` AS `email`, 
+    `tbladmin`.`role` AS `role`, 
+    `tbladmin`.`status` AS `status`, 
+    `tbladmin`.`password` AS `password`, 
+    `tbladmin`.`verify_token` AS `verify_token` 
+FROM `tbladmin`
+
+UNION ALL 
+
+SELECT 
+    `tblcoordinator`.`id` AS `id`, 
+    `tblcoordinator`.`name` AS `name`, 
+    `tblcoordinator`.`email` AS `email`, 
+    `tblcoordinator`.`role` AS `role`, 
+    `tblcoordinator`.`status` AS `status`, 
+    `tblcoordinator`.`password` AS `password`, 
+    `tblcoordinator`.`verify_token` AS `verify_token` 
+FROM `tblcoordinator`;
+
 
 --
 -- Indexes for dumped tables
