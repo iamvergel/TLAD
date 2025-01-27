@@ -9,16 +9,17 @@ include('../../config/dbconn.php');
 <body class="hold-transition sidebar-mini layout-fixed">
   <div class="wrapper">
     <div class="modal fade" id="AddAdminModal">
-      <div class="modal-dialog">
+      <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Add Admin</h5>
+            <h5 class="modal-title">Add Coordinator</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <form action="coordinator_action.php" method="POST" enctype="multipart/form-data">
             <div class="modal-body">
+              <!-- Existing Fields -->
               <div class="row">
                 <div class="col-sm-12">
                   <div class="form-group">
@@ -28,6 +29,7 @@ include('../../config/dbconn.php');
                   </div>
                 </div>
               </div>
+
               <div class="row">
                 <div class="col-sm-12">
                   <div class="form-group">
@@ -37,6 +39,7 @@ include('../../config/dbconn.php');
                   </div>
                 </div>
               </div>
+
               <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group">
@@ -54,6 +57,72 @@ include('../../config/dbconn.php');
                   </div>
                 </div>
               </div>
+
+              <!-- Department and Unit Dropdowns -->
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Department</label><span class="text-danger">*</span>
+                    <select id="department_id" name="department_id" class="form-control" required>
+                      <option value="">Select Department</option>
+                      <?php
+                      include('../../config/dbconn.php');
+                      $sql = "SELECT * FROM department";
+                      $query_run = mysqli_query($conn, $sql);
+
+                      if (mysqli_num_rows($query_run) > 0) {
+                        while ($row = mysqli_fetch_assoc($query_run)) {
+                          echo "<option value='" . $row['id'] . "'>" . $row['name'] . "</option>";
+                        }
+                      } else {
+                        echo "<option value=''>No departments available</option>";
+                      }
+                      ?>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Unit</label><span class="text-danger">*</span>
+                    <select id="unit_id" name="unit_id" class="form-control" required>
+                      <option value="">Select Unit</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- New Fields for Section Head and Division -->
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Unit Section Head Name</label>
+                    <input type="text" name="unit_section_head_name" class="form-control" required>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Unit Section Head Title</label>
+                    <input type="text" name="unit_section_head_title" class="form-control" required>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Division Head Name</label>
+                    <input type="text" name="division_head_name" class="form-control" required>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Division Head Position</label>
+                    <input type="text" name="division_head_position" class="form-control" required>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Password Fields -->
               <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group">
@@ -73,18 +142,21 @@ include('../../config/dbconn.php');
                   </div>
                 </div>
               </div>
+
+              <!-- Image Upload -->
               <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label for="doc_image">Upload Image</label>
-                    <input type="file" name="doc_image" id="doc_image">
+                    <label for="coor_image">Upload Image</label>
+                    <input type="file" name="coor_image" id="coor_image">
                   </div>
                 </div>
               </div>
             </div>
+
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="submit" id="submit_button" name="insertadmin" class="btn btn-success">Submit</button>
+              <button type="submit" id="submit_button" name="insertcoordinator" class="btn btn-success">Submit</button>
             </div>
           </form>
         </div>
@@ -110,7 +182,7 @@ include('../../config/dbconn.php');
       </div>
     </div>
     <div class="modal fade" id="EditAdminModal">
-      <div class="modal-dialog">
+      <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">Edit Admin</h5>
@@ -160,6 +232,86 @@ include('../../config/dbconn.php');
                 </div>
               </div>
               <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Department</label><span class="text-danger">*</span>
+                    <select id="edit_department_id" name="department_id" class="form-control" required>
+                      <option value="">Select Department</option>
+                      <?php
+                      include('../../config/dbconn.php');
+                      $sql = "SELECT * FROM department";
+                      $query_run = mysqli_query($conn, $sql);
+
+                      if (mysqli_num_rows($query_run) > 0) {
+                        while ($row = mysqli_fetch_assoc($query_run)) {
+                          echo "<option value='" . $row['id'] . "'>" . $row['name'] . "</option>";
+                        }
+                      } else {
+                        echo "<option value=''>No departments available</option>";
+                      }
+                      ?>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Unit</label><span class="text-danger">*</span>
+                    <select id="edit_unit_id" name="unit_id" class="form-control" required>
+                      <option value="">Select Unit</option>
+                      <?php
+                      include('../../config/dbconn.php');
+                      $sql = "SELECT * FROM unit";
+                      $query_run = mysqli_query($conn, $sql);
+
+                      if (mysqli_num_rows($query_run) > 0) {
+                        while ($row = mysqli_fetch_assoc($query_run)) {
+                          echo "<option value='" . $row['id'] . "'>" . $row['unit_name'] . "</option>";
+                        }
+                      } else {
+                        echo "<option value=''>No units available</option>";
+                      }
+                      ?>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- New Fields for Section Head and Division -->
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Unit Section Head Name</label>
+                    <input type="text" name="unit_section_head_name" id="edit_unit_section_head_name"
+                      class="form-control" required>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Unit Section Head Title</label>
+                    <input type="text" name="unit_section_head_title" id="edit_unit_section_head_title"
+                      class="form-control" required>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Division Head Name</label>
+                    <input type="text" name="division_head_name" id="edit_division_head_name" class="form-control"
+                      required>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Division Head Position</label>
+                    <input type="text" name="division_head_position" id="edit_division_head_position"
+                      class="form-control" required>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
                 <input type="hidden" id="edit_password" name="edit_password" class="form-control" required>
                 <input type="hidden" id="edit_confirmPassword" name="edit_confirmPassword" class="form-control"
                   required>
@@ -167,7 +319,7 @@ include('../../config/dbconn.php');
               <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label for="doc_image">Upload Image</label>
+                    <label for="coor_image">Upload Image</label>
                     <input type="file" id="edit_docimage" name="edit_docimage" />
                     <input type="hidden" name="old_image" id="old_image" />
                     <div id="uploaded_image"></div>
@@ -251,7 +403,6 @@ include('../../config/dbconn.php');
                     </thead>
                     <tbody>
                       <?php
-                      // SQL query to fetch coordinator data along with division and unit names
                       $sql = "
                               SELECT 
                                 tblcoordinator.*, 
@@ -276,7 +427,7 @@ include('../../config/dbconn.php');
                         ?>
                         <tr>
                           <td style="text-align: center;" width="10%">
-                            <img src="../../../upload/admin/<?= $row['image'] ?>" class="img-thumbnail img-circle"
+                            <img src="../../../upload/coordinators/<?= $row['image'] ?>" class="img-thumbnail img-circle"
                               width="50" alt="">
                           </td>
                           <td><?php echo $row['name']; ?></td>
@@ -286,7 +437,7 @@ include('../../config/dbconn.php');
                           <td>
                             <?php
                             if ($row['status'] == 1) {
-                              echo '<button data-id="' . $row['id'] . '" data-status="' . $row['status'] . '" class="btn btn-sm btn-primary activatebtn">Active</button>';
+                              echo '<button data-id="' . $row['id'] . '" data-status="' . $row['status'] . '" class="btn btn-sm btn-success activatebtn">Active</button>';
                             } else {
                               echo '<button data-id="' . $row['id'] . '" data-status="' . $row['status'] . '" class="btn btn-sm btn-danger activatebtn">Inactive</button>';
                             }
@@ -413,34 +564,6 @@ include('../../config/dbconn.php');
         });
       });
 
-      //Admin Edit Modal
-      $(document).on('click', '.editAdminbtn', function () {
-        var userid = $(this).data('id');
-
-        $.ajax({
-          type: "POST",
-          url: "coordinator_action.php",
-          data: {
-            'checking_editAdminbtn': true,
-            'user_id': userid,
-          },
-          success: function (response) {
-            $.each(response, function (key, value) {
-              $('#edit_id').val(value['id']);
-              $('#edit_fname').val(value['name']);
-              $('#edit_address').val(value['address']);
-              $('#edit_phone').val(value['phone'].substring(3));
-              $('#edit_email').val(value['email']);
-              $('#uploaded_image').html('<img src="../../../upload/admin/' + value['image'] + '" class="img-fluid img-thumbnail" width="120" />');
-              $('#old_image').val(value['image']);
-              $('#edit_password').val(value['password']);
-              $('#edit_confirmPassword').val(value['password']);
-            });
-
-            $('#EditAdminModal').modal('show');
-          }
-        });
-      });
       //Admin Delete Modal
       $(document).on('click', '.deleteAdminbtn', function () {
 
@@ -475,8 +598,84 @@ include('../../config/dbconn.php');
       });
 
 
+      // Function to load units for the regular department select dropdown
+      function loadUnitsForDepartment() {
+        var departmentId = $('#department_id').val(); // Get selected department ID
+
+        // Only send AJAX request if a department is selected
+        if (departmentId) {
+          $.ajax({
+            url: 'fetch_units.php', // The PHP file that handles the request
+            type: 'GET',
+            data: { department_id: departmentId },
+            success: function (response) {
+              try {
+                var units = JSON.parse(response); // Parse the JSON response
+                var unitSelect = $('#unit_id'); // Regular unit select element
+
+                // Clear the existing options in the unit dropdown
+                unitSelect.empty();
+                unitSelect.append('<option value="">Select Unit</option>');
+
+                // Populate the unit dropdown with new options
+                if (units.length > 0) {
+                  units.forEach(function (unit) {
+                    unitSelect.append('<option value="' + unit.id + '">' + unit.unit_name + '</option>');
+                  });
+                } else {
+                  unitSelect.append('<option value="">No units available</option>');
+                }
+              } catch (error) {
+                console.error('Error parsing response:', error);
+                alert('An error occurred while fetching the units.');
+              }
+            },
+            error: function (xhr, status, error) {
+              console.error('AJAX request failed:', error);
+              alert('An error occurred while fetching the units.');
+            }
+          });
+        } else {
+          // If no department is selected, reset the unit dropdown
+          $('#unit_id').html('<option value="">Select Unit</option>');
+        }
+      }
+
+      //Admin Edit Modal
+      $(document).on('click', '.editAdminbtn', function () {
+        var userid = $(this).data('id');
+
+        $.ajax({
+          type: "POST",
+          url: "coordinator_action.php",
+          data: {
+            'checking_editAdminbtn': true,
+            'user_id': userid,
+          },
+          success: function (response) {
+            $.each(response, function (key, value) {
+              $('#edit_id').val(value['id']);
+              $('#edit_fname').val(value['name']);
+              $('#edit_address').val(value['address']);
+              $('#edit_phone').val(value['phone'].substring(3));
+              $('#edit_email').val(value['email']);
+              $('#edit_department_id').val(value['division_id']);
+              $('#edit_unit_id').val(value['unit_id']);  // Set the unit_id correctly
+
+              $('#edit_unit_section_head_name').val(value['unit_section_head_name']);
+              $('#edit_unit_section_head_title').val(value['unit_section_head_title']);
+              $('#edit_division_head_name').val(value['division_head_name']);
+              $('#edit_division_head_position').val(value['division_head_position']);
+              $('#uploaded_image').html('<img src="../../../upload/coordinators/' + value['image'] + '" class="img-fluid img-thumbnail" width="120" />');
+              $('#old_image').val(value['image']);
+              $('#edit_password').val(value['password']);
+              $('#edit_confirmPassword').val(value['password']);
+            });
+
+            $('#EditAdminModal').modal('show');
+          }
+        });
+      });
     });
   </script>
-
-
   <?php include('../../includes/footer.php'); ?>

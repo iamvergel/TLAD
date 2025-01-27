@@ -44,7 +44,7 @@ include('../admin/config/dbconn.php');
                                             <form action="profile_action.php" method="post" enctype="multipart/form-data">
                                                 <?php
                                                 if (isset($_SESSION['auth'])) {
-                                                    $sql = "SELECT * FROM tblstaff WHERE id = '" . $_SESSION['auth_user']['user_id'] . "'";
+                                                    $sql = "SELECT * FROM tblcoordinator WHERE id = '" . $_SESSION['auth_user']['user_id'] . "'";
                                                     $query_run = mysqli_query($conn, $sql);
                                                     while ($row = mysqli_fetch_array($query_run)) {
                                                 ?>
@@ -95,7 +95,7 @@ include('../admin/config/dbconn.php');
                                                                 <input type="file" name="img_url" placeholder="">
                                                                 <input type="hidden" name="old_image" value="<?= $row['image'] ?>" />
                                                                 <div id="uploaded_image">
-                                                                    <img src="../upload/staff/<?= $row['image'] ?>" class="img-thumbnail img-fluid" width="120" alt="Doctor Image">
+                                                                    <img src="../upload/coordinators/<?= $row['image'] ?>" class="img-thumbnail img-fluid" width="120" alt="Coordiantor Image">
                                                                 </div>
                                                             </div>
                                                         </div>

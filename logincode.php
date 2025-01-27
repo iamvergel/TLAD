@@ -31,7 +31,7 @@ if (isset($_POST['login_btn'])) {
                     if ($_SESSION['auth_role'] == 'admin') {
                         header('Location: admin/pages/dashboard');
                         exit(0);
-                    } else if ($_SESSION['auth_role'] == '3') {
+                    } else if ($_SESSION['auth_role'] == 'coordinator') {
                         header('Location: staff/index.php');
                         exit(0);
                     } else if ($_SESSION['auth_role'] == "2") {

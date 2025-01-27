@@ -13,11 +13,11 @@
           include_once('../admin/config/dbconn.php');
           if(isset($_SESSION['auth']))
           {
-            $sql = "SELECT * FROM tblstaff WHERE id = '".$_SESSION['auth_user']['user_id']."'";
+            $sql = "SELECT * FROM tblcoordinator WHERE id = '".$_SESSION['auth_user']['user_id']."'";
             $query_run = mysqli_query($conn,$sql);
             while($row = mysqli_fetch_array($query_run))
             {
-                echo '<img src="../upload/staff/'.$row['image'].'" class="user-image img-circle elevation-2" alt="Staff Image">';
+                echo '<img src="../upload/coordinators/'.$row['image'].'" class="user-image img-circle elevation-2" alt="Staff Image">';
             ?>
           <span class="d-none d-md-inline">
             <?=$row['name']?> 
