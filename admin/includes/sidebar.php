@@ -33,70 +33,9 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="../patients" class="nav-link <?= $page == 'patients' ? 'active' : '' ?>">
+          <a href="../employees" class="nav-link <?= $page == 'employees' ? 'active' : '' ?>">
             <i class="nav-icon fas fa-users"></i>
             <p>Employee</p>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="../schedules" class="nav-link <?= $page == 'schedules' ? 'active' : '' ?>">
-            <i class="nav-icon fas fa-clock"></i>
-            <p>Schedules</p>
-          </a>
-        </li>
-        <li
-          class="nav-item <?= $page == 'appointments' || $page == 'calendar' || $page == 'online-appointments' ? 'menu-open' : '' ?>">
-          <a href="#"
-            class="nav-link <?= $page == 'appointments' || $page == 'calendar' || $page == 'online-appointments' ? 'active' : '' ?>">
-            <i class="nav-icon fas fa-calendar"></i>
-            <p>
-              Appointment List
-              <i class="fas fa-angle-left right"></i>
-            </p>
-          </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a href="../appointments" class="nav-link <?= $page == 'appointments' ? 'active' : '' ?>">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Walk In Request</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="../online-appointments" class="nav-link <?= $page == 'online-appointments' ? 'active' : '' ?>">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Online Request</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="../calendar" class="nav-link <?= $page == 'calendar' ? 'active' : '' ?>">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Calendar</p>
-              </a>
-            </li>
-          </ul>
-        </li>
-        <!-- <li class="nav-item">
-          <a href="../payments" class="nav-link <?= $page == 'payments' ? 'active' : '' ?>">
-            <i class="nav-icon fab fa-cc-paypal"></i>
-            <p>Payments</p>
-          </a>
-        </li> -->
-        <li class="nav-item">
-          <a href="../total-income" class="nav-link <?= $page == 'prescriptions' ? 'active' : '' ?>">
-            <i class="nav-icon fas fa-file-check"></i>
-            <p>Income Report</p>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="../prescriptions" class="nav-link <?= $page == 'prescriptions' ? 'active' : '' ?>">
-            <i class="nav-icon fas fa-prescription"></i>
-            <p>Prescriptions</p>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="../treated" class="nav-link <?= $page == 'treated' ? 'active' : '' ?>">
-            <i class="nav-icon fas fa-file-check"></i>
-            <p>Treated</p>
           </a>
         </li>
         <li
@@ -211,7 +150,7 @@
             </li>
           </ul>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a href="../backup" class="nav-link <?= $page == 'backup' ? 'active' : '' ?>">
             <i class="nav-icon fas fa-server"></i>
             <p>Backup Database</p>
@@ -222,7 +161,7 @@
             <i class="nav-icon fas fa-file-pdf "></i>
             <p>Reports</p>
           </a>
-        </li>
+        </li> -->
       </ul>
     </nav>
   </div>
