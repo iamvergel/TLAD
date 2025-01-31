@@ -14,12 +14,12 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="patients.php" class="nav-link <?= $page == 'patients.php' || $page == 'patient-details.php' ? 'active' : '' ?>">
+          <a href="employee.php" class="nav-link <?= $page == 'employee.php' || $page == 'patient-details.php' ? 'active' : '' ?>">
             <i class="nav-icon fa fa-users-medical "></i>
-            <p>Patients</p>
+            <p>Employees</p>
           </a>
         </li>
-        <li class="nav-item <?= $page == 'appointment.php' || $page == 'calendar.php' || $page == 'online-request.php' ? 'menu-open' : '' ?>">
+        <!-- <li class="nav-item <?= $page == 'appointment.php' || $page == 'calendar.php' || $page == 'online-request.php' ? 'menu-open' : '' ?>">
           <a href="#" class="nav-link <?= $page == 'appointment.php' || $page == 'calendar.php' || $page == 'online-request.php' ? 'active' : '' ?>">
             <i class="nav-icon fas fa-calendar "></i>
             <p>
@@ -69,7 +69,7 @@
             <i class="nav-icon fas fa-file-pdf "></i>
             <p>Reports</p>
           </a>
-        </li>
+        </li> -->
         <li class="nav-item">
           <a href="profile.php" class="nav-link <?= $page == 'profile.php' ? 'active' : '' ?>">
             <i class="nav-icon fa fa-user-alt "></i>

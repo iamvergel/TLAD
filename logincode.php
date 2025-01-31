@@ -32,15 +32,17 @@ if (isset($_POST['login_btn'])) {
                         header('Location: admin/pages/dashboard');
                         exit(0);
                     } else if ($_SESSION['auth_role'] == 'coordinator') {
-                        header('Location: staff/index.php');
+                        header('Location: coordinator/index.php');
                         exit(0);
-                    } else if ($_SESSION['auth_role'] == "2") {
-                        header('Location: dentist/index.php');
-                        exit(0);
-                    } else if ($_SESSION['auth_role'] == "patient") {
-                        header('Location: patient/index.php');
-                        exit(0);
-                    } else {
+                    }
+                    // } else if ($_SESSION['auth_role'] == "2") {
+                    //     header('Location: dentist/index.php');
+                    //     exit(0);
+                    // } else if ($_SESSION['auth_role'] == "patient") {
+                    //     header('Location: patient/index.php');
+                    //     exit(0);
+                    // } 
+                    else {
                         $_SESSION['danger'] = "Access Denied";
                         header('Location: login.php');
                     }
