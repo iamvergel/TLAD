@@ -6,6 +6,49 @@ include('../../includes/sidebar.php');
 include('../../config/dbconn.php');
 ?>
 
+<script>
+  function loadUnitsForDepartment() {
+    var departmentId = $('#department_id').val();
+
+    if (departmentId) {
+      $('#unit_id').html('<option value="">Loading...</option>');
+
+      $.ajax({
+        url: 'fetch_units.php',
+        type: 'GET',
+        data: { department_id: departmentId },
+        success: function (response) {
+          try {
+            var units = JSON.parse(response);
+            var unitSelect = $('#unit_id');
+
+            unitSelect.empty();
+            unitSelect.append('<option value="">Select Unit</option>');
+
+            if (units.length > 0) {
+              units.forEach(function (unit) {
+                unitSelect.append('<option value="' + unit.id + '">' + unit.unit_name + '</option>');
+              });
+            } else {
+              unitSelect.append('<option value="">No units available</option>');
+            }
+          } catch (error) {
+            console.error('Error parsing response:', error);
+            alert('An error occurred while fetching the units.');
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error('AJAX request failed:', error);
+          alert('An error occurred while fetching the units.');
+          $('#unit_id').html('<option value="">Select Unit</option>');
+        }
+      });
+    } else {
+      $('#unit_id').html('<option value="">Select Unit</option>');
+    }
+  }
+</script>
+
 <body class="hold-transition sidebar-mini layout-fixed">
   <div class="wrapper">
     <div class="modal fade" id="AddAdminModal">
@@ -63,7 +106,8 @@ include('../../config/dbconn.php');
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label>Department</label><span class="text-danger">*</span>
-                    <select id="department_id" name="department_id" class="form-control" required>
+                    <select id="department_id" name="department_id" class="form-control" required
+                      onchange="loadUnitsForDepartment()">
                       <option value="">Select Department</option>
                       <?php
                       include('../../config/dbconn.php');
@@ -81,6 +125,7 @@ include('../../config/dbconn.php');
                     </select>
                   </div>
                 </div>
+
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label>Unit</label><span class="text-danger">*</span>
@@ -238,7 +283,6 @@ include('../../config/dbconn.php');
                     <select id="edit_department_id" name="department_id" class="form-control" required>
                       <option value="">Select Department</option>
                       <?php
-                      include('../../config/dbconn.php');
                       $sql = "SELECT * FROM department";
                       $query_run = mysqli_query($conn, $sql);
 
@@ -260,7 +304,6 @@ include('../../config/dbconn.php');
                     <select id="edit_unit_id" name="unit_id" class="form-control" required>
                       <option value="">Select Unit</option>
                       <?php
-                      include('../../config/dbconn.php');
                       $sql = "SELECT * FROM unit";
                       $query_run = mysqli_query($conn, $sql);
 
@@ -596,50 +639,6 @@ include('../../config/dbconn.php');
           });
         }
       });
-
-
-      // Function to load units for the regular department select dropdown
-      function loadUnitsForDepartment() {
-        var departmentId = $('#department_id').val(); // Get selected department ID
-
-        // Only send AJAX request if a department is selected
-        if (departmentId) {
-          $.ajax({
-            url: 'fetch_units.php', // The PHP file that handles the request
-            type: 'GET',
-            data: { department_id: departmentId },
-            success: function (response) {
-              try {
-                var units = JSON.parse(response); // Parse the JSON response
-                var unitSelect = $('#unit_id'); // Regular unit select element
-
-                // Clear the existing options in the unit dropdown
-                unitSelect.empty();
-                unitSelect.append('<option value="">Select Unit</option>');
-
-                // Populate the unit dropdown with new options
-                if (units.length > 0) {
-                  units.forEach(function (unit) {
-                    unitSelect.append('<option value="' + unit.id + '">' + unit.unit_name + '</option>');
-                  });
-                } else {
-                  unitSelect.append('<option value="">No units available</option>');
-                }
-              } catch (error) {
-                console.error('Error parsing response:', error);
-                alert('An error occurred while fetching the units.');
-              }
-            },
-            error: function (xhr, status, error) {
-              console.error('AJAX request failed:', error);
-              alert('An error occurred while fetching the units.');
-            }
-          });
-        } else {
-          // If no department is selected, reset the unit dropdown
-          $('#unit_id').html('<option value="">Select Unit</option>');
-        }
-      }
 
       //Admin Edit Modal
       $(document).on('click', '.editAdminbtn', function () {
