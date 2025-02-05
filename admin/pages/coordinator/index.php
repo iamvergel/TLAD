@@ -456,17 +456,14 @@ include('../../config/dbconn.php');
                               LEFT JOIN unit ON tblcoordinator.unit_id = unit.id
                             ";
 
-                      // Execute the query
                       $query_run = mysqli_query($conn, $sql);
 
-                      // Check for query errors
                       if (!$query_run) {
                         die('Query Failed: ' . mysqli_error($conn));
                       }
 
-                      // Fetch the results
+                      
                       while ($row = mysqli_fetch_array($query_run)) {
-                        // Display each coordinator's data along with division and unit names
                         ?>
                         <tr>
                           <td style="text-align: center;" width="10%">
@@ -475,8 +472,8 @@ include('../../config/dbconn.php');
                           </td>
                           <td><?php echo $row['name']; ?></td>
                           <td><?php echo $row['email']; ?></td>
-                          <td><?php echo $row['department_name']; ?></td> <!-- Division name -->
-                          <td><?php echo $row['unit_name']; ?></td> <!-- Unit name -->
+                          <td><?php echo $row['department_name']; ?></td> 
+                          <td><?php echo $row['unit_name']; ?></td> 
                           <td>
                             <?php
                             if ($row['status'] == 1) {

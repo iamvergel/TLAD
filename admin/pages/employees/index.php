@@ -6,86 +6,261 @@ include('../../includes/sidebar.php');
 include('../../config/dbconn.php');
 ?>
 
+<script>
+  function loadUnitsForDepartment() {
+    var departmentId = $('#department_id').val();
+
+    if (departmentId) {
+      $('#unit_id').html('<option value="">Loading...</option>');
+
+      $.ajax({
+        url: 'fetch_units.php',
+        type: 'GET',
+        data: { department_id: departmentId },
+        success: function (response) {
+          try {
+            var units = JSON.parse(response);
+            var unitSelect = $('#unit_id');
+
+            unitSelect.empty();
+            unitSelect.append('<option value="">Select Unit</option>');
+
+            if (units.length > 0) {
+              units.forEach(function (unit) {
+                unitSelect.append('<option value="' + unit.id + '">' + unit.unit_name + '</option>');
+              });
+            } else {
+              unitSelect.append('<option value="">No units available</option>');
+            }
+          } catch (error) {
+            console.error('Error parsing response:', error);
+            alert('An error occurred while fetching the units.');
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error('AJAX request failed:', error);
+          alert('An error occurred while fetching the units.');
+          $('#unit_id').html('<option value="">Select Unit</option>');
+        }
+      });
+    } else {
+      $('#unit_id').html('<option value="">Select Unit</option>');
+    }
+  }
+
+  function filterTable() {
+    var departmentId = document.getElementById("department_id").value;
+    var unitId = document.getElementById("unit_id").value;
+
+    // Make an AJAX request to filter data
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "filter_admin_data.php?department_id=" + departmentId + "&unit_id=" + unitId, true);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState == 4 && xhr.status == 200) {
+        // Update the table with filtered data
+        document.querySelector('#employee_table tbody').innerHTML = xhr.responseText;
+      }
+    };
+    xhr.send();
+  }
+
+  function addloadUnitsForDepartment() {
+    var departmentId1 = $('#department_id1').val();
+
+    if (departmentId1) {
+      $('#unitSection').html('<option value="">Loading...</option>');
+
+      $.ajax({
+        url: 'fetch_units.php',
+        type: 'GET',
+        data: { department_id: departmentId1 },
+        success: function (response) {
+          try {
+            var units1 = JSON.parse(response);
+            var unitSelect1 = $('#unitSection');
+
+            unitSelect1.empty();
+            unitSelect1.append('<option value="">Select Unit</option>');
+
+            if (units1.length > 0) {
+              units1.forEach(function (unit) {
+                unitSelect1.append('<option value="' + unit.id + '">' + unit.unit_name + '</option>');
+              });
+            } else {
+              unitSelect1.append('<option value="">No units available</option>');
+            }
+          } catch (error) {
+            console.error('Error parsing response:', error);
+            alert('An error occurred while fetching the units.');
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error('AJAX request failed:', error);
+          alert('An error occurred while fetching the units.');
+          $('#unitSection').html('<option value="">Select Unit</option>');
+        }
+      });
+    } else {
+      $('#unitSection').html('<option value="">Select Unit</option>');
+    }
+  }
+</script>
+
 <body class="hold-transition sidebar-mini layout-fixed">
   <div class="wrapper">
-    <div class="modal fade" id="AddAdminModal">
-      <div class="modal-dialog">
+    <div class="modal fade" id="AddEmployeeModal">
+      <div class="modal-dialog modal-xl">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Add Admin</h5>
+            <h5 class="modal-title">Add Employee</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <form action="admin_action.php" method="POST" enctype="multipart/form-data">
+          <form action="employee_action.php" method="POST" enctype="multipart/form-data">
             <div class="modal-body">
               <div class="row">
-                <div class="col-sm-12">
+                <div class="col-sm-6">
                   <div class="form-group">
-                    <label>Full Name</label>
+                    <label>Employee Number</label>
                     <span class="text-danger">*</span>
-                    <input type="text" name="fname" class="form-control" pattern="[a-zA-Z'-'\s]*" required>
+                    <input type="text" name="EmployeeNumber" class="form-control" required>
+                  </div>
+                </div>
+                <div class="col-sm-6"></div>
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <label>Lastname</label>
+                    <span class="text-danger">*</span>
+                    <input type="text" name="Lastname" class="form-control" required>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <label>Firstname</label>
+                    <span class="text-danger">*</span>
+                    <input type="text" name="Firstname" class="form-control" required>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <label>Middlename</label>
+                    <input type="text" name="Middlename" class="form-control">
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <label>Suffix</label>
+                    <input type="text" name="Suffix" class="form-control">
                   </div>
                 </div>
               </div>
+
               <div class="row">
-                <div class="col-sm-12">
+                <div class="col-sm-6">
                   <div class="form-group">
-                    <label>Address</label>
+                    <label>Birthday</label>
                     <span class="text-danger">*</span>
-                    <input type="text" name="address" class="form-control" required>
+                    <input type="date" name="Birthday" class="form-control" required>
                   </div>
                 </div>
               </div>
+
               <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label>Contact Number</label>
                     <span class="text-danger">*</span>
-                    <input type="text" class="form-control js-phone" name="phone" pattern="^(09|\+639)\d{9}$" required>
+                    <input type="text" class="form-control" name="ContactNumber" required>
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label>Email</label>
+                    <label>Sex</label>
                     <span class="text-danger">*</span>
-                    <input id="email" type="email" name="email" pattern="^[-+.\w]{1,64}@[-.\w]{1,64}\.[-.\w]{2,6}$" class="form-control" required />
+                    <select name="Sex" class="form-control" required>
+                      <option value="M">Male</option>
+                      <option value="F">Female</option>
+                    </select>
                   </div>
                 </div>
               </div>
+
               <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label>Password</label>
+                    <label>Position</label>
                     <span class="text-danger">*</span>
-                    <input type="password" id="password" name="password" class="form-control" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters and one special character" required>
+                    <input type="text" name="Position" class="form-control" required>
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label>Confirm Password</label>
+                    <label>Department</label>
                     <span class="text-danger">*</span>
-                    <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required>
+                    <select id="department_id1" name="Department" class="form-control" required
+                      onchange="addloadUnitsForDepartment()">
+                      <option value="">Select Department</option>
+                      <?php
+                      include('../../config/dbconn.php');
+                      $sql = "SELECT * FROM department";
+                      $query_run = mysqli_query($conn, $sql);
+
+                      if (mysqli_num_rows($query_run) > 0) {
+                        while ($row = mysqli_fetch_assoc($query_run)) {
+                          echo "<option value='" . $row['id'] . "'>" . $row['name'] . "</option>";
+                        }
+                      } else {
+                        echo "<option value=''>No departments available</option>";
+                      }
+                      ?>
+                    </select>
                   </div>
                 </div>
               </div>
+
               <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label for="doc_image">Upload Image</label>
-                    <input type="file" name="doc_image" id="doc_image">
+                    <label>Unit/Section</label>
+                    <span class="text-danger">*</span>
+                    <select id="unitSection" name="UnitSection" class="form-control" required>
+                      <option value="">Select Unit</option>
+                    </select>
                   </div>
                 </div>
+              </div>
+
+              <div class="form-group">
+                <label>Coordinator</label>
+                <select id="coordinator_id" name="coordinator_id" class="form-control" required>
+                      <option value="">Select coordinator</option>
+                      <?php
+                      $sql = "SELECT * FROM tblcoordinator";
+                      $query_run = mysqli_query($conn, $sql);
+
+                      if (mysqli_num_rows($query_run) > 0) {
+                        while ($row = mysqli_fetch_assoc($query_run)) {
+                          echo "<option value='" . $row['id'] . "'>" . $row['name'] . "</option>";
+                        }
+                      } else {
+                        echo "<option value=''>No departments available</option>";
+                      }
+                      ?>
+                    </select>
               </div>
             </div>
+
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="submit" id="submit_button" name="insertadmin" class="btn btn-primary">Submit</button>
+              <button type="submit" name="insertEmployee" class="btn btn-primary">Submit</button>
             </div>
           </form>
         </div>
       </div>
     </div>
+
+
     <div class="modal fade" id="ViewAdminModal">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -122,7 +297,8 @@ include('../../config/dbconn.php');
                   <div class="form-group">
                     <label>Full Name</label>
                     <span class="text-danger">*</span>
-                    <input type="text" name="fname" id="edit_fname" class="form-control" pattern="[a-zA-Z'-'\s]*" required>
+                    <input type="text" name="fname" id="edit_fname" class="form-control" pattern="[a-zA-Z'-'\s]*"
+                      required>
                   </div>
                 </div>
               </div>
@@ -140,21 +316,24 @@ include('../../config/dbconn.php');
                   <div class="form-group">
                     <label>Contact Number</label>
                     <span class="text-danger">*</span>
-                    <input type="text" id="edit_phone" name="phone" class="form-control js-phone" pattern="^(09|\+639)\d{9}$" required>
+                    <input type="text" id="edit_phone" name="phone" class="form-control js-phone"
+                      pattern="^(09|\+639)\d{9}$" required>
                   </div>
                 </div>
                 <div class="col-sm-6 auto">
                   <div class="form-group">
                     <label>Email</label>
                     <span class="text-danger">*</span>
-                    <input type="email" name="email" id="edit_email" class="form-control email_id" pattern="^[-+.\w]{1,64}@[-.\w]{1,64}\.[-.\w]{2,6}$" class="form-control" required>
+                    <input type="email" name="email" id="edit_email" class="form-control email_id"
+                      pattern="^[-+.\w]{1,64}@[-.\w]{1,64}\.[-.\w]{2,6}$" class="form-control" required>
                     <span class="email_error text-danger"></span>
                   </div>
                 </div>
               </div>
               <div class="row">
                 <input type="hidden" id="edit_password" name="edit_password" class="form-control" required>
-                <input type="hidden" id="edit_confirmPassword" name="edit_confirmPassword" class="form-control" required>
+                <input type="hidden" id="edit_confirmPassword" name="edit_confirmPassword" class="form-control"
+                  required>
               </div>
               <div class="row">
                 <div class="col-sm-6">
@@ -186,7 +365,7 @@ include('../../config/dbconn.php');
             </button>
           </div>
 
-          <form action="admin_action.php" method="POST">
+          <form action="employee_action.php" method="POST">
             <div class="modal-body">
               <input type="hidden" name="delete_id" id="delete_id">
               <p> Do you want to delete this data?</p>
@@ -218,14 +397,60 @@ include('../../config/dbconn.php');
       </div>
       <div class="content">
         <div class="container-fluid">
+          <?php include('../../message.php'); ?>
           <div class="row">
-            <div class="col-md-12">
-              <?php include('../../message.php'); ?>
+            <div class="col-sm-2">
+              <div class="card card-primary card-outline">
+                <div class="card-header">
+                  <h3 class="card-title">SELECT DEPARTMENT AND UNIT</h3>
+                </div>
+                <div class="row px-3 py-2">
+                  <div class="col-md-12 mt-2">
+                    <div class="form-group">
+                      <label>Department</label><span class="text-danger">*</span>
+                      <select id="department_id" name="department_id" class="form-control" required
+                        onchange="loadUnitsForDepartment()">
+                        <option value="">Select Department</option>
+                        <?php
+                        include('../../config/dbconn.php');
+                        $sql = "SELECT * FROM department";
+                        $query_run = mysqli_query($conn, $sql);
+
+                        if (mysqli_num_rows($query_run) > 0) {
+                          while ($row = mysqli_fetch_assoc($query_run)) {
+                            echo "<option value='" . $row['id'] . "'>" . $row['name'] . "</option>";
+                          }
+                        } else {
+                          echo "<option value=''>No departments available</option>";
+                        }
+                        ?>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label>Unit</label><span class="text-danger">*</span>
+                      <select id="unit_id" name="unit_id" class="form-control" required>
+                        <option value="">Select Unit</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-12 mt-5">
+                    <button class="btn btn-md btn-success w-100" onclick="filterTable()">Search</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-10">
               <div class="card card-primary card-outline">
                 <div class="card-header">
                   <h3 class="card-title">Admin List</h3>
-                  <button type="button" class="btn btn-primary btn-sm float-right" data-toggle="modal" data-target="#AddAdminModal">
-                    <i class="fa fa-plus"></i> &nbsp;&nbsp;Add Admin</button>
+                  <button type="button" class="btn btn-primary btn-sm float-right" data-toggle="modal"
+                    data-target="#AddEmployeeModal">
+                    <i class="fa fa-plus"></i> &nbsp;&nbsp;Add Employee</button>
                 </div>
                 <div class="card-body">
                   <table id="employee_table" class="table table-borderless table-hover" style="width:100%;">
@@ -239,45 +464,63 @@ include('../../config/dbconn.php');
                         <th class="export">Department</th>
                         <th class="export">Unit</th>
                         <th class="export" width="5%">Status</th>
-                        <th>Action</th>
+                        <th style="width: 100px;">Action</th>
                       </tr>
                     </thead>
-                    <tbody><?php
-                            $i = 1;
-                            $user = $_SESSION['auth_user']['user_id'];
-                            $sql = "SELECT * FROM tblemployee";
-                            $query_run = mysqli_query($conn, $sql);
+                    <tbody>
+                      <?php
+                      $i = 1;
+                      $user = $_SESSION['auth_user']['user_id'];
+                      $sql = "
+                                  SELECT 
+                                    tblemployee.*, 
+                                    department.name AS department_name, 
+                                    unit.unit_name AS unit_name
+                                  FROM tblemployee
+                                  LEFT JOIN department ON tblemployee.Department = department.id
+                                  LEFT JOIN unit ON tblemployee.UnitSection = unit.id
+                                ";
 
-                            while ($row = mysqli_fetch_array($query_run)) { ?>
+                      $query_run = mysqli_query($conn, $sql);
+
+                      if (!$query_run) {
+                        die('Query Failed: ' . mysqli_error($conn));
+                      }
+
+
+                      while ($row = mysqli_fetch_array($query_run)) {
+                        ?>
                         <tr>
-                          <!-- <td style="text-align: center;" width="10%"><img src="../../../upload/admin/<?= $row['image'] ?>" class="img-thumbnail img-circle" width="50" alt=""></td> -->
                           <td><?php echo $row['EmployeeNumber']; ?></td>
-                          <td><?php echo $row['Lastname'] . ' ' . $row['Firstname'] . ' ' . $row['Middlename'] . ' ' . $row['Suffix']; ?></td>
+                          <td>
+                            <?php echo $row['Lastname'] . ' ' . $row['Firstname'] . ' ' . $row['Middlename'] . ' ' . $row['Suffix']; ?>
+                          </td>
                           <td><?php echo $row['ContactNumber']; ?></td>
                           <td><?php echo $row['Sex']; ?></td>
                           <td><?php echo $row['Position']; ?></td>
-                          <td><?php echo $row['Department']; ?></td>
-                          <td><?php echo $row['UnitSection']; ?></td>
-                          
+                          <td><?php echo $row['department_name']; ?></td>
+                          <td><?php echo $row['unit_name']; ?></td>
+
                           <td><?php
-                              if ($row['id'] == $user) {
-                              } else {
-                                if ($row['Status'] == 1) {
-                                  echo '<button data-id="' . $row['id'] . '" data-status="' . $row['Status'] . '" class="btn btn-sm btn-primary activatebtn">Active</button>';
-                                } else {
-                                  echo '<button data-id="' . $row['id'] . '" data-status="' . $row['Status'] . '" class="btn btn-sm btn-danger activatebtn">Inactive</button>';
-                                }
-                              }
-                              ?>
+                          if ($row['id'] == $user) {
+                          } else {
+                            if ($row['Status'] == 1) {
+                              echo '<button data-id="' . $row['id'] . '" data-status="' . $row['Status'] . '" class="btn btn-sm btn-success activatebtn">Active</button>';
+                            } else {
+                              echo '<button data-id="' . $row['id'] . '" data-status="' . $row['Status'] . '" class="btn btn-sm btn-danger activatebtn">Inactive</button>';
+                            }
+                          }
+                          ?>
                           </td>
                           <td>
-                            <button data-id="<?php echo $row['id']; ?>" class="btn btn-sm btn-info editAdminbtn"><i class="fas fa-edit"></i></button>
-                            <!-- <input type="hidden" name="del_image" value="<?php echo $row['image']; ?>"> -->
-                            <button data-id="<?php echo $row['id']; ?>" class="btn btn-danger btn-sm deleteAdminbtn"><i class="far fa-trash-alt"></i></button>
+                            <button data-id="<?php echo $row['id']; ?>" class="btn btn-sm btn-info editAdminbtn"><i
+                                class="fas fa-edit me-2"></i></button>
+                            <button data-id="<?php echo $row['id']; ?>" class="btn btn-danger btn-sm deleteAdminbtn"><i
+                                class="far fa-trash-alt"></i></button>
                           </td>
                         </tr>
-                      <?php
-                            }
+                        <?php
+                      }
                       ?>
                     </tbody>
                     <tfoot>
@@ -304,8 +547,8 @@ include('../../config/dbconn.php');
   </div>
   <?php include('../../includes/scripts.php'); ?>
   <script>
-    $(document).ready(function() {
-      $('#employee_table tfoot th.search').each(function() {
+    $(document).ready(function () {
+      $('#employee_table tfoot th.search').each(function () {
         var title = $(this).text();
         $(this).html('<input type="text" placeholder="Search ' + title + '" class="search-input form-control form-control-sm"/>');
       });
@@ -317,52 +560,52 @@ include('../../config/dbconn.php');
         "searching": true,
         "paging": true,
         "buttons": [{
-            extend: 'copyHtml5',
-            className: 'btn btn-outline-secondary btn-sm',
-            text: '<i class="fas fa-clipboard"></i>  Copy',
-            exportOptions: {
-              columns: '.export'
-            }
-          },
-          {
-            extend: 'csvHtml5',
-            className: 'btn btn-outline-secondary btn-sm',
-            text: '<i class="far fa-file-csv"></i>  CSV',
-            exportOptions: {
-              columns: '.export'
-            }
-          },
-          {
-            extend: 'excel',
-            className: 'btn btn-outline-secondary btn-sm',
-            text: '<i class="far fa-file-excel"></i>  Excel',
-            exportOptions: {
-              columns: '.export'
-            }
-          },
-          {
-            extend: 'pdfHtml5',
-            className: 'btn btn-outline-secondary btn-sm',
-            text: '<i class="far fa-file-pdf"></i>  PDF',
-            exportOptions: {
-              columns: '.export'
-            }
-          },
-          {
-            extend: 'print',
-            className: 'btn btn-outline-secondary btn-sm',
-            text: '<i class="fas fa-print"></i>  Print',
-            exportOptions: {
-              columns: '.export'
-            }
+          extend: 'copyHtml5',
+          className: 'btn btn-outline-secondary btn-sm',
+          text: '<i class="fas fa-clipboard"></i>  Copy',
+          exportOptions: {
+            columns: '.export'
           }
+        },
+        {
+          extend: 'csvHtml5',
+          className: 'btn btn-outline-secondary btn-sm',
+          text: '<i class="far fa-file-csv"></i>  CSV',
+          exportOptions: {
+            columns: '.export'
+          }
+        },
+        {
+          extend: 'excel',
+          className: 'btn btn-outline-secondary btn-sm',
+          text: '<i class="far fa-file-excel"></i>  Excel',
+          exportOptions: {
+            columns: '.export'
+          }
+        },
+        {
+          extend: 'pdfHtml5',
+          className: 'btn btn-outline-secondary btn-sm',
+          text: '<i class="far fa-file-pdf"></i>  PDF',
+          exportOptions: {
+            columns: '.export'
+          }
+        },
+        {
+          extend: 'print',
+          className: 'btn btn-outline-secondary btn-sm',
+          text: '<i class="fas fa-print"></i>  Print',
+          exportOptions: {
+            columns: '.export'
+          }
+        }
         ],
-        initComplete: function() {
+        initComplete: function () {
           // Apply the search
-          this.api().columns().every(function() {
+          this.api().columns().every(function () {
             var that = this;
 
-            $('input', this.footer()).on('keyup change clear', function() {
+            $('input', this.footer()).on('keyup change clear', function () {
               if (that.search() !== this.value) {
                 that
                   .search(this.value)
@@ -373,7 +616,7 @@ include('../../config/dbconn.php');
         }
       });
 
-      $(document).on('click', '.viewAdminbtn', function() {
+      $(document).on('click', '.viewAdminbtn', function () {
         var userid = $(this).data('id');
 
         $.ajax({
@@ -383,7 +626,7 @@ include('../../config/dbconn.php');
             'checking_viewAdmintbtn': true,
             'user_id': userid,
           },
-          success: function(response) {
+          success: function (response) {
 
             $('.admin_viewing_data').html(response);
             $('#ViewAdminModal').modal('show');
@@ -392,7 +635,7 @@ include('../../config/dbconn.php');
       });
 
       //Admin Edit Modal
-      $(document).on('click', '.editAdminbtn', function() {
+      $(document).on('click', '.editAdminbtn', function () {
         var userid = $(this).data('id');
 
         $.ajax({
@@ -402,8 +645,8 @@ include('../../config/dbconn.php');
             'checking_editAdminbtn': true,
             'user_id': userid,
           },
-          success: function(response) {
-            $.each(response, function(key, value) {
+          success: function (response) {
+            $.each(response, function (key, value) {
               $('#edit_id').val(value['id']);
               $('#edit_fname').val(value['name']);
               $('#edit_address').val(value['address']);
@@ -420,14 +663,14 @@ include('../../config/dbconn.php');
         });
       });
       //Admin Delete Modal
-      $(document).on('click', '.deleteAdminbtn', function() {
+      $(document).on('click', '.deleteAdminbtn', function () {
 
         var user_id = $(this).data('id');
         $('#delete_id').val(user_id);
         $('#DeleteAdminModal').modal('show');
       });
 
-      $(document).on('click', '.activatebtn', function() {
+      $(document).on('click', '.activatebtn', function () {
         var userid = $(this).data('id');
         var status = $(this).data('status');
         var next_status = 'Active';
@@ -438,14 +681,14 @@ include('../../config/dbconn.php');
         if (confirm("Are you sure you want to " + next_status + " it?")) {
           $.ajax({
             type: "post",
-            url: "admin_action.php",
+            url: "employee_action.php",
             data: {
               'change_status': true,
               'user_id': userid,
               'status': status,
               'next_status': next_status
             },
-            success: function(response) {
+            success: function (response) {
               location.reload();
             }
           });
