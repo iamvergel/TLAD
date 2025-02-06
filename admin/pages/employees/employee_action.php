@@ -222,34 +222,19 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                             </ul>
                         </div>
 
-
                         <div class="card-body">
                             <div class="tab-content" id="custom-tabs-three-tabContent">
                                 <div class="tab-pane fade show active" id="certificate" role="tabpanel"
                                     aria-labelledby="certificate-tab">
 
-                                    <!-- Full Screen Modal Structure -->
-                                    <div class="modal fade" id="certificateModal" tabindex="-1"
-                                        aria-labelledby="certificateModalLabel" aria-hidden="true">
-                                                    <h5 class="modal-title" id="certificateModalLabel">Certificate Image</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-
-                                                <div class="modal-body">
-                                                    <img src="" id="modalImage" class="img-fluid w-100" alt="Certificate Image">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Appointment-->
+                                    <!-- Certificate-->
                                     <table id="certificatetable" class="table table-hover table-borderless" style="width:100%;">
                                         <thead class="bg-light">
                                             <tr>
-                                                <th>Date</th>
+                                                <th>Date Uploaded</th>
                                                 <th>Certificate</th>
-                                                <th>Title</th>
+                                                <th>Title (Date of Training)</th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -270,7 +255,16 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                                                                     id="showCertificate"
                                                                     onclick="showCertificate('<?= $user['CertificateImage'] ?>')">
                                                             </td>
-                                                            <td><?= $user['Title'] ?></td>
+                                                            <td class="w-50">
+                                                                <textarea class="form-control title-input border-0" rows="3"
+                                                                    data-id="<?= $user['id'] ?>"><?= htmlspecialchars($user['Title']) ?></textarea>
+                                                            </td>
+
+                                                            <td>
+                                                                <button class="btn btn-sm btn-success saveTitle" data-id="<?= $user['id'] ?>">
+                                                                    <i class="fas fa-save"></i>
+                                                                </button>
+                                                            </td>
                                                         </tr>
                                                         <?php
                                                     }
@@ -282,32 +276,46 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                                         </tbody>
                                     </table>
                                 </div>
+
                                 <div class="tab-pane fade" id="remarks" role="tabpanel" aria-labelledby="remarks-tab">
                                     <table id="remarkstable" class="table table-hover table-borderless" style="width:100%;">
                                         <thead class="bg-light">
                                             <tr>
-                                                <th class="bg-light">Day</th>
-                                                <th class="bg-light">Start Time</th>
-                                                <th class="bg-light">End Time</th>
-                                                <th class="bg-light">Duration</th>
+                                                <th class="bg-light">Year</th>
+                                                <th class="bg-light">Remarks</th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
-                                            if (isset($_GET['id'])) {
-                                                $user_id = $_GET['id'];
-                                                $user = "SELECT * FROM schedule WHERE doc_id='$user_id'";
+                                            if (isset($_POST['user_id'])) {
+                                                $employeeNumber = $_POST['user_id'];
+                                                $user = "SELECT * FROM tblemployeeremarks WHERE EmployeeNumber = '$employeeNumber'";
                                                 $users_run = mysqli_query($conn, $user);
 
                                                 if (mysqli_num_rows($users_run) > 0) {
                                                     foreach ($users_run as $user) {
                                                         ?>
-
                                                         <tr>
-                                                            <td><?= date('d-M-Y', strtotime($user['day'])) ?></td>
-                                                            <td><?= $user['starttime'] ?></td>
-                                                            <td><?= $user['endtime'] ?></td>
-                                                            <td><?= $user['duration'] ?></td>
+                                                            <td><?= $user['Year'] ?></td>
+                                                            <td class="w-75">
+                                                                <select class="form-control remark-dropdown 
+                                                                    <?php echo $user['Remarks'] == 1 ? 'text-success' : ($user['Remarks'] == 0 ? 'text-danger' : ''); ?>"
+                                                                    data-id="<?= $user['id'] ?>">
+                                                                    <option class="text-success" value="1" <?= $user['Remarks'] == 1 ? 'selected' : '' ?>>
+                                                                        WITH TRAINING
+                                                                    </option>
+                                                                    <option class="text-danger" value="0" <?= $user['Remarks'] == 0 ? 'selected' : '' ?>>
+                                                                        WITHOUT TRAINING
+                                                                    </option>
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                <button class="btn btn-sm btn-success saveRemarks ml-1"
+                                                                    data-id="<?= $user['id'] ?>">
+                                                                    <i class="fas fa-save"></i>
+                                                                </button>
+                                                            </td>
                                                         </tr>
                                                         <?php
                                                     }
@@ -330,9 +338,14 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                         searching: true,
                         paging: true,
                         info: true,
+                        pageLength: 5,
                     });
                     var table2 = $('#remarkstable').DataTable({
                         responsive: true,
+                        searching: true,
+                        paging: true,
+                        info: true,
+                        pageLength: 5,
                     });
 
                     $('.nav-pills a').on('shown.bs.tab', function (event) {
@@ -340,17 +353,69 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                         if (tabID === '#appointment') {
                             table1.columns.adjust().responsive.recalc();
                         }
-                        if (tabID === '#remarks') {
+                        if (tabID === '#remarkstable') {
                             table2.columns.adjust().responsive.recalc();
                         }
+                    });
+
+                    $('.remark-dropdown').on('change', function() {
+                        var selectedValue = $(this).val();  
+                        var $select = $(this);  
+
+                        if (selectedValue == '1') {
+                            $select.removeClass('text-danger').addClass('text-success');
+                        } else if (selectedValue == '0') {
+                            $select.removeClass('text-success').addClass('text-danger');
+                        } else {
+                            $select.removeClass('text-success text-danger');
+                        }
+                    });
+
+                    $('.saveTitle').on('click', function () {
+                        var rowId = $(this).data('id');
+                        var newTitle = $(this).closest('tr').find('.title-input').val();
+
+                        $.ajax({
+                            type: 'POST',
+                            url: 'employee_action.php',
+                            data: {
+                                certificateId: rowId,
+                                newTitle: newTitle
+                            },
+                            success: function (response) {
+                                if (response === 'success') {
+                                    alert('Title updated successfully!');
+                                } else {
+                                    alert('Failed to update title.');
+                                }
+                            }
+                        });
+                    });
+
+                    $('.saveRemarks').on('click', function () {
+                        var rowId = $(this).data('id');
+                        var selectedRemark = $(this).closest('tr').find('.remark-dropdown').val();
+
+                        $.ajax({
+                            type: 'POST',
+                            url: 'employee_action.php',
+                            data: {
+                                id: rowId,
+                                remark: selectedRemark
+                            },
+                            success: function (response) {
+                                if (response === 'success') {
+                                    alert('Remarks updated successfully!');
+                                } else {
+                                    alert('Failed to update remarks.');
+                                }
+                            }
+                        });
                     });
                 });
 
                 function showCertificate(imageSrc) {
-                    document.getElementById("modalImage").src = "../../../upload/certificates/" + imageSrc;
-
-                    var myModal = new bootstrap.Modal(document.getElementById('certificateModal'));
-                    myModal.show();
+                    window.open("../../../upload/certificates/" + imageSrc);
                 }
             </script>
             <?php
@@ -358,6 +423,97 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
     } else {
         echo $return = "<h5> No Record Found</h5>";
     }
+}
+
+if (isset($_POST['addYear'])) {
+    $year = $_POST['Year'];
+
+    if (!empty($year)) {
+        // Check if the year already exists for any employee globally
+        $checkQuery = "SELECT * FROM tblemployeeremarks WHERE Year = ?";
+        if ($stmt = mysqli_prepare($conn, $checkQuery)) {
+            mysqli_stmt_bind_param($stmt, 's', $year);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+
+            // If the year already exists for any employee, show an error message
+            if (mysqli_num_rows($result) > 0) {
+                echo "<script>alert('Year $year already exists in the system for some employees.');
+                        window.location.href = 'index.php';
+                </script>";
+            } else {
+                // Fetch all EmployeeNumbers from tblemployee
+                $getAllEmployeesQuery = "SELECT EmployeeNumber FROM tblemployee";
+                $employees_result = mysqli_query($conn, $getAllEmployeesQuery);
+
+                if ($employees_result) {
+                    while ($employee = mysqli_fetch_assoc($employees_result)) {
+                        // For each employee, insert the year into tblemployeeremarks if it doesn't already exist
+                        $employeeNumber = $employee['EmployeeNumber'];
+
+                        // Check if the year already exists for the employee
+                        $checkExistingQuery = "SELECT * FROM tblemployeeremarks WHERE EmployeeNumber = ? AND Year = ?";
+                        if ($checkStmt = mysqli_prepare($conn, $checkExistingQuery)) {
+                            mysqli_stmt_bind_param($checkStmt, 'ss', $employeeNumber, $year);
+                            mysqli_stmt_execute($checkStmt);
+                            $existingResult = mysqli_stmt_get_result($checkStmt);
+
+                            // If the year does not exist for the employee, insert it
+                            if (mysqli_num_rows($existingResult) === 0) {
+                                $insertQuery = "INSERT INTO tblemployeeremarks (EmployeeNumber, Year) VALUES (?, ?)";
+                                if ($insertStmt = mysqli_prepare($conn, $insertQuery)) {
+                                    mysqli_stmt_bind_param($insertStmt, 'ss', $employeeNumber, $year);
+                                    mysqli_stmt_execute($insertStmt);
+                                }
+                            }
+                        }
+                    }
+
+                    echo "<script>alert('Year $year added for all employees!');
+                            window.location.href = 'index.php';
+                    </script>";
+                } else {
+                    echo "Error: Unable to fetch employees.";
+                }
+            }
+        }
+    } else {
+        echo "Please fill out the year field.";
+    }
+}
+
+if (isset($_POST['certificateId']) && isset($_POST['newTitle'])) {
+    $certificateId = $_POST['certificateId'];
+    $newTitle = $_POST['newTitle'];
+
+    $query = "UPDATE tblemployeeseminar SET Title = ? WHERE id = ?";
+    $stmt = mysqli_prepare($conn, $query);
+    mysqli_stmt_bind_param($stmt, 'si', $newTitle, $certificateId);
+
+    if (mysqli_stmt_execute($stmt)) {
+        echo 'success';
+    } else {
+        echo 'failure';
+    }
+
+    mysqli_stmt_close($stmt);
+}
+
+if (isset($_POST['id']) && isset($_POST['remark'])) {
+    $id = $_POST['id'];
+    $remark = $_POST['remark'];
+
+    $query = "UPDATE tblemployeeremarks SET Remarks = ? WHERE id = ?";
+    $stmt = mysqli_prepare($conn, $query);
+    mysqli_stmt_bind_param($stmt, 'ii', $remark, $id);
+
+    if (mysqli_stmt_execute($stmt)) {
+        echo 'success';
+    } else {
+        echo 'failure';
+    }
+
+    mysqli_stmt_close($stmt);
 }
 
 if (isset($_POST['insertEmployee'])) {

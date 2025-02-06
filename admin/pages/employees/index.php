@@ -312,7 +312,7 @@ include('../../config/dbconn.php');
         </div>
       </div>
     </div>
-    
+
     <div class="modal fade" id="EditAdminModal">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -413,7 +413,7 @@ include('../../config/dbconn.php');
                 <input type="file" name="CertificateImage" id="CertificateImage" class="form-control" required>
               </div>
               <div class="form-group">
-                <label>Certificate Title (Date)</label>
+                <label>Certificate Title (Date of Traing)</label>
                 <span class="text-danger">*</span>
                 <p class="text-muted">(Ex. ExampleCertificate (January 01, 2025))</p>
                 <input type="text" name="Title" id="Title" class="form-control" required>
@@ -427,6 +427,32 @@ include('../../config/dbconn.php');
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
               <button type="submit" name="uploadCertificate" class="btn btn-primary">Upload</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="addYearModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Add Training Year of Employee</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <form action="employee_action.php" method="POST" enctype="multipart/form-data">
+            <div class="form-group col-md-12 my-3">
+              <label>Add Year</label>
+              <span class="text-danger">*</span>
+              <div class="d-flex">
+                <input type="text" name="Year" id="year" class="form-control ml-1" required>
+                <button type="submit" name="addYear" class="btn btn-sm btn-primary addYear ml-1">
+                  <i class="fas fa-calendar"></i>
+                </button>
+              </div>
             </div>
           </form>
         </div>
@@ -502,9 +528,13 @@ include('../../config/dbconn.php');
               <div class="card card-primary card-outline">
                 <div class="card-header">
                   <h3 class="card-title">Admin List</h3>
-                  <button type="button" class="btn btn-primary btn-sm float-right" data-toggle="modal"
+                  <button type="button" class="btn btn-primary btn-sm float-right ml-2" data-toggle="modal"
                     data-target="#AddEmployeeModal">
                     <i class="fa fa-plus"></i> &nbsp;&nbsp;Add Employee</button>
+
+                  <button type="button" class="btn btn-success btn-sm float-right me-2" data-toggle="modal"
+                    data-target="#addYearModal">
+                    <i class="fa fa-plus"></i> &nbsp;&nbsp;Add Year</button>
                 </div>
                 <div class="card-body">
                   <table id="employee_table" class="table table-borderless table-hover" style="width:100%;">
