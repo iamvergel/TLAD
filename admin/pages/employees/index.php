@@ -104,6 +104,47 @@ include('../../config/dbconn.php');
       $('#unitSection').html('<option value="">Select Unit</option>');
     }
   }
+
+  function loadCoordinator() {
+    var unitId = $('#unitSection').val();
+
+    if (unitId) {
+      $('#coordinator_id').html('<option value="">Loading...</option>');
+
+      $.ajax({
+        url: 'fetch_coordinator.php',
+        type: 'GET',
+        data: { unit_id: unitId },
+        success: function (response) {
+          try {
+            var coordinators = JSON.parse(response);
+            var coordinatorSelect = $('#coordinator_id');
+
+            coordinatorSelect.empty();
+            coordinatorSelect.append('<option value="">Select Coordinator</option>');
+
+            if (coordinators.length > 0) {
+              coordinators.forEach(function (coordinator) {
+                coordinatorSelect.append('<option value="' + coordinator.id + '">' + coordinator.name + '</option>');
+              });
+            } else {
+              coordinatorSelect.append('<option value="">No coordinators available</option>');
+            }
+          } catch (error) {
+            console.error('Error parsing response:', error);
+            alert('An error occurred while fetching the coordinators.');
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error('AJAX request failed:', error);
+          alert('An error occurred while fetching the coordinators.');
+          $('#coordinator_id').html('<option value="">Select Coordinator</option>');
+        }
+      });
+    } else {
+      $('#coordinator_id').html('<option value="">Select Coordinator</option>');
+    }
+  }
 </script>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -224,8 +265,10 @@ include('../../config/dbconn.php');
                   <div class="form-group">
                     <label>Unit/Section</label>
                     <span class="text-danger">*</span>
-                    <select id="unitSection" name="UnitSection" class="form-control" required>
+                    <select id="unitSection" name="UnitSection" class="form-control" onchange="loadCoordinator()"
+                      required>
                       <option value="">Select Unit</option>
+                      <!-- Units will be dynamically loaded here -->
                     </select>
                   </div>
                 </div>
@@ -234,21 +277,11 @@ include('../../config/dbconn.php');
               <div class="form-group">
                 <label>Coordinator</label>
                 <select id="coordinator_id" name="coordinator_id" class="form-control" required>
-                      <option value="">Select coordinator</option>
-                      <?php
-                      $sql = "SELECT * FROM tblcoordinator";
-                      $query_run = mysqli_query($conn, $sql);
-
-                      if (mysqli_num_rows($query_run) > 0) {
-                        while ($row = mysqli_fetch_assoc($query_run)) {
-                          echo "<option value='" . $row['id'] . "'>" . $row['name'] . "</option>";
-                        }
-                      } else {
-                        echo "<option value=''>No departments available</option>";
-                      }
-                      ?>
-                    </select>
+                  <option value="">Select Coordinator</option>
+                  <!-- Coordinators will be dynamically loaded here -->
+                </select>
               </div>
+
             </div>
 
             <div class="modal-footer">
@@ -260,12 +293,11 @@ include('../../config/dbconn.php');
       </div>
     </div>
 
-
-    <div class="modal fade" id="ViewAdminModal">
-      <div class="modal-dialog">
+    <div class="modal fade" id="viewEmployeeModal">
+      <div class="modal-dialog modal-xl">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Admin Info</h5>
+            <h5 class="modal-title" id="EmployeeNumberTitle"></h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -280,6 +312,7 @@ include('../../config/dbconn.php');
         </div>
       </div>
     </div>
+    
     <div class="modal fade" id="EditAdminModal">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -355,30 +388,51 @@ include('../../config/dbconn.php');
         </div>
       </div>
     </div>
-    <div class="modal fade" id="DeleteAdminModal">
+
+    <!-- Modal for Uploading Certificate -->
+    <div class="modal fade" id="uploadCertificateModal">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Delete Admin</h5>
+            <h5 class="modal-title">Upload Certificate</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
 
-          <form action="employee_action.php" method="POST">
+          <form action="employee_action.php" method="POST" enctype="multipart/form-data">
             <div class="modal-body">
-              <input type="hidden" name="delete_id" id="delete_id">
-              <p> Do you want to delete this data?</p>
+              <div class="form-group">
+                <label>Employee Number</label>
+                <span class="text-danger">*</span>
+                <input type="text" name="EmployeeNumber" id="employeeNumber" class="form-control" required readonly>
+              </div>
+              <div class="form-group">
+                <label>Certificate Image</label>
+                <span class="text-danger">*</span>
+                <input type="file" name="CertificateImage" id="CertificateImage" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label>Certificate Title (Date)</label>
+                <span class="text-danger">*</span>
+                <p class="text-muted">(Ex. ExampleCertificate (January 01, 2025))</p>
+                <input type="text" name="Title" id="Title" class="form-control" required>
+              </div>
+              <!-- <div class="form-group">
+                <label for="Remarks">Remarks:</label>
+                <textarea name="Remarks" id="Remarks" class="form-control" rows="3"></textarea>
+              </div> -->
             </div>
 
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-              <button type="submit" name="deletedata" class="btn btn-primary ">Submit</button>
+              <button type="submit" name="uploadCertificate" class="btn btn-primary">Upload</button>
             </div>
           </form>
         </div>
       </div>
     </div>
+
     <div class="content-wrapper">
       <div class="content-header">
         <div class="container-fluid">
@@ -479,6 +533,7 @@ include('../../config/dbconn.php');
                                   FROM tblemployee
                                   LEFT JOIN department ON tblemployee.Department = department.id
                                   LEFT JOIN unit ON tblemployee.UnitSection = unit.id
+                                  WHERE tblemployee.Status = 1;
                                 ";
 
                       $query_run = mysqli_query($conn, $sql);
@@ -493,7 +548,7 @@ include('../../config/dbconn.php');
                         <tr>
                           <td><?php echo $row['EmployeeNumber']; ?></td>
                           <td>
-                            <?php echo $row['Lastname'] . ' ' . $row['Firstname'] . ' ' . $row['Middlename'] . ' ' . $row['Suffix']; ?>
+                            <?php echo $row['Lastname'] . ' ' . $row['Firstname'] . ' ' . $row['Suffix'] . ' ' . $row['Middlename']; ?>
                           </td>
                           <td><?php echo $row['ContactNumber']; ?></td>
                           <td><?php echo $row['Sex']; ?></td>
@@ -513,10 +568,14 @@ include('../../config/dbconn.php');
                           ?>
                           </td>
                           <td>
-                            <button data-id="<?php echo $row['id']; ?>" class="btn btn-sm btn-info editAdminbtn"><i
+                            <button data-id="<?php echo $row['id']; ?>" class="btn btn-sm btn-info editEmployeebtn"><i
                                 class="fas fa-edit me-2"></i></button>
-                            <button data-id="<?php echo $row['id']; ?>" class="btn btn-danger btn-sm deleteAdminbtn"><i
-                                class="far fa-trash-alt"></i></button>
+                            <button data-id="<?php echo $row['EmployeeNumber']; ?>"
+                              class="btn btn-sm btn-secondary viewEmployeebtn"><i class="fas fa-eye me-2"></i></button>
+                            <button data-id="<?php echo $row['EmployeeNumber']; ?>"
+                              class="btn btn-sm btn-primary uploadCertificate"><i class="fas fa-upload me-2"></i></button>
+                            <!-- <button data-id="<?php echo $row['id']; ?>" class="btn btn-danger btn-sm deleteAdminbtn"><i
+                                class="far fa-trash-alt"></i></button> -->
                           </td>
                         </tr>
                         <?php
@@ -616,11 +675,11 @@ include('../../config/dbconn.php');
         }
       });
 
-      $(document).on('click', '.viewAdminbtn', function () {
+      $(document).on('click', '.viewEmployeebtn', function () {
         var userid = $(this).data('id');
 
         $.ajax({
-          url: 'admin_action.php',
+          url: 'employee_action.php',
           type: 'post',
           data: {
             'checking_viewAdmintbtn': true,
@@ -628,21 +687,22 @@ include('../../config/dbconn.php');
           },
           success: function (response) {
 
+            $('#EmployeeNumberTitle').html('Employee Info ');
             $('.admin_viewing_data').html(response);
-            $('#ViewAdminModal').modal('show');
+            $('#viewEmployeeModal').modal('show');
           }
         });
       });
 
       //Admin Edit Modal
-      $(document).on('click', '.editAdminbtn', function () {
+      $(document).on('click', '.editEmployeebtn', function () {
         var userid = $(this).data('id');
 
         $.ajax({
           type: "POST",
           url: "admin_action.php",
           data: {
-            'checking_editAdminbtn': true,
+            'checking_editEmployeebtn': true,
             'user_id': userid,
           },
           success: function (response) {
@@ -662,13 +722,14 @@ include('../../config/dbconn.php');
           }
         });
       });
-      //Admin Delete Modal
-      $(document).on('click', '.deleteAdminbtn', function () {
 
-        var user_id = $(this).data('id');
-        $('#delete_id').val(user_id);
-        $('#DeleteAdminModal').modal('show');
+      $(document).on('click', '.uploadCertificate', function () {
+        var employeeNumber = $(this).data('id');
+
+        $('#employeeNumber').val(employeeNumber);
+        $('#uploadCertificateModal').modal('show');
       });
+
 
       $(document).on('click', '.activatebtn', function () {
         var userid = $(this).data('id');
@@ -694,8 +755,6 @@ include('../../config/dbconn.php');
           });
         }
       });
-
-
     });
   </script>
 
