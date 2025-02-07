@@ -462,7 +462,7 @@ include('../../config/dbconn.php');
                         die('Query Failed: ' . mysqli_error($conn));
                       }
 
-                      
+
                       while ($row = mysqli_fetch_array($query_run)) {
                         ?>
                         <tr>
@@ -472,8 +472,8 @@ include('../../config/dbconn.php');
                           </td>
                           <td><?php echo $row['name']; ?></td>
                           <td><?php echo $row['email']; ?></td>
-                          <td><?php echo $row['department_name']; ?></td> 
-                          <td><?php echo $row['unit_name']; ?></td> 
+                          <td><?php echo $row['department_name']; ?></td>
+                          <td><?php echo $row['unit_name']; ?></td>
                           <td>
                             <?php
                             if ($row['status'] == 1) {

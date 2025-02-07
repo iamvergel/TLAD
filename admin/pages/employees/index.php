@@ -161,14 +161,14 @@ include('../../config/dbconn.php');
           <form action="employee_action.php" method="POST" enctype="multipart/form-data">
             <div class="modal-body">
               <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                   <div class="form-group">
                     <label>Employee Number</label>
                     <span class="text-danger">*</span>
                     <input type="text" name="EmployeeNumber" class="form-control" required>
                   </div>
                 </div>
-                <div class="col-sm-6"></div>
+                <div class="col-sm-8"></div>
                 <div class="col-sm-3">
                   <div class="form-group">
                     <label>Lastname</label>
@@ -186,6 +186,7 @@ include('../../config/dbconn.php');
                 <div class="col-sm-3">
                   <div class="form-group">
                     <label>Middlename</label>
+                    <span class="text-danger">*</span>
                     <input type="text" name="Middlename" class="form-control">
                   </div>
                 </div>
@@ -205,9 +206,6 @@ include('../../config/dbconn.php');
                     <input type="date" name="Birthday" class="form-control" required>
                   </div>
                 </div>
-              </div>
-
-              <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label>Contact Number</label>
@@ -215,6 +213,9 @@ include('../../config/dbconn.php');
                     <input type="text" class="form-control" name="ContactNumber" required>
                   </div>
                 </div>
+              </div>
+
+              <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label>Sex</label>
@@ -225,9 +226,6 @@ include('../../config/dbconn.php');
                     </select>
                   </div>
                 </div>
-              </div>
-
-              <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label>Position</label>
@@ -235,7 +233,18 @@ include('../../config/dbconn.php');
                     <input type="text" name="Position" class="form-control" required>
                   </div>
                 </div>
-                <div class="col-sm-6">
+              </div>
+
+              <hr>
+
+              <div class="form-group">
+                <span class="text-danger">*</span>
+                <label style="font-weight: normal;">Please ensure you select the department before choosing the unit and
+                  coordinator options.</label>
+              </div>
+
+              <div class="row mt-4">
+                <div class="col-sm-4">
                   <div class="form-group">
                     <label>Department</label>
                     <span class="text-danger">*</span>
@@ -258,10 +267,8 @@ include('../../config/dbconn.php');
                     </select>
                   </div>
                 </div>
-              </div>
 
-              <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                   <div class="form-group">
                     <label>Unit/Section</label>
                     <span class="text-danger">*</span>
@@ -272,16 +279,18 @@ include('../../config/dbconn.php');
                     </select>
                   </div>
                 </div>
-              </div>
 
-              <div class="form-group">
-                <label>Coordinator</label>
-                <select id="coordinator_id" name="coordinator_id" class="form-control" required>
-                  <option value="">Select Coordinator</option>
-                  <!-- Coordinators will be dynamically loaded here -->
-                </select>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label>Coordinator</label>
+                    <span class="text-danger">*</span>
+                    <select id="coordinator_id" name="coordinator_id" class="form-control" required>
+                      <option value="">Select Coordinator</option>
+                      <!-- Coordinators will be dynamically loaded here -->
+                    </select>
+                  </div>
+                </div>
               </div>
-
             </div>
 
             <div class="modal-footer">
@@ -313,76 +322,194 @@ include('../../config/dbconn.php');
       </div>
     </div>
 
-    <div class="modal fade" id="EditAdminModal">
-      <div class="modal-dialog">
+    <div class="modal fade" id="EditEmployeeModal">
+      <div class="modal-dialog modal-xl">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Edit Admin</h5>
+            <h5 class="modal-title">Edit Employee</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <form action="admin_action.php" method="POST" enctype="multipart/form-data">
+          <form id="editEmployeeForm" action="employee_action.php" method="POST" enctype="multipart/form-data">
             <div class="modal-body">
               <div class="row">
-                <div class="col-sm-12">
-                  <input type="hidden" name="edit_id" id="edit_id">
+                <input type="hidden" name="employee_id" id="employee_id" value="">
+
+                <!-- Employee Number -->
+                <div class="col-sm-4">
                   <div class="form-group">
-                    <label>Full Name</label>
+                    <label>Employee Number</label>
                     <span class="text-danger">*</span>
-                    <input type="text" name="fname" id="edit_fname" class="form-control" pattern="[a-zA-Z'-'\s]*"
-                      required>
+                    <input type="text" name="EmployeeNumber" id="editEmployeeNumber" class="form-control" required
+                      readonly>
+                  </div>
+                </div>
+
+                <div class="col-sm-8"></div>
+
+                <!-- Lastname -->
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <label>Lastname</label>
+                    <span class="text-danger">*</span>
+                    <input type="text" name="Lastname" id="editLastname" class="form-control" required>
+                  </div>
+                </div>
+
+                <!-- Firstname -->
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <label>Firstname</label>
+                    <span class="text-danger">*</span>
+                    <input type="text" name="Firstname" id="editFirstname" class="form-control" required>
+                  </div>
+                </div>
+
+                <!-- Middlename -->
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <label>Middlename</label>
+                    <span class="text-danger">*</span>
+                    <input type="text" name="Middlename" id="editMiddlename" class="form-control">
+                  </div>
+                </div>
+
+                <!-- Suffix -->
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <label>Suffix</label>
+                    <input type="text" name="Suffix" id="editSuffix" class="form-control">
                   </div>
                 </div>
               </div>
+
+              <!-- Birthday and Contact Number -->
               <div class="row">
-                <div class="col-sm-12">
+                <div class="col-sm-6">
                   <div class="form-group">
-                    <label>Address</label>
+                    <label>Birthday</label>
                     <span class="text-danger">*</span>
-                    <input type="text" name="address" id="edit_address" class="form-control" required>
+                    <input type="date" name="Birthday" id="editBirthday" class="form-control" required>
                   </div>
                 </div>
-              </div>
-              <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label>Contact Number</label>
                     <span class="text-danger">*</span>
-                    <input type="text" id="edit_phone" name="phone" class="form-control js-phone"
-                      pattern="^(09|\+639)\d{9}$" required>
-                  </div>
-                </div>
-                <div class="col-sm-6 auto">
-                  <div class="form-group">
-                    <label>Email</label>
-                    <span class="text-danger">*</span>
-                    <input type="email" name="email" id="edit_email" class="form-control email_id"
-                      pattern="^[-+.\w]{1,64}@[-.\w]{1,64}\.[-.\w]{2,6}$" class="form-control" required>
-                    <span class="email_error text-danger"></span>
+                    <input type="text" class="form-control" name="ContactNumber" id="editContactNumber" required>
                   </div>
                 </div>
               </div>
-              <div class="row">
-                <input type="hidden" id="edit_password" name="edit_password" class="form-control" required>
-                <input type="hidden" id="edit_confirmPassword" name="edit_confirmPassword" class="form-control"
-                  required>
-              </div>
+
+              <!-- Sex and Position -->
               <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label for="doc_image">Upload Image</label>
-                    <input type="file" id="edit_docimage" name="edit_docimage" />
-                    <input type="hidden" name="old_image" id="old_image" />
-                    <div id="uploaded_image"></div>
+                    <label>Sex</label>
+                    <span class="text-danger">*</span>
+                    <select name="Sex" id="editSex" class="form-control" required>
+                      <option value="M">Male</option>
+                      <option value="F">Female</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Position</label>
+                    <span class="text-danger">*</span>
+                    <input type="text" name="Position" id="editPosition" class="form-control" required>
                   </div>
                 </div>
               </div>
+
+              <hr>
+
+              <!-- Department, Unit, and Coordinator -->
+              <div class="form-group">
+                <span class="text-danger">*</span>
+                <label style="font-weight: normal;">Please ensure you select the department before choosing the unit and
+                  coordinator options.</label>
+              </div>
+
+              <div class="row mt-4">
+                <!-- Department -->
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label>Department</label>
+                    <span class="text-danger">*</span>
+                    <select id="edit_department_id1" name="Department" class="form-control" required
+                      onchange="addloadUnitsForDepartment()">
+                      <option value="">Select Department</option>
+                      <?php
+                      $sql = "SELECT * FROM department";
+                      $query_run = mysqli_query($conn, $sql);
+
+                      if (mysqli_num_rows($query_run) > 0) {
+                        while ($row = mysqli_fetch_assoc($query_run)) {
+                          echo "<option value='" . $row['id'] . "'>" . $row['name'] . "</option>";
+                        }
+                      } else {
+                        echo "<option value=''>No departments available</option>";
+                      }
+                      ?>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Unit -->
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label>Unit/Section</label>
+                    <span class="text-danger">*</span>
+                    <select id="edit_unitSection" name="UnitSection" class="form-control" onchange="loadCoordinator()"
+                      required>
+                      <option value="">Select Unit</option>
+                      <?php
+                      $sql = "SELECT * FROM unit";
+                      $query_run = mysqli_query($conn, $sql);
+
+                      if (mysqli_num_rows($query_run) > 0) {
+                        while ($row = mysqli_fetch_assoc($query_run)) {
+                          echo "<option value='" . $row['id'] . "'>" . $row['unit_name'] . "</option>";
+                        }
+                      } else {
+                        echo "<option value=''>No units available</option>";
+                      }
+                      ?>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Coordinator -->
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label>Coordinator</label>
+                    <span class="text-danger">*</span>
+                    <select id="edit_coordinator_id" name="coordinator_id" class="form-control" required>
+                      <option value="">Select Coordinator</option>
+                      <?php
+                      $sql = "SELECT * FROM tblcoordinator";
+                      $query_run = mysqli_query($conn, $sql);
+
+                      if (mysqli_num_rows($query_run) > 0) {
+                        while ($row = mysqli_fetch_assoc($query_run)) {
+                          echo "<option value='" . $row['id'] . "'>" . $row['name'] . "</option>";
+                        }
+                      } else {
+                        echo "<option value=''>No units available</option>";
+                      }
+                      ?>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
             </div>
 
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="submit" name="updateadmin" class="btn btn-primary">Submit</button>
+              <button type="submit" name="editEmployee" class="btn btn-primary">Submit</button>
             </div>
           </form>
         </div>
@@ -413,7 +540,7 @@ include('../../config/dbconn.php');
                 <input type="file" name="CertificateImage" id="CertificateImage" class="form-control" required>
               </div>
               <div class="form-group">
-                <label>Certificate Title (Date of Traing)</label>
+                <label>Certificate Title (Date of Training)</label>
                 <span class="text-danger">*</span>
                 <p class="text-muted">(Ex. ExampleCertificate (January 01, 2025))</p>
                 <input type="text" name="Title" id="Title" class="form-control" required>
@@ -464,12 +591,12 @@ include('../../config/dbconn.php');
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1>Admin</h1>
+              <h1>Employee</h1>
             </div>
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="../dashboard/">Home</a></li>
-                <li class="breadcrumb-item active">Admin</li>
+                <li class="breadcrumb-item active">Employee</li>
               </ol>
             </div>
           </div>
@@ -527,7 +654,7 @@ include('../../config/dbconn.php');
             <div class="col-md-10">
               <div class="card card-primary card-outline">
                 <div class="card-header">
-                  <h3 class="card-title">Admin List</h3>
+                  <h3 class="card-title">Employee List</h3>
                   <button type="button" class="btn btn-primary btn-sm float-right ml-2" data-toggle="modal"
                     data-target="#AddEmployeeModal">
                     <i class="fa fa-plus"></i> &nbsp;&nbsp;Add Employee</button>
@@ -540,7 +667,7 @@ include('../../config/dbconn.php');
                   <table id="employee_table" class="table table-borderless table-hover" style="width:100%;">
                     <thead class="bg-light">
                       <tr>
-                        <th class="text-center">Employee Number</th>
+                        <th class="text-center">Employee #</th>
                         <th class="export">Name</th>
                         <th class="export">Contact No.</th>
                         <th class="export">Sex</th>
@@ -581,7 +708,15 @@ include('../../config/dbconn.php');
                             <?php echo $row['Lastname'] . ' ' . $row['Firstname'] . ' ' . $row['Suffix'] . ' ' . $row['Middlename']; ?>
                           </td>
                           <td><?php echo $row['ContactNumber']; ?></td>
-                          <td><?php echo $row['Sex']; ?></td>
+                          <td><?php
+                            if ($row['Sex'] == 'F') {
+                              echo "Female";
+                            } elseif ($row['Sex'] == 'M') {
+                              echo "Male";
+                            } else {
+                              echo "Not Specified";
+                            }
+                          ?></td>
                           <td><?php echo $row['Position']; ?></td>
                           <td><?php echo $row['department_name']; ?></td>
                           <td><?php echo $row['unit_name']; ?></td>
@@ -614,7 +749,7 @@ include('../../config/dbconn.php');
                     </tbody>
                     <tfoot>
                       <tr>
-                        <th class="search">Employee Number</th>
+                        <th class="search">Employee #</th>
                         <th class="search">Name</th>
                         <th class="search">Contact No.</th>
                         <th class="search">Sex</th>
@@ -724,31 +859,41 @@ include('../../config/dbconn.php');
         });
       });
 
-      //Admin Edit Modal
       $(document).on('click', '.editEmployeebtn', function () {
-        var userid = $(this).data('id');
+        var employeeId = $(this).data('id');
 
         $.ajax({
           type: "POST",
-          url: "admin_action.php",
+          url: "employee_action.php",
           data: {
-            'checking_editEmployeebtn': true,
-            'user_id': userid,
+            'getEmployeeDetails': true,
+            'employee_id': employeeId,
           },
           success: function (response) {
-            $.each(response, function (key, value) {
-              $('#edit_id').val(value['id']);
-              $('#edit_fname').val(value['name']);
-              $('#edit_address').val(value['address']);
-              $('#edit_phone').val(value['phone'].substring(3));
-              $('#edit_email').val(value['email']);
-              $('#uploaded_image').html('<img src="../../../upload/admin/' + value['image'] + '" class="img-fluid img-thumbnail" width="120" />');
-              $('#old_image').val(value['image']);
-              $('#edit_password').val(value['password']);
-              $('#edit_confirmPassword').val(value['password']);
-            });
+            var data = JSON.parse(response);
 
-            $('#EditAdminModal').modal('show');
+            // Populate the modal fields with the employee's current details
+            $('#employee_id').val(data.id);
+            $('#editEmployeeNumber').val(data.EmployeeNumber);
+            $('#editLastname').val(data.Lastname);
+            $('#editFirstname').val(data.Firstname);
+            $('#editMiddlename').val(data.Middlename);
+            $('#editSuffix').val(data.Suffix);
+            $('#editBirthday').val(data.Birthday);
+            $('#editContactNumber').val(data.ContactNumber);
+            $('#editSex').val(data.Sex);
+            $('#editPosition').val(data.Position);
+
+            // Populate the Department dropdown
+            $('#edit_department_id1').val(data.Department);
+            $('#edit_unitSection').val(data.UnitSection);
+            $('#edit_coordinator_id').val(data.coordinator_id);
+
+            // Show the modal to edit the employee
+            $('#EditEmployeeModal').modal('show');
+          },
+          error: function () {
+            alert("Error fetching employee data.");
           }
         });
       });
@@ -787,6 +932,5 @@ include('../../config/dbconn.php');
       });
     });
   </script>
-
 
   <?php include('../../includes/footer.php'); ?>

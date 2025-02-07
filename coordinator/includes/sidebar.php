@@ -1,7 +1,7 @@
-<aside class="main-sidebar sidebar-dark-primary elevation-3">
+<aside class="main-sidebar sidebar-light-success elevation-3">
   <a href="../index.php" class="brand-link">
     <img src="../upload/<?= $system_logo ?>" alt="image" class="brand-image img-circle elevation-3">
-    <span class="brand-text font-weight-normal text-lg text-light"><?= $system_name ?></span>
+    <span class="brand-text font-weight-normal text-lg text-dark"><?= $system_name ?></span>
   </a>
   <?php $page = substr($_SERVER['SCRIPT_NAME'], strrpos($_SERVER['SCRIPT_NAME'], "/") + 1); ?>
   <div class="sidebar">
@@ -14,7 +14,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="employee.php" class="nav-link <?= $page == 'employee.php' || $page == 'patient-details.php' ? 'active' : '' ?>">
+          <a href="employee.php" class="nav-link <?= $page == 'employee.php' ? 'active' : '' ?>">
             <i class="nav-icon fa fa-users-medical "></i>
             <p>Employees</p>
           </a>

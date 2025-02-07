@@ -1,6 +1,6 @@
 <?php
-include('../../authentication.php');
-include('../../config/dbconn.php');
+include('authentication.php');
+include('../admin/config/dbconn.php');
 
 date_default_timezone_set("Asia/Manila");
 

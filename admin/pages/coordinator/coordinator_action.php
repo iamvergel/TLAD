@@ -258,4 +258,3 @@ if (isset($_POST['insertcoordinator'])) {
         header('Location:index.php');
     }
 }
-?>
