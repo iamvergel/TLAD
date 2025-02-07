@@ -34,7 +34,13 @@ while ($row = mysqli_fetch_array($query_run)) {
     echo '<td>' . $row['EmployeeNumber'] . '</td>';
     echo '<td>' . $row['Lastname'] . ' ' . $row['Firstname'] . ' ' . $row['Middlename'] . ' ' . $row['Suffix'] . '</td>';
     echo '<td>' . $row['ContactNumber'] . '</td>';
-    echo '<td>' . $row['Sex'] . '</td>';
+    if ($row['Sex'] == 'F') {
+        echo "<td>Female</td>";
+    } elseif ($row['Sex'] == 'M') {
+        echo "<td>Male</td>";
+    } else {
+        echo "<td>Not Specified</tf>";
+    }
     echo '<td>' . $row['Position'] . '</td>';
     echo '<td>' . $row['department_name'] . '</td>';
     echo '<td>' . $row['unit_name'] . '</td>';
@@ -44,7 +50,7 @@ while ($row = mysqli_fetch_array($query_run)) {
     } else {
         echo '<td><button data-id="' . $row['id'] . '" data-status="' . $row['Status'] . '" class="btn btn-sm btn-danger activatebtn">Inactive</button></td>';
     }
-    
+
     echo '<td>';
     echo '<button data-id="' . $row['id'] . '" class="btn btn-sm btn-info editAdminbtn"><i class="fas fa-edit"></i></button>';
     echo '<button data-id="' . $row['EmployeeNumber'] . '" class="btn btn-sm btn-secondary viewEmployeebtn ml-1"><i class="fas fa-eye me-2"></i></button>';

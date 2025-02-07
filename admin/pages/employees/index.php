@@ -57,8 +57,13 @@ include('../../config/dbconn.php');
     xhr.open("GET", "filter_admin_data.php?department_id=" + departmentId + "&unit_id=" + unitId, true);
     xhr.onreadystatechange = function () {
       if (xhr.readyState == 4 && xhr.status == 200) {
-        // Update the table with filtered data
+        // Update the table with the filtered data
         document.querySelector('#employee_table tbody').innerHTML = xhr.responseText;
+
+        // Re-initialize DataTable after filtering and redrawing the table
+        var table = $('#employee_table').DataTable();
+        table.clear().draw(); // Ensure it clears and redraws the table
+        table.rows.add($(xhr.responseText)).draw(); // Add new data to DataTable
       }
     };
     xhr.send();
@@ -670,7 +675,7 @@ include('../../config/dbconn.php');
                         <th class="text-center">Employee #</th>
                         <th class="export">Name</th>
                         <th class="export">Contact No.</th>
-                        <th class="export">Sex</th>
+                        <th class="export">Gender</th>
                         <th class="export">Position</th>
                         <th class="export">Department</th>
                         <th class="export">Unit</th>
@@ -709,13 +714,13 @@ include('../../config/dbconn.php');
                           </td>
                           <td><?php echo $row['ContactNumber']; ?></td>
                           <td><?php
-                            if ($row['Sex'] == 'F') {
-                              echo "Female";
-                            } elseif ($row['Sex'] == 'M') {
-                              echo "Male";
-                            } else {
-                              echo "Not Specified";
-                            }
+                          if ($row['Sex'] == 'F') {
+                            echo "Female";
+                          } elseif ($row['Sex'] == 'M') {
+                            echo "Male";
+                          } else {
+                            echo "Not Specified";
+                          }
                           ?></td>
                           <td><?php echo $row['Position']; ?></td>
                           <td><?php echo $row['department_name']; ?></td>
@@ -752,7 +757,7 @@ include('../../config/dbconn.php');
                         <th class="search">Employee #</th>
                         <th class="search">Name</th>
                         <th class="search">Contact No.</th>
-                        <th class="search">Sex</th>
+                        <th class="search">Gender</th>
                         <th class="search">Position</th>
                         <th class="search">Department</th>
                         <th class="search">Unit</th>
@@ -776,68 +781,92 @@ include('../../config/dbconn.php');
         var title = $(this).text();
         $(this).html('<input type="text" placeholder="Search ' + title + '" class="search-input form-control form-control-sm"/>');
       });
-      var table = $('#employee_table').DataTable({
-        "dom": "<'row'<'col-sm-3'l><'col-sm-5'B><'col-sm-4'f>>" +
-          "<'row'<'col-sm-12'tr>>" +
-          "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-        "responsive": true,
-        "searching": true,
-        "paging": true,
-        "buttons": [{
-          extend: 'copyHtml5',
-          className: 'btn btn-outline-secondary btn-sm',
-          text: '<i class="fas fa-clipboard"></i>  Copy',
-          exportOptions: {
-            columns: '.export'
-          }
-        },
-        {
-          extend: 'csvHtml5',
-          className: 'btn btn-outline-secondary btn-sm',
-          text: '<i class="far fa-file-csv"></i>  CSV',
-          exportOptions: {
-            columns: '.export'
-          }
-        },
-        {
-          extend: 'excel',
-          className: 'btn btn-outline-secondary btn-sm',
-          text: '<i class="far fa-file-excel"></i>  Excel',
-          exportOptions: {
-            columns: '.export'
-          }
-        },
-        {
-          extend: 'pdfHtml5',
-          className: 'btn btn-outline-secondary btn-sm',
-          text: '<i class="far fa-file-pdf"></i>  PDF',
-          exportOptions: {
-            columns: '.export'
-          }
-        },
-        {
-          extend: 'print',
-          className: 'btn btn-outline-secondary btn-sm',
-          text: '<i class="fas fa-print"></i>  Print',
-          exportOptions: {
-            columns: '.export'
-          }
-        }
-        ],
-        initComplete: function () {
-          // Apply the search
-          this.api().columns().every(function () {
-            var that = this;
 
-            $('input', this.footer()).on('keyup change clear', function () {
-              if (that.search() !== this.value) {
-                that
-                  .search(this.value)
-                  .draw();
-              }
+      $(document).ready(function () {
+        var table = $('#employee_table').DataTable({
+          "dom": "<'row'<'col-sm-3'l><'col-sm-5'B><'col-sm-4'f>>" +
+            "<'row'<'col-sm-12'tr>>" +
+            "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+          "responsive": true,
+          "searching": true,
+          "paging": true,
+          "buttons": [{
+            extend: 'copyHtml5',
+            className: 'btn btn-outline-secondary btn-sm',
+            text: '<i class="fas fa-clipboard"></i>  Copy',
+            exportOptions: {
+              modifier: {
+                page: 'current',  // Only export the visible rows on the current page
+                search: 'none'    // Don't include search filters in export
+              },
+              columns: '.export'
+            }
+          },
+          {
+            extend: 'csvHtml5',
+            className: 'btn btn-outline-secondary btn-sm',
+            text: '<i class="far fa-file-csv"></i>  CSV',
+            exportOptions: {
+              modifier: {
+                page: 'current',  // Only export the visible rows on the current page
+                search: 'none'    // Don't include search filters in export
+              },
+              columns: '.export'
+            }
+          },
+          {
+            extend: 'excel',
+            className: 'btn btn-outline-secondary btn-sm',
+            text: '<i class="far fa-file-excel"></i>  Excel',
+            exportOptions: {
+              modifier: {
+                page: 'current',  // Only export the visible rows on the current page
+                search: 'none'    // Don't include search filters in export
+              },
+              columns: '.export'
+            }
+          },
+          {
+            extend: 'pdfHtml5',
+            className: 'btn btn-outline-secondary btn-sm',
+            text: '<i class="far fa-file-pdf"></i>  PDF',
+            exportOptions: {
+              modifier: {
+                page: 'current',  // Only export the visible rows on the current page
+                search: 'none'    // Don't include search filters in export
+              },
+              columns: '.export'
+            }
+          },
+          {
+            extend: 'print',
+            className: 'btn btn-outline-secondary btn-sm',
+            text: '<i class="fas fa-print"></i>  Print',
+            exportOptions: {
+              modifier: {
+                page: 'current',  // Only export the visible rows on the current page
+                search: 'none'    // Don't include search filters in export
+              },
+              columns: '.export'
+            }
+          }],
+          initComplete: function () {
+            // Apply the search filter to each column
+            this.api().columns().every(function () {
+              var that = this;
+              $('input', this.footer()).on('keyup change clear', function () {
+                if (that.search() !== this.value) {
+                  that.search(this.value).draw();
+                }
+              });
             });
-          });
-        }
+          }
+        });
+
+        // Trigger filterTable when filter inputs change
+        $('#filter_form').on('change', function () {
+          filterTable();  // Trigger the filtering
+        });
       });
 
       $(document).on('click', '.viewEmployeebtn', function () {

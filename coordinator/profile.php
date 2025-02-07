@@ -36,8 +36,8 @@ include('../admin/config/dbconn.php');
                                     <ul class="nav nav-pills">
                                         <li class="nav-item"><a class="nav-link active" href="#info"
                                                 data-toggle="tab">Edit Profile</a></li>
-                                        <li class="nav-item"><a class="nav-link" href="#pass" data-toggle="tab">Change
-                                                Password</a></li>
+                                        <!-- <li class="nav-item"><a class="nav-link" href="#pass" data-toggle="tab">Change
+                                                Password</a></li> -->
                                     </ul>
                                 </div>
                                 <div class="card-body">
@@ -195,7 +195,7 @@ include('../admin/config/dbconn.php');
                                                 </div>
                                             </form>
                                         </div>
-                                        <div class="tab-pane" id="pass">
+                                        <!-- <div class="tab-pane" id="pass">
                                             <form action="profile_action.php" method="post">
                                                 <div class="row">
                                                     <input type="hidden" name="userid"
@@ -234,7 +234,7 @@ include('../admin/config/dbconn.php');
                                                     </div>
                                                 </div>
                                             </form>
-                                        </div>
+                                        </div> -->
                                         <!-- /.tab-pane -->
 
                                     </div>

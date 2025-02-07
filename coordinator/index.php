@@ -26,12 +26,56 @@ include('../admin/config/dbconn.php');
       </div>
       <div class="content">
         <div class="container-fluid">
-          
+
         </div>
         <section class="content">
           <div class="container-fluid">
             <div class="row">
-              
+              <div class="col-lg-3 col-6">
+                <div class="small-box bg-info">
+                  <div class="inner">
+                    <?php
+                    // Get the logged-in user's ID
+                    $user = $_SESSION['auth_user']['user_id'];
+
+                    // Query to get the department name, unit name, and employee count for the user
+                    $sql = "
+                        SELECT 
+                            department.name AS department_name, 
+                            unit.unit_name AS unit_name,
+                            COUNT(tblemployee.EmployeeNumber) AS employee_count
+                        FROM tblemployee
+                        LEFT JOIN department ON tblemployee.Department = department.id
+                        LEFT JOIN unit ON tblemployee.UnitSection = unit.id
+                        WHERE tblemployee.coordinator_id = $user
+                        GROUP BY department.name, unit.unit_name
+                        LIMIT 1";
+                                        
+                    $query_run = mysqli_query($conn, $sql);
+
+                    // Check if the query returns any results
+                    if ($query_run && mysqli_num_rows($query_run) > 0) {
+                      // Fetch the row
+                      $row = mysqli_fetch_array($query_run);
+
+                      echo "<h1 style='font-weight: bold; font-size: 50px;'>" . $row['employee_count'] . "</h1>";
+                      echo "<h5 style='text-transform: uppercase;'>" . $row['department_name'] . ' / ' . $row['unit_name'] . "</h5>";
+                      
+                    } else {
+                      // No matching department, unit, or employees found for the user
+                      echo "<h5>No department or unit found for this user.</h5>";
+                      echo "<h3>No employees found for this user.</h3>";
+                    }
+                    ?>
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-user-friends"></i>
+                  </div>
+                  <a href="employee.php" class="small-box-footer">
+                    More info <i class="fas fa-arrow-circle-right"></i>
+                  </a>
+                </div>
+              </div>
             </div>
             <!-- /.row -->
           </div><!-- /.container-fluid -->
@@ -39,7 +83,6 @@ include('../admin/config/dbconn.php');
       </div>
     </div>
     <div class="wrapper">
-
       <div class="modal fade" id="AppointmentDetails">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -60,152 +103,8 @@ include('../admin/config/dbconn.php');
           </div>
         </div>
       </div>
-
-      <!-- <script>
-        $(function () {
-
-          $('.userdata').click(function (e) {
-            var clientTag = document.getElementById("client-label");
-            var requiredId = clientTag.getAttribute('data-id');
-            window.location.href = 'edit-appointment.php?id=' + requiredId;
-
-          });
-
-          function ini_events(ele) {
-            ele.each(function () {
-
-              var eventObject = {
-                title: $.trim($(this).text())
-              }
-
-              $(this).data('eventObject', eventObject)
-
-              $(this).draggable({
-                zIndex: 1070,
-                revert: true,
-                revertDuration: 0
-              })
-
-            })
-          }
-
-          ini_events($('#external-events div.external-event'))
-
-          var date = new Date()
-          var d = date.getDate(),
-            m = date.getMonth(),
-            y = date.getFullYear()
-          var scheds = $.parseJSON('<?php echo ($sched_arr) ?>');
-
-          var Calendar = FullCalendar.Calendar;
-          var Draggable = FullCalendar.Draggable;
-
-          var containerEl = document.getElementById('external-events');
-          var checkbox = document.getElementById('drop-remove');
-          var calendarEl = document.getElementById('calendar');
-
-          new Draggable(containerEl, {
-            itemSelector: '.external-event',
-            eventData: function (eventEl) {
-              return {
-                title: eventEl.innerText,
-                backgroundColor: window.getComputedStyle(eventEl, null).getPropertyValue('background-color'),
-                borderColor: window.getComputedStyle(eventEl, null).getPropertyValue('background-color'),
-                textColor: window.getComputedStyle(eventEl, null).getPropertyValue('color'),
-              };
-            }
-          });
-
-          var calendar = new FullCalendar.Calendar(calendarEl, {
-            themeSystem: 'bootstrap',
-            headerToolbar: {
-              left: 'prev,next today',
-              center: 'title',
-              right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
-            },
-
-            events: function (event, successCallback) {
-              var events = []
-              Object.keys(scheds).map(k => {
-                events.push({
-                  id: scheds[k].id,
-                  title: scheds[k].pname,
-                  start: moment(scheds[k].timestamp).format('YYYY-MM-DD[T]HH:mm'),
-                  end: moment(scheds[k].enddate).format('hh:mm'),
-                  backgroundColor: scheds[k].bgcolor,
-                  borderColor: scheds[k].bgcolor
-                });
-              })
-              successCallback(events)
-
-            },
-            eventClick: function (info) {
-              var userid = info.event.id;
-
-              $.ajax({
-                type: "post",
-                url: "calendar_action.php",
-                data: { userid: userid },
-                success: function (response) {
-                  $('.viewdetails').html(response);
-                  $("#AppointmentDetails").modal();
-                }
-              });
-            },
+    </div>
 
 
 
-            navLinks: true,
-            businessHours: [
-              {
-                daysOfWeek: [1, 2, 3, 4, 5, 6],
-                startTime: '09:00',
-                endTime: '18:00'
-              }
-            ], // display business hours
-            editable: true,
-            selectable: true,
-            droppable: false, //
-          });
-
-          calendar.render();
-
-          var currColor = '#3c8dbc' //Red by default
-          // Color chooser button
-          $('#color-chooser > li > a').click(function (e) {
-            e.preventDefault()
-            // Save color
-            currColor = $(this).css('color')
-            // Add color effect to button
-            $('#add-new-event').css({
-              'background-color': currColor,
-              'border-color': currColor
-            })
-          })
-          $('#add-new-event').click(function (e) {
-            e.preventDefault()
-            // Get value and make sure it is not null
-            var val = $('#new-event').val()
-            if (val.length == 0) {
-              return
-            }
-
-            // Create events
-            var event = $('<div />');
-            event.css({
-              'background-color': currColor,
-              'border-color': currColor,
-              'color': '#fff'
-            }).addClass('external-event')
-            event.text(val)
-            $('#external-events').prepend(event)
-
-            // Add draggable funtionality
-            ini_events(event)
-
-            // Remove event from text input
-            $('#new-event').val('')
-          })
-        })
-      </script> -->
-      <?php include('includes/footer.php'); ?>
+    <?php include('includes/footer.php'); ?>

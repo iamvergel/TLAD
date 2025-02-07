@@ -38,6 +38,12 @@
             <p>Employee</p>
           </a>
         </li>
+        <li class="nav-item">
+          <a href="../report section" class="nav-link <?= $page == 'report section' ? 'active' : '' ?>">
+            <i class="nav-icon fas fa-file"></i>
+            <p>Report Section</p>
+          </a>
+        </li>
         <li
           class="nav-item <?= $page == 'highlight' || $page == 'about' || $page == 'services' || $page == 'services_patient' || $page == 'mail' || $page == 'procedure-offers' || $page == 'sms' || $page == 'payment-settings' || $page == 'health-declaration' || $page == 'reviews' || $page == 'gallery' || $page == 'featured' || $page == 'system' ? 'menu-open' : '' ?>">
           <a href="#"

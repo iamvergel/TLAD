@@ -21,10 +21,10 @@ if (isset($_POST['change_status'])) {
 
     if ($query_run) {
         $_SESSION['success'] = "Employee Status Change Successfully";
-        header('Location:index.php');
+        header('Location:employee.php');
     } else {
         $_SESSION['error'] = "Employee Status Change Unsuccessfully";
-        header('Location:index.php');
+        header('Location:employee.php');
     }
 }
 
@@ -47,10 +47,10 @@ if (isset($_POST['change_status'])) {
 //             }
 //         }
 //         $_SESSION['success'] = "Coordinators Deleted Successfully";
-//         header('Location:index.php');
+//         header('Location:employee.php');
 //     } else {
 //         $_SESSION['error'] = "Coordinators Deleted Unsuccessfully";
-//         header('Location:index.php');
+//         header('Location:employee.php');
 //     }
 // }
 
@@ -89,11 +89,11 @@ if (isset($_POST['editEmployee'])) {
 
     if ($query_run) {
         $_SESSION['success'] = "Employee details updated successfully.";
-        header('Location:index.php');
+        header('Location:employee.php');
         exit();
     } else {
         $_SESSION['error'] = "Error: " . mysqli_error($conn);
-        header('Location:index.php');
+        header('Location:employee.php');
         exit();
     }
 }
@@ -221,7 +221,7 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                                                         <tr>
                                                             <td><?= date('d-M-Y', strtotime($user['Date'])) ?></td>
                                                             <td style="text-align: center;" width="10%">
-                                                                <img src="../../../upload/certificates/<?= $user['CertificateImage'] ?>"
+                                                                <img src="../upload/certificates/<?= $user['CertificateImage'] ?>"
                                                                     class="img-thumbnail" width="200" alt="No Image Available"
                                                                     id="showCertificate"
                                                                     onclick="showCertificate('<?= $user['CertificateImage'] ?>')">
@@ -386,7 +386,7 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                 });
 
                 function showCertificate(imageSrc) {
-                    window.open("../../../upload/certificates/" + imageSrc);
+                    window.open("../upload/certificates/" + imageSrc);
                 }
             </script>
             <?php
@@ -410,7 +410,7 @@ if (isset($_POST['addYear'])) {
             // If the year already exists for any employee, show an error message
             if (mysqli_num_rows($result) > 0) {
                 echo "<script>alert('Year $year already exists in the system for some employees.');
-                        window.location.href = 'index.php';
+                        window.location.href = 'employee.php';
                 </script>";
             } else {
                 // Fetch all EmployeeNumbers from tblemployee
@@ -441,7 +441,7 @@ if (isset($_POST['addYear'])) {
                     }
 
                     echo "<script>alert('Year $year added for all employees!');
-                            window.location.href = 'index.php';
+                            window.location.href = 'employee.php';
                     </script>";
                 } else {
                     echo "Error: Unable to fetch employees.";
@@ -513,10 +513,10 @@ if (isset($_POST['insertEmployee'])) {
 
     if ($query_run) {
         $_SESSION['success'] = "Employee Added Successfully";
-        header('Location:index.php');
+        header('Location:employee.php');
     } else {
         $_SESSION['error'] = mysqli_error($conn);
-        header('Location:index.php');
+        header('Location:employee.php');
     }
 }
 
@@ -533,14 +533,14 @@ if (isset($_POST['uploadCertificate'])) {
 
         if (!in_array($image_extension, $allowed_file_format)) {
             $_SESSION['error'] = "Upload valid file. jpg, png";
-            header('Location:index.php');
+            header('Location:employee.php');
         } else if ($_FILES['CertificateImage']['size'] > 5000000) {
             $_SESSION['error'] = "File size exceeds 5MB";
-            header('Location:index.php');
+            header('Location:employee.php');
         } else {
             // Move uploaded image to the directory
             $filename = time() . '.' . $image_extension;
-            move_uploaded_file($_FILES['CertificateImage']['tmp_name'], '../../../upload/certificates/' . $filename);
+            move_uploaded_file($_FILES['CertificateImage']['tmp_name'], '../upload/certificates/' . $filename);
         }
     }
 
@@ -552,10 +552,10 @@ if (isset($_POST['uploadCertificate'])) {
 
         if ($query_run) {
             $_SESSION['success'] = "Certificate Uploaded Successfully";
-            header('Location:index.php');
+            header('Location:employee.php');
         } else {
             $_SESSION['error'] = mysqli_error($conn);
-            header('Location:index.php');
+            header('Location:employee.php');
         }
     }
 }

@@ -237,11 +237,12 @@ include('../admin/config/dbconn.php');
 
               <hr>
 
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <span class="text-danger">*</span>
-                <label style="font-weight: normal;">Please ensure you select the department before choosing the unit and
+                <label style="font-weight: normal;">Please ensure you select the department before choosing the unit
+                  and
                   coordinator options.</label>
-              </div>
+              </div> -->
 
               <div class="row mt-4">
                 <!-- Department -->
@@ -249,28 +250,32 @@ include('../admin/config/dbconn.php');
                   <div class="form-group">
                     <label>Department</label>
                     <span class="text-danger">*</span>
-                    <?php
-                    if (isset($_SESSION['auth'])) {
-                      // SQL query to fetch department, unit, and coordinator info
-                      $sql = "SELECT 
-                          tblcoordinator.*, 
-                          department.name AS department_name, 
-                          unit.unit_name AS unit_name
-                      FROM tblcoordinator
-                      LEFT JOIN department ON tblcoordinator.division_id = department.id
-                      LEFT JOIN unit ON tblcoordinator.unit_id = unit.id
-                      WHERE tblcoordinator.id = '" . $_SESSION['auth_user']['user_id'] . "'";
+                    <select id="department_id1" name="Department" class="form-control" readonly required>
+                      <?php
+                      if (isset($_SESSION['auth'])) {
+                        // SQL query to fetch department, unit, and coordinator info
+                        $sql = "SELECT 
+                              tblcoordinator.*, 
+                              department.id AS department_id, 
+                              department.name AS department_name, 
+                              unit.unit_name AS unit_name
+                          FROM tblcoordinator
+                          LEFT JOIN department ON tblcoordinator.division_id = department.id
+                          LEFT JOIN unit ON tblcoordinator.unit_id = unit.id
+                          WHERE tblcoordinator.id = '" . $_SESSION['auth_user']['user_id'] . "'";
 
-                      $query_run = mysqli_query($conn, $sql);
+                        $query_run = mysqli_query($conn, $sql);
 
-                      while ($row = mysqli_fetch_array($query_run)) {
-                        // Display the department name
-                        echo '<input type="text" name="Department" value="' . $row['department_name'] . '" class="form-control" required readonly>';
+                        while ($row = mysqli_fetch_array($query_run)) {
+                          // Display the department name
+                          echo "<option name='' value='" . $row['department_id'] . "'>" . $row['department_name'] . "</option>";
+                          ;
+                        }
+                      } else {
+                        echo "Not Logged in";
                       }
-                    } else {
-                      echo "Not Logged in";
-                    }
-                    ?>
+                      ?>
+                    </select>
                   </div>
                 </div>
 
@@ -279,28 +284,32 @@ include('../admin/config/dbconn.php');
                   <div class="form-group">
                     <label>Unit/Section</label>
                     <span class="text-danger">*</span>
-                    <?php
-                    if (isset($_SESSION['auth'])) {
-                      // SQL query to fetch department, unit, and coordinator info
-                      $sql = "SELECT 
-                          tblcoordinator.*, 
-                          department.name AS department_name, 
-                          unit.unit_name AS unit_name
-                      FROM tblcoordinator
-                      LEFT JOIN department ON tblcoordinator.division_id = department.id
-                      LEFT JOIN unit ON tblcoordinator.unit_id = unit.id
-                      WHERE tblcoordinator.id = '" . $_SESSION['auth_user']['user_id'] . "'";
+                    <select id="unitSection" name="UnitSection" class="form-control" readonly required>
+                      <?php
+                      if (isset($_SESSION['auth'])) {
+                        // SQL query to fetch department, unit, and coordinator info
+                        $sql = "SELECT 
+                              tblcoordinator.*, 
+                              unit.id AS unit_id, 
+                              department.name AS department_name, 
+                              unit.unit_name AS unit_name
+                          FROM tblcoordinator
+                          LEFT JOIN department ON tblcoordinator.division_id = department.id
+                          LEFT JOIN unit ON tblcoordinator.unit_id = unit.id
+                          WHERE tblcoordinator.id = '" . $_SESSION['auth_user']['user_id'] . "'";
 
-                      $query_run = mysqli_query($conn, $sql);
+                        $query_run = mysqli_query($conn, $sql);
 
-                      while ($row = mysqli_fetch_array($query_run)) {
-                        // Display the department name
-                        echo '<input type="text" name="Department" value="' . $row['unit_name'] . '" class="form-control" required readonly>';
+                        while ($row = mysqli_fetch_array($query_run)) {
+                          // Display the department name
+                          echo "<option name='' value='" . $row['unit_id'] . "'>" . $row['unit_name'] . "</option>";
+                          ;
+                        }
+                      } else {
+                        echo "Not Logged in";
                       }
-                    } else {
-                      echo "Not Logged in";
-                    }
-                    ?>
+                      ?>
+                    </select>
                   </div>
                 </div>
 
@@ -309,16 +318,28 @@ include('../admin/config/dbconn.php');
                   <div class="form-group">
                     <label>Coordinator</label>
                     <span class="text-danger">*</span>
-                    <select id="coordinator_id" name="coordinator_id" class="form-control" required>
-                      <option value="">Select Coordinator</option>
-                      <!-- Coordinators will be dynamically loaded here -->
+                    <select id="coordinator_id" name="coordinator_id" class="form-control" required readonly>
                       <?php
-                      // Load coordinators dynamically from the database
-                      $coordinator_sql = "SELECT * FROM tblcoordinator";
-                      $coordinator_query_run = mysqli_query($conn, $coordinator_sql);
+                      if (isset($_SESSION['auth'])) {
+                        // SQL query to fetch department, unit, and coordinator info
+                        $sql = "SELECT 
+                              tblcoordinator.*, 
+                              department.name AS department_name, 
+                              unit.unit_name AS unit_name
+                          FROM tblcoordinator
+                          LEFT JOIN department ON tblcoordinator.division_id = department.id
+                          LEFT JOIN unit ON tblcoordinator.unit_id = unit.id
+                          WHERE tblcoordinator.id = '" . $_SESSION['auth_user']['user_id'] . "'";
 
-                      while ($coordinator_row = mysqli_fetch_assoc($coordinator_query_run)) {
-                        echo "<option value='" . $coordinator_row['id'] . "'>" . $coordinator_row['name'] . "</option>";
+                        $query_run = mysqli_query($conn, $sql);
+
+                        while ($row = mysqli_fetch_array($query_run)) {
+                          // Display the department name
+                          echo "<option name='' value='" . $row['id'] . "'>" . $row['name'] . "</option>";
+                          ;
+                        }
+                      } else {
+                        echo "Not Logged in";
                       }
                       ?>
                     </select>
@@ -462,7 +483,8 @@ include('../admin/config/dbconn.php');
               <!-- Department, Unit, and Coordinator -->
               <div class="form-group">
                 <span class="text-danger">*</span>
-                <label style="font-weight: normal;">Please ensure you select the department before choosing the unit and
+                <label style="font-weight: normal;">Please ensure you select the department before choosing the unit
+                  and
                   coordinator options.</label>
               </div>
 
@@ -604,7 +626,7 @@ include('../admin/config/dbconn.php');
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="../dashboard/">Home</a></li>
-                <li class="breadcrumb-item active">Employees</li>
+                <li class="breadcrumb-item active">Employee</li>
               </ol>
             </div>
           </div>
@@ -615,9 +637,9 @@ include('../admin/config/dbconn.php');
           <div class="row">
             <div class="col-md-12">
               <?php include('message.php'); ?>
-              <div class="card card-primary card-outline">
+              <div class="card card-success card-outline">
                 <div class="card-header">
-                  <h3 class="card-title">Employees List</h3>
+                  <h3 class="card-title">Employee List</h3>
                   <button type="button" class="btn btn-primary btn-sm float-right" data-toggle="modal"
                     data-target="#AddEmployeeModal">
                     <i class="fa fa-plus"></i> &nbsp;&nbsp;Add Employees</button>
