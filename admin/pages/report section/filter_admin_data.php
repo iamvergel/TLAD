@@ -20,15 +20,17 @@ if ($remarks !== '')
 
 // Final query with dynamic filters
 $sql = "
-    SELECT 
-        tblemployee.*, 
-        department.name AS department_name, 
-        unit.unit_name AS unit_name,
-        tblemployeeremarks.Remarks AS Remarks
+   SELECT 
+    tblemployee.*, 
+    department.name AS department_name, 
+    unit.unit_name AS unit_name,
+    tblemployeeremarks.Remarks As Remarks,
+    tblemployeeseminar.Title As Title
     FROM tblemployee
     LEFT JOIN department ON tblemployee.Department = department.id
     LEFT JOIN unit ON tblemployee.UnitSection = unit.id
     LEFT JOIN tblemployeeremarks ON tblemployee.EmployeeNumber = tblemployeeremarks.EmployeeNumber
+    LEFT JOIN tblemployeeseminar ON tblemployee.EmployeeNumber = tblemployeeseminar.EmployeeNumber
     $whereClause
 ";
 
@@ -41,6 +43,7 @@ if ($query_run) {
         echo '<td>' . $row['Position'] . '</td>';
         echo '<td>' . $row['department_name'] . '</td>';
         echo '<td>' . $row['unit_name'] . '</td>';
+        echo '<td>' . $row['Title'] . '</td>';
         echo '<td>';
         if ($row['Remarks'] == '1') {
             // Green for "WITH TRAINING"

@@ -275,6 +275,7 @@ include('../../config/dbconn.php');
                         <th class="export">Position</th>
                         <th class="export">Department</th>
                         <th class="export">Unit</th>
+                        <th class="export">Title</th>
                         <th class="export">Remarks</th>
                       </tr>
                     </thead>
@@ -287,11 +288,13 @@ include('../../config/dbconn.php');
                                     tblemployee.*, 
                                     department.name AS department_name, 
                                     unit.unit_name AS unit_name,
-                                    tblemployeeremarks.Remarks As Remarks
+                                    tblemployeeremarks.Remarks As Remarks,
+                                    tblemployeeseminar.Title As Title
                                   FROM tblemployee
                                   LEFT JOIN department ON tblemployee.Department = department.id
                                   LEFT JOIN unit ON tblemployee.UnitSection = unit.id
                                   LEFT JOIN tblemployeeremarks ON tblemployee.EmployeeNumber = tblemployeeremarks.EmployeeNumber
+                                  LEFT JOIN tblemployeeseminar ON tblemployee.EmployeeNumber = tblemployeeseminar.EmployeeNumber
                                   WHERE tblemployee.Status = 1;
                                 ";
 
@@ -311,6 +314,7 @@ include('../../config/dbconn.php');
                           <td><?php echo $row['Position']; ?></td>
                           <td><?php echo $row['department_name']; ?></td>
                           <td><?php echo $row['unit_name']; ?></td>
+                          <td><?php echo $row['Title']; ?></td>
                           <td style="width: 200px;"><?php
                           if ($row['Remarks'] == '1') {
                             echo "<p class='text-success' style='font-weight: bold;'>WITH TRAINING</p>";
@@ -330,6 +334,7 @@ include('../../config/dbconn.php');
                         <th class="search">Department</th>
                         <th class="search">Unit</th>
                         <th class="search">Status</th>
+                        <th class="search">Title</th>
                         <th></th>
                       </tr>
                     </tfoot>
