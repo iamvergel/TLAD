@@ -19,6 +19,12 @@
             <p>Employees</p>
           </a>
         </li>
+        <li class="nav-item">
+          <a href="report_section.php" class="nav-link <?= $page == 'report_section' ? 'active' : '' ?>">
+            <i class="nav-icon fas fa-file"></i>
+            <p>Report Section</p>
+          </a>
+        </li>
         <!-- <li class="nav-item <?= $page == 'appointment.php' || $page == 'calendar.php' || $page == 'online-request.php' ? 'menu-open' : '' ?>">
           <a href="#" class="nav-link <?= $page == 'appointment.php' || $page == 'calendar.php' || $page == 'online-request.php' ? 'active' : '' ?>">
             <i class="nav-icon fas fa-calendar "></i>

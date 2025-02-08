@@ -7,6 +7,27 @@ include('../../config/dbconn.php');
 ?>
 
 <script>
+  function filterTable() {
+    var departmentId = document.getElementById("department_id").value;
+    var unitId = document.getElementById("unit_id").value;
+
+    // Make an AJAX request to filter data
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "filter_admin_data.php?department_id=" + departmentId + "&unit_id=" + unitId, true);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState == 4 && xhr.status == 200) {
+        // Update the table with the filtered data
+        document.querySelector('#employee_table tbody').innerHTML = xhr.responseText;
+
+        // Re-initialize DataTable after filtering and redrawing the table
+        var table = $('#employee_table').DataTable();
+        table.clear().draw(); // Ensure it clears and redraws the table
+        table.rows.add($(xhr.responseText)).draw(); // Add new data to DataTable
+      }
+    };
+    xhr.send();
+  }
+
   function loadUnitsForDepartment() {
     var departmentId = $('#department_id').val();
 
@@ -46,27 +67,6 @@ include('../../config/dbconn.php');
     } else {
       $('#unit_id').html('<option value="">Select Unit</option>');
     }
-  }
-
-  function filterTable() {
-    var departmentId = document.getElementById("department_id").value;
-    var unitId = document.getElementById("unit_id").value;
-
-    // Make an AJAX request to filter data
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "filter_admin_data.php?department_id=" + departmentId + "&unit_id=" + unitId, true);
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState == 4 && xhr.status == 200) {
-        // Update the table with the filtered data
-        document.querySelector('#employee_table tbody').innerHTML = xhr.responseText;
-
-        // Re-initialize DataTable after filtering and redrawing the table
-        var table = $('#employee_table').DataTable();
-        table.clear().draw(); // Ensure it clears and redraws the table
-        table.rows.add($(xhr.responseText)).draw(); // Add new data to DataTable
-      }
-    };
-    xhr.send();
   }
 
   function addloadUnitsForDepartment() {
@@ -148,6 +148,129 @@ include('../../config/dbconn.php');
       });
     } else {
       $('#coordinator_id').html('<option value="">Select Coordinator</option>');
+    }
+  }
+
+  function loadUnitsForDepartmentedit() {
+    var departmentId = $('#edit_department_id').val();
+
+    if (departmentId) {
+      $('#edit_unit_id').html('<option value="">Loading...</option>');
+
+      $.ajax({
+        url: 'fetch_units.php',
+        type: 'GET',
+        data: { department_id: departmentId },
+        success: function (response) {
+          try {
+            var units = JSON.parse(response);
+            var unitSelect = $('#edit_unit_id');
+
+            unitSelect.empty();
+            unitSelect.append('<option value="">Select Unit</option>');
+
+            if (units.length > 0) {
+              units.forEach(function (unit) {
+                unitSelect.append('<option value="' + unit.id + '">' + unit.unit_name + '</option>');
+              });
+            } else {
+              unitSelect.append('<option value="">No units available</option>');
+            }
+          } catch (error) {
+            console.error('Error parsing response:', error);
+            alert('An error occurred while fetching the units.');
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error('AJAX request failed:', error);
+          alert('An error occurred while fetching the units.');
+          $('#edit_unit_id').html('<option value="">Select Unit</option>');
+        }
+      });
+    } else {
+      $('#edit_unit_id').html('<option value="">Select Unit</option>');
+    }
+  }
+
+  function addloadUnitsForDepartmentedit() {
+    var departmentId1 = $('#edit_department_id1').val();
+
+    if (departmentId1) {
+      $('#edit_unitSection').html('<option value="">Loading...</option>');
+
+      $.ajax({
+        url: 'fetch_units.php',
+        type: 'GET',
+        data: { department_id: departmentId1 },
+        success: function (response) {
+          try {
+            var units1 = JSON.parse(response);
+            var unitSelect1 = $('#edit_unitSection');
+
+            unitSelect1.empty();
+            unitSelect1.append('<option value="">Select Unit</option>');
+
+            if (units1.length > 0) {
+              units1.forEach(function (unit) {
+                unitSelect1.append('<option value="' + unit.id + '">' + unit.unit_name + '</option>');
+              });
+            } else {
+              unitSelect1.append('<option value="">No units available</option>');
+            }
+          } catch (error) {
+            console.error('Error parsing response:', error);
+            alert('An error occurred while fetching the units.');
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error('AJAX request failed:', error);
+          alert('An error occurred while fetching the units.');
+          $('#edit_unitSection').html('<option value="">Select Unit</option>');
+        }
+      });
+    } else {
+      $('#edit_unitSection').html('<option value="">Select Unit</option>');
+    }
+  }
+
+  function loadCoordinatoredit() {
+    var unitId = $('#edit_unitSection').val();
+
+    if (unitId) {
+      $('#edit_coordinator_id').html('<option value="">Loading...</option>');
+
+      $.ajax({
+        url: 'fetch_coordinator.php',
+        type: 'GET',
+        data: { unit_id: unitId },
+        success: function (response) {
+          try {
+            var coordinators = JSON.parse(response);
+            var coordinatorSelect = $('#edit_coordinator_id');
+
+            coordinatorSelect.empty();
+            coordinatorSelect.append('<option value="">Select Coordinator</option>');
+
+            if (coordinators.length > 0) {
+              coordinators.forEach(function (coordinator) {
+                coordinatorSelect.append('<option value="' + coordinator.id + '">' + coordinator.name + '</option>');
+              });
+            } else {
+              coordinatorSelect.append('<option value="">No coordinators available</option>');
+            }
+          } catch (error) {
+            console.error('Error parsing response:', error);
+            alert('An error occurred while fetching the coordinators.');
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error('AJAX request failed:', error);
+          alert('An error occurred while fetching the coordinators.');
+          $('#edit_coordinator_id').html('<option value="">Select Coordinator</option>');
+        }
+      });
+    } else {
+      $('#edit_coordinator_id').html('<option value="">Select Coordinator</option>');
     }
   }
 </script>
@@ -428,7 +551,77 @@ include('../../config/dbconn.php');
                 </div>
               </div>
 
+              <div class="row">
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label>Department</label>
+                    <span class="text-danger">*</span>
+                    <select id="department" class="form-control" required disabled>
+                      <option value="">Select Department</option>
+                      <?php
+                      $sql = "SELECT * FROM department";
+                      $query_run = mysqli_query($conn, $sql);
+
+                      if (mysqli_num_rows($query_run) > 0) {
+                        while ($row = mysqli_fetch_assoc($query_run)) {
+                          echo "<option value='" . $row['id'] . "'>" . $row['name'] . "</option>";
+                        }
+                      } else {
+                        echo "<option value=''>No departments available</option>";
+                      }
+                      ?>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label>Unit</label>
+                    <span class="text-danger">*</span>
+                    <select id="unit" class="form-control" required disabled>
+                      <option value="">Select Unit</option>
+                      <?php
+                      $sql = "SELECT * FROM unit";
+                      $query_run = mysqli_query($conn, $sql);
+
+                      if (mysqli_num_rows($query_run) > 0) {
+                        while ($row = mysqli_fetch_assoc($query_run)) {
+                          echo "<option value='" . $row['id'] . "'>" . $row['unit_name'] . "</option>";
+                        }
+                      } else {
+                        echo "<option value=''>No Unit available</option>";
+                      }
+                      ?>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label>Coordinator</label>
+                    <span class="text-danger">*</span>
+                    <select id="coordinator" class="form-control" required disabled>
+                      <option value="">Select Coordinator</option>
+                      <?php
+                      $sql = "SELECT * FROM tblcoordinator";
+                      $query_run = mysqli_query($conn, $sql);
+
+                      if (mysqli_num_rows($query_run) > 0) {
+                        while ($row = mysqli_fetch_assoc($query_run)) {
+                          echo "<option value='" . $row['id'] . "'>" . $row['name'] . "</option>";
+                        }
+                      } else {
+                        echo "<option value=''>No Coordinator available</option>";
+                      }
+                      ?>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
               <hr>
+
+              <div class="form-group">
+                <h5 style="font-weight: bold;">EDIT DEPARTMENT, UNIT AND COORDINATOR</h5>
+              </div>
 
               <!-- Department, Unit, and Coordinator -->
               <div class="form-group">
@@ -438,13 +631,12 @@ include('../../config/dbconn.php');
               </div>
 
               <div class="row mt-4">
-                <!-- Department -->
                 <div class="col-sm-4">
                   <div class="form-group">
                     <label>Department</label>
                     <span class="text-danger">*</span>
                     <select id="edit_department_id1" name="Department" class="form-control" required
-                      onchange="addloadUnitsForDepartment()">
+                      onchange="addloadUnitsForDepartmentedit()">
                       <option value="">Select Department</option>
                       <?php
                       $sql = "SELECT * FROM department";
@@ -462,54 +654,29 @@ include('../../config/dbconn.php');
                   </div>
                 </div>
 
-                <!-- Unit -->
                 <div class="col-sm-4">
                   <div class="form-group">
                     <label>Unit/Section</label>
                     <span class="text-danger">*</span>
-                    <select id="edit_unitSection" name="UnitSection" class="form-control" onchange="loadCoordinator()"
-                      required>
+                    <select id="edit_unitSection" name="UnitSection" class="form-control"
+                      onchange="loadCoordinatoredit()" required>
                       <option value="">Select Unit</option>
-                      <?php
-                      $sql = "SELECT * FROM unit";
-                      $query_run = mysqli_query($conn, $sql);
-
-                      if (mysqli_num_rows($query_run) > 0) {
-                        while ($row = mysqli_fetch_assoc($query_run)) {
-                          echo "<option value='" . $row['id'] . "'>" . $row['unit_name'] . "</option>";
-                        }
-                      } else {
-                        echo "<option value=''>No units available</option>";
-                      }
-                      ?>
+                      <!-- Units will be dynamically loaded here -->
                     </select>
                   </div>
                 </div>
 
-                <!-- Coordinator -->
                 <div class="col-sm-4">
                   <div class="form-group">
                     <label>Coordinator</label>
                     <span class="text-danger">*</span>
                     <select id="edit_coordinator_id" name="coordinator_id" class="form-control" required>
                       <option value="">Select Coordinator</option>
-                      <?php
-                      $sql = "SELECT * FROM tblcoordinator";
-                      $query_run = mysqli_query($conn, $sql);
-
-                      if (mysqli_num_rows($query_run) > 0) {
-                        while ($row = mysqli_fetch_assoc($query_run)) {
-                          echo "<option value='" . $row['id'] . "'>" . $row['name'] . "</option>";
-                        }
-                      } else {
-                        echo "<option value=''>No units available</option>";
-                      }
-                      ?>
+                      <!-- Coordinators will be dynamically loaded here -->
                     </select>
                   </div>
                 </div>
               </div>
-
             </div>
 
             <div class="modal-footer">
@@ -738,12 +905,12 @@ include('../../config/dbconn.php');
                           ?>
                           </td>
                           <td>
-                            <button data-id="<?php echo $row['id']; ?>" class="btn btn-sm btn-info editEmployeebtn"><i
-                                class="fas fa-edit me-2"></i></button>
-                            <button data-id="<?php echo $row['EmployeeNumber']; ?>"
-                              class="btn btn-sm btn-secondary viewEmployeebtn"><i class="fas fa-eye me-2"></i></button>
                             <button data-id="<?php echo $row['EmployeeNumber']; ?>"
                               class="btn btn-sm btn-primary uploadCertificate"><i class="fas fa-upload me-2"></i></button>
+                            <button data-id="<?php echo $row['EmployeeNumber']; ?>"
+                              class="btn btn-sm btn-secondary viewEmployeebtn"><i class="fas fa-eye me-2"></i></button>
+                            <button data-id="<?php echo $row['id']; ?>" class="btn btn-sm btn-info editEmployeebtn"><i
+                                class="fas fa-edit me-2"></i></button>
                             <!-- <button data-id="<?php echo $row['id']; ?>" class="btn btn-danger btn-sm deleteAdminbtn"><i
                                 class="far fa-trash-alt"></i></button> -->
                           </td>
@@ -914,9 +1081,9 @@ include('../../config/dbconn.php');
             $('#editPosition').val(data.Position);
 
             // Populate the Department dropdown
-            $('#edit_department_id1').val(data.Department);
-            $('#edit_unitSection').val(data.UnitSection);
-            $('#edit_coordinator_id').val(data.coordinator_id);
+            $('#department').val(data.Department);
+            $('#unit').val(data.UnitSection);
+            $('#coordinator').val(data.coordinator_id);
 
             // Show the modal to edit the employee
             $('#EditEmployeeModal').modal('show');

@@ -13,7 +13,7 @@
                 $sql = "SELECT * FROM tbladmin WHERE id = '" . $_SESSION['auth_user']['user_id'] . "'";
                 $query_run = mysqli_query($conn, $sql);
                 while ($row = mysqli_fetch_array($query_run)) {
-                  echo '<img src="../../../upload/admin/' . $row['image'] . '" class="user-image img-circle elevation-2" alt="Doc Image">';
+                  echo '<img src="../../../upload/admin/' . $row['image'] . '" class="user-image img-circle elevation-2" alt="Admin Image">';
               ?>
               <span class="d-none d-md-inline">
                 <?= $row['name'] ?>

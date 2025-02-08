@@ -16,7 +16,7 @@
         </li>
         <li class="nav-item">
           <a href="../admins" class="nav-link <?= $page == 'admins' ? 'active' : '' ?>">
-            <i class="fas fa-user-shield nav-icon"></i>
+            <i class="fas fa-users nav-icon"></i>
             <p>Admins </p>
           </a>
         </li>
@@ -28,7 +28,7 @@
         </li> -->
         <li class="nav-item">
           <a href="../coordinator" class="nav-link <?= $page == 'coordinator' ? 'active' : '' ?>">
-            <i class="nav-icon fas fa-user-nurse"></i>
+            <i class="nav-icon fas fa-users"></i>
             <p>Coordinators</p>
           </a>
         </li>
