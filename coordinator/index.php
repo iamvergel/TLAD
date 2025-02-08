@@ -68,7 +68,7 @@ $total_employees = $with_training + $without_training;
         <section class="content">
           <div class="container-fluid">
             <div class="row">
-              <div class="col-lg-4 col-6">
+              <div class="col-lg-4 col-12">
                 <div class="small-box bg-info">
                   <div class="inner">
                     <?php
@@ -104,7 +104,7 @@ $total_employees = $with_training + $without_training;
                 </div>
               </div>
 
-              <div class="col-lg-4 col-6">
+              <div class="col-lg-4 col-12">
                 <div class="small-box bg-success">
                   <div class="inner">
                     <?php
@@ -145,7 +145,7 @@ $total_employees = $with_training + $without_training;
                 </div>
               </div>
 
-              <div class="col-lg-4 col-6">
+              <div class="col-lg-4 col-12">
                 <div class="small-box bg-danger">
                   <div class="inner">
                     <?php

@@ -47,6 +47,47 @@ include('../../config/dbconn.php');
       $('#unit_id').html('<option value="">Select Unit</option>');
     }
   }
+
+  function loadUnitsForDepartmentedit() {
+    var departmentId = $('#editdepartment_id').val();
+
+    if (departmentId) {
+      $('#editunit_id').html('<option value="">Loading...</option>');
+
+      $.ajax({
+        url: 'fetch_units.php',
+        type: 'GET',
+        data: { department_id: departmentId },
+        success: function (response) {
+          try {
+            var units = JSON.parse(response);
+            var unitSelect = $('#editunit_id');
+
+            unitSelect.empty();
+            unitSelect.append('<option value="">Select Unit</option>');
+
+            if (units.length > 0) {
+              units.forEach(function (unit) {
+                unitSelect.append('<option value="' + unit.id + '">' + unit.unit_name + '</option>');
+              });
+            } else {
+              unitSelect.append('<option value="">No units available</option>');
+            }
+          } catch (error) {
+            console.error('Error parsing response:', error);
+            alert('An error occurred while fetching the units.');
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error('AJAX request failed:', error);
+          alert('An error occurred while fetching the units.');
+          $('#editunit_id').html('<option value="">Select Unit</option>');
+        }
+      });
+    } else {
+      $('#editunit_id').html('<option value="">Select Unit</option>');
+    }
+  }
 </script>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -277,12 +318,15 @@ include('../../config/dbconn.php');
                 </div>
               </div>
               <div class="row">
+                <input type="hidden" id="editdepartment_id" name="department_id">
+                <input type="hidden" id="editunit_id" name="unit_id">
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label>Department</label><span class="text-danger">*</span>
-                    <select id="edit_department_id" name="department_id" class="form-control" required>
+                    <select id="edit_department_id" class="form-control"  required disabled>
                       <option value="">Select Department</option>
                       <?php
+
                       $sql = "SELECT * FROM department";
                       $query_run = mysqli_query($conn, $sql);
 
@@ -301,7 +345,7 @@ include('../../config/dbconn.php');
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label>Unit</label><span class="text-danger">*</span>
-                    <select id="edit_unit_id" name="unit_id" class="form-control" required>
+                    <select id="edit_unit_id" class="form-control"  required disabled>
                       <option value="">Select Unit</option>
                       <?php
                       $sql = "SELECT * FROM unit";
@@ -363,7 +407,7 @@ include('../../config/dbconn.php');
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label for="coor_image">Upload Image</label>
-                    <input type="file" id="edit_docimage" name="edit_docimage" />
+                    <input type="file" id="coor_image" name="coor_image" />
                     <input type="hidden" name="old_image" id="old_image" />
                     <div id="uploaded_image"></div>
                   </div>
@@ -373,7 +417,7 @@ include('../../config/dbconn.php');
 
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="submit" name="updateadmin" class="btn btn-success">Submit</button>
+              <button type="submit" name="updatecoordinator" class="btn btn-success">Submit</button>
             </div>
           </form>
         </div>
@@ -487,9 +531,9 @@ include('../../config/dbconn.php');
                             <button data-id="<?php echo $row['id']; ?>" class="btn btn-sm btn-info editAdminbtn">
                               <i class="fas fa-edit"></i>
                             </button>
-                            <button data-id="<?php echo $row['id']; ?>" class="btn btn-danger btn-sm deleteAdminbtn">
+                            <!-- <button data-id="<?php echo $row['id']; ?>" class="btn btn-danger btn-sm deleteAdminbtn">
                               <i class="far fa-trash-alt"></i>
-                            </button>
+                            </button> -->
                           </td>
                         </tr>
                         <?php
@@ -657,6 +701,8 @@ include('../../config/dbconn.php');
               $('#edit_email').val(value['email']);
               $('#edit_department_id').val(value['division_id']);
               $('#edit_unit_id').val(value['unit_id']);  // Set the unit_id correctly
+              $('#editdepartment_id').val(value['division_id']);
+              $('#editunit_id').val(value['unit_id']);
 
               $('#edit_unit_section_head_name').val(value['unit_section_head_name']);
               $('#edit_unit_section_head_title').val(value['unit_section_head_title']);

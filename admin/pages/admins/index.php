@@ -221,10 +221,10 @@ include('../../config/dbconn.php');
           <div class="row">
             <div class="col-md-12">
               <?php include('../../message.php'); ?>
-              <div class="card card-primary card-outline">
+              <div class="card card-success card-outline">
                 <div class="card-header">
                   <h3 class="card-title">Admin List</h3>
-                  <button type="button" class="btn btn-primary btn-sm float-right" data-toggle="modal" data-target="#AddAdminModal">
+                  <button type="button" class="btn btn-success btn-sm float-right" data-toggle="modal" data-target="#AddAdminModal">
                     <i class="fa fa-plus"></i> &nbsp;&nbsp;Add Admin</button>
                 </div>
                 <div class="card-body">

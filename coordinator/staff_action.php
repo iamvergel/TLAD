@@ -12,6 +12,6 @@
         unset($_SESSION['auth_user']);
 
         $_SESSION['success'] = "Logged out successfully";
-        header('Location: ../login.php');
+        header('Location: ../index.php');
         exit(0);
     }

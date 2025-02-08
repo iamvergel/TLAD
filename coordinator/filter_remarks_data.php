@@ -22,12 +22,11 @@ $sql = "
     department.name AS department_name, 
     unit.unit_name AS unit_name,
     tblemployeeremarks.Remarks As Remarks,
-    tblemployeeseminar.Title As Title
+    tblemployeeremarks.Title As Title
     FROM tblemployee
     LEFT JOIN department ON tblemployee.Department = department.id
     LEFT JOIN unit ON tblemployee.UnitSection = unit.id
     LEFT JOIN tblemployeeremarks ON tblemployee.EmployeeNumber = tblemployeeremarks.EmployeeNumber
-    LEFT JOIN tblemployeeseminar ON tblemployee.EmployeeNumber = tblemployeeseminar.EmployeeNumber
     $whereClause
 ";
 

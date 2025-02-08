@@ -54,68 +54,64 @@ if (isset($_POST['deletedata'])) {
     }
 }
 
-if (isset($_POST['updateadmin'])) {
+if (isset($_POST['updatecoordinator'])) {
     $id = $_POST['edit_id'];
     $fname = $_POST['fname'];
     $address = $_POST['address'];
     $phone = $_POST['phone'];
     $coor_email = $_POST['email'];
+    $coor_department = $_POST['department_id'];
+    $coor_unit = $_POST['unit_id'];
+    $unit_section_head_name = $_POST['unit_section_head_name'];
+    $unit_section_head_title = $_POST['unit_section_head_title'];
+    $division_head_name = $_POST['division_head_name'];
+    $division_head_position = $_POST['division_head_position'];
     $password = $_POST['edit_password'];
     $confirmPassword = $_POST['edit_confirmPassword'];
 
     $old_image = $_POST['old_image'];
-    $image = $_FILES['edit_coorimage']['name'];
-
-    $checkemail = "SELECT email FROM tbladmin WHERE email='$coor_email'
-        AND id != '$id'  
-        UNION ALL SELECT email FROM tblstaff WHERE email='$coor_email'
-        UNION ALL SELECT email FROM tblpatient WHERE email='$coor_email'
-        UNION ALL SELECT email FROM tblcoortor WHERE email='$coor_email' ";
-    $checkemail_run = mysqli_query($conn, $checkemail);
+    $image = $_FILES['coor_image']['name'];
 
     if ($password == $confirmPassword) {
-        if (mysqli_num_rows($checkemail_run) > 0) {
-            $_SESSION['error'] = "Email Already Exist";
-            header('Location:index.php');
-        } else {
-            $update_filename = " ";
+        $update_filename = " ";
 
-            if ($image != NULL) {
+        if ($image != NULL) {
+            $allowed_file_format = array('jpg', 'png', 'jpeg');
+            $image_extension = pathinfo($image, PATHINFO_EXTENSION);
 
-                $allowed_file_format = array('jpg', 'png', 'jpeg');
-
-                $image_extension = pathinfo($image, PATHINFO_EXTENSION);
-
-                if (!in_array($image_extension, $allowed_file_format)) {
-                    $_SESSION['error'] = "Upload valiid file. jpg, png";
-                    header('Location:index.php');
-                } else if (($_FILES["edit_coorimage"]["size"] > 5000000)) {
-                    $_SESSION['error'] = "File size exceeds 5MB";
-                    header('Location:index.php');
-                } else {
-                    $filename = time() . '.' . $image_extension;
-                    $update_filename = $filename;
-                }
+            if (!in_array($image_extension, $allowed_file_format)) {
+                $_SESSION['error'] = "Upload valid file. jpg, png";
+                header('Location:index.php');
+            } else if (($_FILES["coor_image"]["size"] > 5000000)) {
+                $_SESSION['error'] = "File size exceeds 5MB";
+                header('Location:index.php');
             } else {
-                $update_filename = $old_image;
+                $filename = time() . '.' . $image_extension;
+                $update_filename = $filename;
+                move_uploaded_file($_FILES['coor_image']['tmp_name'], '../../../upload/coordinators/' . $update_filename);
             }
-            if ($_SESSION['error'] == '') {
-                $sql = "UPDATE tbladmin set name='$fname',address='$address', phone='$phone', email='$coor_email', password='$password', image='$update_filename' WHERE id='$id' ";
-                $query_run = mysqli_query($conn, $sql);
+        } else {
+            $update_filename = $old_image; // Keep the old image if none is uploaded
+        }
 
-                if ($query_run) {
-                    if ($image != NULL) {
-                        if (file_exists('../../../upload/admin/' . $old_image)) {
-                            unlink("../../../upload/admin/" . $old_image);
-                        }
-                        move_uploaded_file($_FILES['edit_coorimage']['tmp_name'], '../../../upload/coordinators/' . $update_filename);
-                    }
-                    $_SESSION['success'] = "Admin Updated Successfully";
-                    header('Location:index.php');
-                } else {
-                    $_SESSION['error'] = "Admin Updated Unsuccessfully";
-                    header('Location:index.php');
+        // Update coordinator info in database
+        if ($_SESSION['error'] == '') {
+            $sql = "UPDATE tblcoordinator SET name='$fname', address='$address', phone='$phone', email='$coor_email', 
+                    division_id='$coor_department', unit_id='$coor_unit', unit_section_head_name='$unit_section_head_name', 
+                    unit_section_head_title='$unit_section_head_title', division_head_name='$division_head_name', 
+                    division_head_position='$division_head_position', image='$update_filename', password='$password' 
+                    WHERE id='$id'";
+            $query_run = mysqli_query($conn, $sql);
+
+            if ($query_run) {
+                if ($image != NULL && file_exists('../../../upload/coordinators/' . $old_image)) {
+                    unlink("../../../upload/coordinators/" . $old_image);  // Remove old image
                 }
+                $_SESSION['success'] = "Coordinator Updated Successfully";
+                header('Location:index.php');
+            } else {
+                $_SESSION['error'] = "Coordinator Update Failed";
+                header('Location:index.php');
             }
         }
     } else {
@@ -123,6 +119,7 @@ if (isset($_POST['updateadmin'])) {
         header('Location:index.php');
     }
 }
+
 
 if (isset($_POST['checking_editAdminbtn'])) {
     $s_id = $_POST['user_id'];

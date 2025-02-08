@@ -53,6 +53,12 @@
 <script src="../admin/assets/plugins/summernote/summernote-bs4.min.js"></script>
 <script src="../admin/assets/plugins/inputmask/jquery.inputmask.bundle.min.js"></script>
 
+<script src="../../../vendor/purecounter/purecounter.js"></script>
+<script src="../../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../../../vendor/glightbox/js/glightbox.min.js"></script>
+<script src="../../../vendor/swiper/swiper-bundle.min.js"></script>
+<script src="../../../dist/main.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 <script>

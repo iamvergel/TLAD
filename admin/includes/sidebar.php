@@ -44,6 +44,12 @@
             <p>Report Section</p>
           </a>
         </li>
+        <li class="nav-item">
+          <a href="../inactive_employees" class="nav-link <?= $page == 'inactive_employees' ? 'active' : '' ?>">
+            <i class="nav-icon fas fa-times"></i>
+            <p>Inactive Employees</p>
+          </a>
+        </li>
         <li
           class="nav-item <?= $page == 'highlight' || $page == 'about' || $page == 'services' || $page == 'services_patient' || $page == 'mail' || $page == 'procedure-offers' || $page == 'sms' || $page == 'payment-settings' || $page == 'health-declaration' || $page == 'reviews' || $page == 'gallery' || $page == 'featured' || $page == 'system' ? 'menu-open' : '' ?>">
           <a href="#"
@@ -53,7 +59,7 @@
             <i class="fas fa-angle-left right "></i>
           </a>
           <ul class="nav nav-treeview">
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a href="../highlight" class="nav-link <?= $page == 'highlight' ? 'active' : '' ?>">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Highlight Content</p>
@@ -112,7 +118,7 @@
                 <i class="far fa-circle nav-icon"></i>
                 <p>Email Settings</p>
               </a>
-            </li>
+            </li> -->
             <!-- <li class="nav-item">
               <a href="../payment-settings" class="nav-link <?= $page == 'payment-settings' ? 'active' : '' ?>">
                 <i class="far fa-circle nav-icon"></i>

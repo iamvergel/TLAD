@@ -430,26 +430,6 @@ include('../../config/dbconn.php');
       </div>
     </div>
 
-    <div class="modal fade" id="viewEmployeeModal">
-      <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="EmployeeNumberTitle"></h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div class="admin_viewing_data">
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <div class="modal fade" id="EditEmployeeModal">
       <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -758,7 +738,42 @@ include('../../config/dbconn.php');
       </div>
     </div>
 
-    <div class="content-wrapper">
+    <div id="employeeDetails" class="content-wrapper  d-none">
+      <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1>Employee</h1>
+            </div>
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="../dashboard/">Home</a></li>
+                <li class="breadcrumb-item active">Employee</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div  class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h3 class="card-title" id="EmployeeNumberTitle">Employee Information</h3>
+                <button type="button" class="btn btn-secondary float-right" id="closeEmployeeDetails">
+                  BACK
+                </button>
+              </div>
+              <div class="card-body">
+                <div class="admin_viewing_data"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-wrapper main">
       <div class="content-header">
         <div class="container-fluid">
           <div class="row mb-2">
@@ -778,7 +793,7 @@ include('../../config/dbconn.php');
         <div class="container-fluid">
           <?php include('../../message.php'); ?>
           <div class="row">
-            <div class="col-sm-2">
+            <div class="col-md-12 col-lg-3 col-xl-2">
               <div class="card card-primary card-outline">
                 <div class="card-header">
                   <h3 class="card-title">SELECT DEPARTMENT AND UNIT</h3>
@@ -823,7 +838,7 @@ include('../../config/dbconn.php');
               </div>
             </div>
 
-            <div class="col-md-10">
+            <div class="col-md-12 col-lg-9 col-xl-10">
               <div class="card card-primary card-outline">
                 <div class="card-header">
                   <h3 class="card-title">Employee List</h3>
@@ -1047,12 +1062,22 @@ include('../../config/dbconn.php');
             'user_id': userid,
           },
           success: function (response) {
-
-            $('#EmployeeNumberTitle').html('Employee Info ');
+            // Show employee details and hide the rest of the page
+            $('#EmployeeNumberTitle').html('Employee Info');
             $('.admin_viewing_data').html(response);
-            $('#viewEmployeeModal').modal('show');
+
+            // Hide the employee list and show the employee details section
+            $('#employeeDetails').removeClass('d-none'); // Show employee details
+            $('.main').addClass('d-none'); // Hide the main content
           }
         });
+      });
+
+      // Close the employee details view
+      $(document).on('click', '#closeEmployeeDetails', function () {
+        // Hide employee details and show the main content
+        $('#employeeDetails').addClass('d-none'); // Hide employee details
+        $('.main').removeClass('d-none'); // Show the main content
       });
 
       $(document).on('click', '.editEmployeebtn', function () {

@@ -138,13 +138,13 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                     </h3>
                     <h3 class="profile-username text-center"><?php echo $row['EmployeeNumber']; ?></h3>
                     <p class="text-muted text-center"><?php echo $row['department_name'] . ' / ' . $row['unit_name']; ?></p>
-                    <ul class="list-group list-group-unbordered mb-2">
+                    <ul class="list-group list-group-unbordered mb-2 px-3">
                         <li class="list-group-item">
-                            <b>Position</b>
+                            <b class="float-left">Position</b>
                             <p class="float-right text-muted"><?php echo $row['Position']; ?></p>
                         </li>
                         <li class="list-group-item">
-                            <b>Status</b>
+                            <b class="float-left">Status</b>
                             <p class="float-right text-muted">
                                 <?php
                                 if ($row['Status'] == '1') {
@@ -158,11 +158,11 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                             </p>
                         </li>
                         <li class="list-group-item">
-                            <b>Birthday</b>
+                            <b class="float-left">Birthday</b>
                             <p class="float-right text-muted"><?php echo $row['Birthday']; ?></p>
                         </li>
                         <li class="list-group-item">
-                            <b>Gender</b>
+                            <b class="float-left">Gender</b>
                             <p class="float-right text-muted">
                                 <?php
                                 if ($row['Sex'] == 'F') {
@@ -189,6 +189,10 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                                 <li class="nav-item">
                                     <a class="nav-link" href="remarks-tab" data-toggle="tab" data-target="#remarks" role="tab"
                                         aria-controls="remarks" aria-selected="false">Remarks</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="gallery-tab" data-toggle="tab" data-target="#gallery" role="tab"
+                                        aria-controls="gallery" aria-selected="false">Gallery Certificate</a>
                                 </li>
                             </ul>
                         </div>
@@ -254,6 +258,7 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                                             <tr>
                                                 <th class="bg-light">Year</th>
                                                 <th class="bg-light">Remarks</th>
+                                                <th class="bg-light">Title</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -269,7 +274,7 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                                                         ?>
                                                         <tr>
                                                             <td><?= $user['Year'] ?></td>
-                                                            <td class="w-75">
+                                                            <td>
                                                                 <select class="form-control remark-dropdown 
                                                                     <?php echo $user['Remarks'] == 1 ? 'text-success' : ($user['Remarks'] == 0 ? 'text-danger' : ''); ?>"
                                                                     data-id="<?= $user['id'] ?>">
@@ -281,9 +286,31 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                                                                     </option>
                                                                 </select>
                                                             </td>
+                                                            <td class="w-25">
+                                                                <?php
+                                                                $employeeNumber = $user['EmployeeNumber'];
+
+                                                                $sql = "SELECT * FROM tblemployeeseminar WHERE EmployeeNumber = '$employeeNumber'";
+                                                                $query_run = mysqli_query($conn, $sql);
+
+                                                                if (mysqli_num_rows($query_run) > 0) {
+                                                                    // Start the dropdown for titles
+                                                                    echo '<select class="form-control title-dropdown" data-id="' . $user['id'] . '">';
+                                                                    echo '<option value="">Select Title</option>';
+
+                                                                    while ($row = mysqli_fetch_array($query_run)) {
+                                                                        $selected = ($user['Title'] == $row['Title']) ? 'selected' : '';
+                                                                        echo '<option value="' . $row['Title'] . '" ' . $selected . '>' . $row['Title'] . '</option>';
+                                                                    }
+
+                                                                    echo '</select>';
+                                                                } else {
+                                                                    echo "<p>No titles found for this user.</p>";
+                                                                }
+                                                                ?>
+                                                            </td>
                                                             <td>
-                                                                <button class="btn btn-sm btn-success saveRemarks ml-1"
-                                                                    data-id="<?= $user['id'] ?>">
+                                                                <button class="btn btn-sm btn-success saveRemarks ml-1" data-id="<?= $user['id'] ?>">
                                                                     <i class="fas fa-save"></i>
                                                                 </button>
                                                             </td>
@@ -296,13 +323,97 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                                         </tbody>
                                     </table>
                                 </div>
+
+                                <style>
+                                    .gallery .gallery-item {
+                                    overflow: hidden;
+                                    position: relative;
+                                    border: 3px solid #fff;
+                                    border-radius: 8px;
+                                    margin: 10px;
+                                    background-color: #fff;
+                                    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+                                    transition: transform 0.3s ease;
+                                    display: flex;
+                                    flex-direction: column;
+                                    max-width: 100%;
+                                    cursor: default;
+                                    }
+
+                                    .gallery .card-img-top {
+                                    width: 100%;
+                                    height: 200px;
+                                    object-fit: cover;
+                                    transition: all ease-in-out 0.4s;
+                                    }
+
+                                    .gallery .card-img-top:hover {
+                                    transform: scale(1.1);
+                                    }
+
+                                    .card-body {
+                                    padding: 15px;
+                                    text-align: center;
+                                    }
+
+                                    .card-title {
+                                    font-size: 1.2rem;
+                                    font-weight: bold;
+                                    margin-bottom: 10px;
+                                    }
+
+                                    .card-text {
+                                    font-size: 1rem;
+                                    color: #777;
+                                    }
+                                </style>
+
+                                <div class="tab-pane fade gallery" id="gallery" role="tabpanel" aria-labelledby="gallery-tab">
+                                    <div class="container-fluid" style="overflow-y: scroll; height: 500px; scrollbar-width: thin;">
+                                        <div class="row no-gutters">
+                                            <?php
+                                            if (isset($_POST['user_id'])) {
+                                                $employeeNumber = $_POST['user_id'];
+                                                $sql = "SELECT * FROM tblemployeeseminar WHERE EmployeeNumber = '$employeeNumber' ORDER BY Date DESC";
+                                                $query_run = mysqli_query($conn, $sql);
+                                                $check_services = mysqli_num_rows($query_run) > 0;
+
+                                                if ($check_services) {
+                                                    while ($row = mysqli_fetch_array($query_run)) { ?>
+                                                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                                                            <div class="gallery-item card">
+                                                                <p class="card-title" style="font-weight: normal; font-size: 15px; margin-bottom: 0;"><?= $row['Title'] ?></p>
+                                                                <div class="card-body">
+                                                                    <a href="../../../upload/certificates/<?= $row['CertificateImage'] ?>" class="gallery-lightbox">
+                                                                        <img src="../../../upload/certificates/<?= $row['CertificateImage'] ?>" alt="Certificate" class="card-img-top">
+                                                                    </a>
+                                                                </div>
+                                                                <p class="card-text" style="font-weight: normal; font-size: 12px;"><?= date('F j, Y', strtotime($row['Date'])) ?></p>
+                                                            </div>
+                                                        </div>
+                                                    <?php }
+                                                } else {
+                                                    echo "<p>No certificates found for this user.</p>";
+                                                }
+                                            }
+                                            ?>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <link href="https://cdn.jsdelivr.net/npm/glightbox@3.0.1/dist/css/glightbox.min.css" rel="stylesheet">
+            <script src="https://cdn.jsdelivr.net/npm/glightbox@3.0.1/dist/js/glightbox.min.js"></script>
+
             <script>
                 $(document).ready(function () {
+                    const galleryLightbox = GLightbox({
+                        selector: '.gallery-lightbox'
+                    });
 
                     var table1 = $('#certificatetable').DataTable({
                         responsive: true,
@@ -366,19 +477,21 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                     $('.saveRemarks').on('click', function () {
                         var rowId = $(this).data('id');
                         var selectedRemark = $(this).closest('tr').find('.remark-dropdown').val();
+                        var selectedTitle = $(this).closest('tr').find('.title-dropdown').val(); // Added title dropdown
 
                         $.ajax({
                             type: 'POST',
                             url: 'employee_action.php',
                             data: {
                                 id: rowId,
-                                remark: selectedRemark
+                                remark: selectedRemark,
+                                title: selectedTitle // Pass the selected title as well
                             },
                             success: function (response) {
                                 if (response === 'success') {
-                                    alert('Remarks updated successfully!');
+                                    alert('Remarks and Title updated successfully!');
                                 } else {
-                                    alert('Failed to update remarks.');
+                                    alert('Failed to update remarks or title.');
                                 }
                             }
                         });
@@ -468,13 +581,15 @@ if (isset($_POST['certificateId']) && isset($_POST['newTitle'])) {
     mysqli_stmt_close($stmt);
 }
 
-if (isset($_POST['id']) && isset($_POST['remark'])) {
+if (isset($_POST['id']) && isset($_POST['remark']) && isset($_POST['title'])) {
     $id = $_POST['id'];
     $remark = $_POST['remark'];
+    $title = $_POST['title'];
 
-    $query = "UPDATE tblemployeeremarks SET Remarks = ? WHERE id = ?";
+    // Update both remarks and title
+    $query = "UPDATE tblemployeeremarks SET Remarks = ?, Title = ? WHERE id = ?";
     $stmt = mysqli_prepare($conn, $query);
-    mysqli_stmt_bind_param($stmt, 'ii', $remark, $id);
+    mysqli_stmt_bind_param($stmt, 'isi', $remark, $title, $id); // 'i' for integer, 's' for string
 
     if (mysqli_stmt_execute($stmt)) {
         echo 'success';

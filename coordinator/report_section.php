@@ -5,7 +5,6 @@ include('includes/topbar.php');
 include('includes/sidebar.php');
 include('../admin/config/dbconn.php');
 ?>
-?>
 
 <script>
   function loadUnitsForDepartment() {
@@ -176,12 +175,11 @@ include('../admin/config/dbconn.php');
                                     department.name AS department_name, 
                                     unit.unit_name AS unit_name,
                                     tblemployeeremarks.Remarks As Remarks,
-                                    tblemployeeseminar.Title As Title
+                                    tblemployeeremarks.Title As Title
                                   FROM tblemployee
                                   LEFT JOIN department ON tblemployee.Department = department.id
                                   LEFT JOIN unit ON tblemployee.UnitSection = unit.id
                                   LEFT JOIN tblemployeeremarks ON tblemployee.EmployeeNumber = tblemployeeremarks.EmployeeNumber
-                                  LEFT JOIN tblemployeeseminar ON tblemployee.EmployeeNumber = tblemployeeseminar.EmployeeNumber
                                   WHERE tblemployee.coordinator_id = $user AND tblemployee.Status = 1;
                                 ";
 
@@ -222,7 +220,6 @@ include('../admin/config/dbconn.php');
                         <th class="search">Unit</th>
                         <th class="search">Status</th>
                         <th class="search">Title</th>
-                        <th></th>
                       </tr>
                     </tfoot>
                   </table>

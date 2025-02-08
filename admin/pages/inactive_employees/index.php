@@ -7,6 +7,27 @@ include('../../config/dbconn.php');
 ?>
 
 <script>
+  function filterTable() {
+    var departmentId = document.getElementById("department_id").value;
+    var unitId = document.getElementById("unit_id").value;
+
+    // Make an AJAX request to filter data
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "filter_admin_data.php?department_id=" + departmentId + "&unit_id=" + unitId, true);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState == 4 && xhr.status == 200) {
+        // Update the table with the filtered data
+        document.querySelector('#employee_table tbody').innerHTML = xhr.responseText;
+
+        // Re-initialize DataTable after filtering and redrawing the table
+        var table = $('#employee_table').DataTable();
+        table.clear().draw(); // Ensure it clears and redraws the table
+        table.rows.add($(xhr.responseText)).draw(); // Add new data to DataTable
+      }
+    };
+    xhr.send();
+  }
+
   function loadUnitsForDepartment() {
     var departmentId = $('#department_id').val();
 
@@ -46,29 +67,6 @@ include('../../config/dbconn.php');
     } else {
       $('#unit_id').html('<option value="">Select Unit</option>');
     }
-  }
-
-  function filterTable() {
-    var departmentId = document.getElementById("department_id").value;
-    var unitId = document.getElementById("unit_id").value;
-    var year = document.getElementById("year").value;
-    var remarks = document.getElementById("Remarks").value;  // Get Remarks value
-
-    // Make an AJAX request to fetch the filtered data
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "filter_admin_data.php?department_id=" + departmentId + "&unit_id=" + unitId + "&year=" + year + "&remarks=" + remarks, true);
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState == 4 && xhr.status == 200) {
-        // Update the table with the filtered data
-        document.querySelector('#employee_table tbody').innerHTML = xhr.responseText;
-
-        // Re-initialize DataTable after filtering and redrawing the table
-        var table = $('#employee_table').DataTable();
-        table.clear().draw(); // Ensure it clears and redraws the table
-        table.rows.add($(xhr.responseText)).draw(); // Add new data to DataTable
-      }
-    };
-    xhr.send();
   }
 
   function addloadUnitsForDepartment() {
@@ -152,21 +150,179 @@ include('../../config/dbconn.php');
       $('#coordinator_id').html('<option value="">Select Coordinator</option>');
     }
   }
+
+  function loadUnitsForDepartmentedit() {
+    var departmentId = $('#edit_department_id').val();
+
+    if (departmentId) {
+      $('#edit_unit_id').html('<option value="">Loading...</option>');
+
+      $.ajax({
+        url: 'fetch_units.php',
+        type: 'GET',
+        data: { department_id: departmentId },
+        success: function (response) {
+          try {
+            var units = JSON.parse(response);
+            var unitSelect = $('#edit_unit_id');
+
+            unitSelect.empty();
+            unitSelect.append('<option value="">Select Unit</option>');
+
+            if (units.length > 0) {
+              units.forEach(function (unit) {
+                unitSelect.append('<option value="' + unit.id + '">' + unit.unit_name + '</option>');
+              });
+            } else {
+              unitSelect.append('<option value="">No units available</option>');
+            }
+          } catch (error) {
+            console.error('Error parsing response:', error);
+            alert('An error occurred while fetching the units.');
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error('AJAX request failed:', error);
+          alert('An error occurred while fetching the units.');
+          $('#edit_unit_id').html('<option value="">Select Unit</option>');
+        }
+      });
+    } else {
+      $('#edit_unit_id').html('<option value="">Select Unit</option>');
+    }
+  }
+
+  function addloadUnitsForDepartmentedit() {
+    var departmentId1 = $('#edit_department_id1').val();
+
+    if (departmentId1) {
+      $('#edit_unitSection').html('<option value="">Loading...</option>');
+
+      $.ajax({
+        url: 'fetch_units.php',
+        type: 'GET',
+        data: { department_id: departmentId1 },
+        success: function (response) {
+          try {
+            var units1 = JSON.parse(response);
+            var unitSelect1 = $('#edit_unitSection');
+
+            unitSelect1.empty();
+            unitSelect1.append('<option value="">Select Unit</option>');
+
+            if (units1.length > 0) {
+              units1.forEach(function (unit) {
+                unitSelect1.append('<option value="' + unit.id + '">' + unit.unit_name + '</option>');
+              });
+            } else {
+              unitSelect1.append('<option value="">No units available</option>');
+            }
+          } catch (error) {
+            console.error('Error parsing response:', error);
+            alert('An error occurred while fetching the units.');
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error('AJAX request failed:', error);
+          alert('An error occurred while fetching the units.');
+          $('#edit_unitSection').html('<option value="">Select Unit</option>');
+        }
+      });
+    } else {
+      $('#edit_unitSection').html('<option value="">Select Unit</option>');
+    }
+  }
+
+  function loadCoordinatoredit() {
+    var unitId = $('#edit_unitSection').val();
+
+    if (unitId) {
+      $('#edit_coordinator_id').html('<option value="">Loading...</option>');
+
+      $.ajax({
+        url: 'fetch_coordinator.php',
+        type: 'GET',
+        data: { unit_id: unitId },
+        success: function (response) {
+          try {
+            var coordinators = JSON.parse(response);
+            var coordinatorSelect = $('#edit_coordinator_id');
+
+            coordinatorSelect.empty();
+            coordinatorSelect.append('<option value="">Select Coordinator</option>');
+
+            if (coordinators.length > 0) {
+              coordinators.forEach(function (coordinator) {
+                coordinatorSelect.append('<option value="' + coordinator.id + '">' + coordinator.name + '</option>');
+              });
+            } else {
+              coordinatorSelect.append('<option value="">No coordinators available</option>');
+            }
+          } catch (error) {
+            console.error('Error parsing response:', error);
+            alert('An error occurred while fetching the coordinators.');
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error('AJAX request failed:', error);
+          alert('An error occurred while fetching the coordinators.');
+          $('#edit_coordinator_id').html('<option value="">Select Coordinator</option>');
+        }
+      });
+    } else {
+      $('#edit_coordinator_id').html('<option value="">Select Coordinator</option>');
+    }
+  }
 </script>
 
 <body class="hold-transition sidebar-mini layout-fixed">
   <div class="wrapper">
-    <div class="content-wrapper">
+    <div id="employeeDetails" class="content-wrapper  d-none">
       <div class="content-header">
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1>Report Section</h1>
+              <h1>Employee</h1>
             </div>
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="../dashboard/">Home</a></li>
-                <li class="breadcrumb-item active">Report Section</li>
+                <li class="breadcrumb-item active">Employee</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div  class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h3 class="card-title" id="EmployeeNumberTitle">Employee Information</h3>
+                <button type="button" class="btn btn-secondary float-right" id="closeEmployeeDetails">
+                  BACK
+                </button>
+              </div>
+              <div class="card-body">
+                <div class="admin_viewing_data"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-wrapper main">
+      <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1>Employee</h1>
+            </div>
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="../dashboard/">Home</a></li>
+                <li class="breadcrumb-item active">Employee</li>
               </ol>
             </div>
           </div>
@@ -176,7 +332,7 @@ include('../../config/dbconn.php');
         <div class="container-fluid">
           <?php include('../../message.php'); ?>
           <div class="row">
-            <div class="col-sm-2">
+            <div class="col-md-12 col-lg-3 col-xl-2">
               <div class="card card-primary card-outline">
                 <div class="card-header">
                   <h3 class="card-title">SELECT DEPARTMENT AND UNIT</h3>
@@ -214,40 +370,6 @@ include('../../config/dbconn.php');
                     </div>
                   </div>
 
-                  <div class="col-md-12 mt-2">
-                    <div class="form-group">
-                      <label>Year</label><span class="text-danger">*</span>
-                      <select id="year" name="year" class="form-control" required>
-                        <option value="">Select Year</option>
-                        <?php
-                        // Select distinct years from the tblemployeeremarks table
-                        $sql = "SELECT DISTINCT Year FROM tblemployeeremarks ORDER BY Year DESC";
-                        $query_run = mysqli_query($conn, $sql);
-
-                        if (mysqli_num_rows($query_run) > 0) {
-                          // Display each distinct year as an option
-                          while ($row = mysqli_fetch_assoc($query_run)) {
-                            echo "<option value='" . $row['Year'] . "'>" . $row['Year'] . "</option>";
-                          }
-                        } else {
-                          echo "<option value=''>No years available</option>";
-                        }
-                        ?>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div class="col-md-12 mt-2">
-                    <div class="form-group">
-                      <label>Remarks</label><span class="text-danger">*</span>
-                      <select id="Remarks" name="Remarks" class="form-control" required>
-                        <option value="">Select Remarks</option>
-                        <option value="1">WITH TRAINING</option>
-                        <option value="0">WITHOUT TRAINING</option>
-                      </select>
-                    </div>
-                  </div>
-
                   <div class="col-sm-12 mt-5">
                     <button class="btn btn-md btn-success w-100" onclick="filterTable()">Search</button>
                   </div>
@@ -255,7 +377,7 @@ include('../../config/dbconn.php');
               </div>
             </div>
 
-            <div class="col-md-10">
+            <div class="col-md-12 col-lg-9 col-xl-10">
               <div class="card card-primary card-outline">
                 <div class="card-header">
                   <h3 class="card-title">Employee List</h3>
@@ -271,12 +393,15 @@ include('../../config/dbconn.php');
                   <table id="employee_table" class="table table-borderless table-hover" style="width:100%;">
                     <thead class="bg-light">
                       <tr>
+                        <th class="text-center">Employee #</th>
                         <th class="export">Name</th>
+                        <th class="export">Contact No.</th>
+                        <th class="export">Gender</th>
                         <th class="export">Position</th>
                         <th class="export">Department</th>
                         <th class="export">Unit</th>
-                        <th class="export">Title</th>
-                        <th class="export">Remarks</th>
+                        <th class="export" width="5%">Status</th>
+                        <th style="width: 100px;">Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -287,14 +412,11 @@ include('../../config/dbconn.php');
                                   SELECT 
                                     tblemployee.*, 
                                     department.name AS department_name, 
-                                    unit.unit_name AS unit_name,
-                                    tblemployeeremarks.Remarks As Remarks,
-                                    tblemployeeremarks.Title As Title
+                                    unit.unit_name AS unit_name
                                   FROM tblemployee
                                   LEFT JOIN department ON tblemployee.Department = department.id
                                   LEFT JOIN unit ON tblemployee.UnitSection = unit.id
-                                  LEFT JOIN tblemployeeremarks ON tblemployee.EmployeeNumber = tblemployeeremarks.EmployeeNumber
-                                  WHERE tblemployee.Status = 1;
+                                  WHERE tblemployee.Status = 0;
                                 ";
 
                       $query_run = mysqli_query($conn, $sql);
@@ -307,36 +429,61 @@ include('../../config/dbconn.php');
                       while ($row = mysqli_fetch_array($query_run)) {
                         ?>
                         <tr>
+                          <td><?php echo $row['EmployeeNumber']; ?></td>
                           <td>
                             <?php echo $row['Lastname'] . ' ' . $row['Firstname'] . ' ' . $row['Suffix'] . ' ' . $row['Middlename']; ?>
                           </td>
+                          <td><?php echo $row['ContactNumber']; ?></td>
+                          <td><?php
+                          if ($row['Sex'] == 'F') {
+                            echo "Female";
+                          } elseif ($row['Sex'] == 'M') {
+                            echo "Male";
+                          } else {
+                            echo "Not Specified";
+                          }
+                          ?></td>
                           <td><?php echo $row['Position']; ?></td>
                           <td><?php echo $row['department_name']; ?></td>
                           <td><?php echo $row['unit_name']; ?></td>
-                          <td><?php echo $row['Title']; ?></td>
-                          <td style="width: 200px;">
-                            <?php
-                              if ($row['Remarks'] == '1') {
-                                echo "<p class='text-success' style='font-weight: bold;'>WITH TRAINING</p>";
-                              } elseif ($row['Remarks'] == '0') {
-                                echo "<p class='text-danger' style='font-weight: bold;'>WITHOUT TRAINING</p>";
-                              } else {
-                                echo "Not Specified";
-                              } 
-                            ?>
+
+                          <td><?php
+                          if ($row['id'] == $user) {
+                          } else {
+                            if ($row['Status'] == 1) {
+                              echo '<button data-id="' . $row['id'] . '" data-status="' . $row['Status'] . '" class="btn btn-sm btn-success activatebtn">Active</button>';
+                            } else {
+                              echo '<button data-id="' . $row['id'] . '" data-status="' . $row['Status'] . '" class="btn btn-sm btn-danger activatebtn">Inactive</button>';
+                            }
+                          }
+                          ?>
                           </td>
-                          <?php
+                          <td>
+                            <!-- <button data-id="<?php echo $row['EmployeeNumber']; ?>"
+                              class="btn btn-sm btn-primary uploadCertificate"><i class="fas fa-upload me-2"></i></button> -->
+                            <button data-id="<?php echo $row['EmployeeNumber']; ?>"
+                              class="btn btn-sm btn-secondary viewEmployeebtn"><i class="fas fa-eye me-2"></i></button>
+                            <!-- <button data-id="<?php echo $row['id']; ?>" class="btn btn-sm btn-info editEmployeebtn"><i
+                                class="fas fa-edit me-2"></i></button> -->
+                            <!-- <button data-id="<?php echo $row['id']; ?>" class="btn btn-danger btn-sm deleteAdminbtn"><i
+                                class="far fa-trash-alt"></i></button> -->
+                          </td>
+                        </tr>
+                        <?php
                       }
                       ?>
                     </tbody>
                     <tfoot>
                       <tr>
+                        <th class="search">Employee #</th>
                         <th class="search">Name</th>
+                        <th class="search">Contact No.</th>
+                        <th class="search">Gender</th>
                         <th class="search">Position</th>
                         <th class="search">Department</th>
                         <th class="search">Unit</th>
                         <th class="search">Status</th>
-                        <th class="search">Title</th>
+                        <th></th>
                       </tr>
                     </tfoot>
                   </table>
@@ -351,7 +498,6 @@ include('../../config/dbconn.php');
   <?php include('../../includes/scripts.php'); ?>
   <script>
     $(document).ready(function () {
-      // Initialize column search input in footer
       $('#employee_table tfoot th.search').each(function () {
         var title = $(this).text();
         $(this).html('<input type="text" placeholder="Search ' + title + '" class="search-input form-control form-control-sm"/>');
@@ -442,6 +588,107 @@ include('../../config/dbconn.php');
         $('#filter_form').on('change', function () {
           filterTable();  // Trigger the filtering
         });
+      });
+
+      $(document).on('click', '.viewEmployeebtn', function () {
+        var userid = $(this).data('id');
+
+        $.ajax({
+          url: 'employee_action.php',
+          type: 'post',
+          data: {
+            'checking_viewAdmintbtn': true,
+            'user_id': userid,
+          },
+          success: function (response) {
+            // Show employee details and hide the rest of the page
+            $('#EmployeeNumberTitle').html('Employee Info');
+            $('.admin_viewing_data').html(response);
+
+            // Hide the employee list and show the employee details section
+            $('#employeeDetails').removeClass('d-none'); // Show employee details
+            $('.main').addClass('d-none'); // Hide the main content
+          }
+        });
+      });
+
+      // Close the employee details view
+      $(document).on('click', '#closeEmployeeDetails', function () {
+        // Hide employee details and show the main content
+        $('#employeeDetails').addClass('d-none'); // Hide employee details
+        $('.main').removeClass('d-none'); // Show the main content
+      });
+
+      $(document).on('click', '.editEmployeebtn', function () {
+        var employeeId = $(this).data('id');
+
+        $.ajax({
+          type: "POST",
+          url: "employee_action.php",
+          data: {
+            'getEmployeeDetails': true,
+            'employee_id': employeeId,
+          },
+          success: function (response) {
+            var data = JSON.parse(response);
+
+            // Populate the modal fields with the employee's current details
+            $('#employee_id').val(data.id);
+            $('#editEmployeeNumber').val(data.EmployeeNumber);
+            $('#editLastname').val(data.Lastname);
+            $('#editFirstname').val(data.Firstname);
+            $('#editMiddlename').val(data.Middlename);
+            $('#editSuffix').val(data.Suffix);
+            $('#editBirthday').val(data.Birthday);
+            $('#editContactNumber').val(data.ContactNumber);
+            $('#editSex').val(data.Sex);
+            $('#editPosition').val(data.Position);
+
+            // Populate the Department dropdown
+            $('#department').val(data.Department);
+            $('#unit').val(data.UnitSection);
+            $('#coordinator').val(data.coordinator_id);
+
+            // Show the modal to edit the employee
+            $('#EditEmployeeModal').modal('show');
+          },
+          error: function () {
+            alert("Error fetching employee data.");
+          }
+        });
+      });
+
+      $(document).on('click', '.uploadCertificate', function () {
+        var employeeNumber = $(this).data('id');
+
+        $('#employeeNumber').val(employeeNumber);
+        $('#uploadCertificateModal').modal('show');
+      });
+
+
+      $(document).on('click', '.activatebtn', function () {
+        var userid = $(this).data('id');
+        var status = $(this).data('status');
+        var next_status = 'Active';
+        if (status == 1) {
+          next_status = 'Inactive';
+        }
+
+        if (confirm("Are you sure you want to " + next_status + " it?")) {
+          $.ajax({
+            type: "post",
+            url: "employee_action.php",
+            data: {
+              'change_status': true,
+              'user_id': userid,
+              'status': status,
+              'next_status': next_status
+            },
+            success: function (response) {
+              location.reload();
+            }
+          });
+        }
       });
     });
   </script>

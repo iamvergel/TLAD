@@ -1,6 +1,6 @@
 <?php
-include('authentication.php');
-include('../admin/config/dbconn.php');
+include('../../authentication.php');
+include('../../config/dbconn.php');
 
 date_default_timezone_set("Asia/Manila");
 
@@ -21,10 +21,10 @@ if (isset($_POST['change_status'])) {
 
     if ($query_run) {
         $_SESSION['success'] = "Employee Status Change Successfully";
-        header('Location:employee.php');
+        header('Location:index.php');
     } else {
         $_SESSION['error'] = "Employee Status Change Unsuccessfully";
-        header('Location:employee.php');
+        header('Location:index.php');
     }
 }
 
@@ -47,10 +47,10 @@ if (isset($_POST['change_status'])) {
 //             }
 //         }
 //         $_SESSION['success'] = "Coordinators Deleted Successfully";
-//         header('Location:employee.php');
+//         header('Location:index.php');
 //     } else {
 //         $_SESSION['error'] = "Coordinators Deleted Unsuccessfully";
-//         header('Location:employee.php');
+//         header('Location:index.php');
 //     }
 // }
 
@@ -89,11 +89,11 @@ if (isset($_POST['editEmployee'])) {
 
     if ($query_run) {
         $_SESSION['success'] = "Employee details updated successfully.";
-        header('Location:employee.php');
+        header('Location:index.php');
         exit();
     } else {
         $_SESSION['error'] = "Error: " . mysqli_error($conn);
-        header('Location:employee.php');
+        header('Location:index.php');
         exit();
     }
 }
@@ -225,7 +225,7 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                                                         <tr>
                                                             <td><?= date('d-M-Y', strtotime($user['Date'])) ?></td>
                                                             <td style="text-align: center;" width="10%">
-                                                                <img src="../upload/certificates/<?= $user['CertificateImage'] ?>"
+                                                                <img src="../../../upload/certificates/<?= $user['CertificateImage'] ?>"
                                                                     class="img-thumbnail" width="200" alt="No Image Available"
                                                                     id="showCertificate"
                                                                     onclick="showCertificate('<?= $user['CertificateImage'] ?>')">
@@ -324,50 +324,6 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                                     </table>
                                 </div>
 
-                                <style>
-                                    .gallery .gallery-item {
-                                    overflow: hidden;
-                                    position: relative;
-                                    border: 3px solid #fff;
-                                    border-radius: 8px;
-                                    margin: 10px;
-                                    background-color: #fff;
-                                    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-                                    transition: transform 0.3s ease;
-                                    display: flex;
-                                    flex-direction: column;
-                                    max-width: 100%;
-                                    cursor: default;
-                                    }
-
-                                    .gallery .card-img-top {
-                                    width: 100%;
-                                    height: 200px;
-                                    object-fit: cover;
-                                    transition: all ease-in-out 0.4s;
-                                    }
-
-                                    .gallery .card-img-top:hover {
-                                    transform: scale(1.1);
-                                    }
-
-                                    .card-body {
-                                    padding: 15px;
-                                    text-align: center;
-                                    }
-
-                                    .card-title {
-                                    font-size: 1.2rem;
-                                    font-weight: bold;
-                                    margin-bottom: 10px;
-                                    }
-
-                                    .card-text {
-                                    font-size: 1rem;
-                                    color: #777;
-                                    }
-                                </style>
-
                                 <div class="tab-pane fade gallery" id="gallery" role="tabpanel" aria-labelledby="gallery-tab">
                                     <div class="container-fluid" style="overflow-y: scroll; height: 500px; scrollbar-width: thin;">
                                         <div class="row no-gutters">
@@ -384,8 +340,8 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                                                             <div class="gallery-item card">
                                                                 <p class="card-title" style="font-weight: normal; font-size: 15px; margin-bottom: 0;"><?= $row['Title'] ?></p>
                                                                 <div class="card-body">
-                                                                    <a href="../upload/certificates/<?= $row['CertificateImage'] ?>" class="gallery-lightbox">
-                                                                        <img src="../upload/certificates/<?= $row['CertificateImage'] ?>" alt="Certificate" class="card-img-top">
+                                                                    <a href="../../../upload/certificates/<?= $row['CertificateImage'] ?>" class="gallery-lightbox">
+                                                                        <img src="../../../upload/certificates/<?= $row['CertificateImage'] ?>" alt="Certificate" class="card-img-top">
                                                                     </a>
                                                                 </div>
                                                                 <p class="card-text" style="font-weight: normal; font-size: 12px;"><?= date('F j, Y', strtotime($row['Date'])) ?></p>
@@ -405,7 +361,7 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                     </div>
                 </div>
             </div>
-            
+
             <link href="https://cdn.jsdelivr.net/npm/glightbox@3.0.1/dist/css/glightbox.min.css" rel="stylesheet">
             <script src="https://cdn.jsdelivr.net/npm/glightbox@3.0.1/dist/js/glightbox.min.js"></script>
 
@@ -499,7 +455,7 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                 });
 
                 function showCertificate(imageSrc) {
-                    window.open("../upload/certificates/" + imageSrc);
+                    window.open("../../../upload/certificates/" + imageSrc);
                 }
             </script>
             <?php
@@ -513,52 +469,50 @@ if (isset($_POST['addYear'])) {
     $year = $_POST['Year'];
 
     if (!empty($year)) {
-        // Check if the year already exists for any employee globally
+        // Check if the year already exists globally for any employee
         $checkQuery = "SELECT * FROM tblemployeeremarks WHERE Year = ?";
         if ($stmt = mysqli_prepare($conn, $checkQuery)) {
             mysqli_stmt_bind_param($stmt, 's', $year);
             mysqli_stmt_execute($stmt);
             $result = mysqli_stmt_get_result($stmt);
 
-            // If the year already exists for any employee, show an error message
+            // If the year already exists for some employees, show an alert but proceed to add for missing employees
             if (mysqli_num_rows($result) > 0) {
-                echo "<script>alert('Year $year already exists in the system for some employees.');
-                        window.location.href = 'employee.php';
+                echo "<script>alert('Year $year already exists for some employees.');
+                        window.location.href = 'index.php';
                 </script>";
-            } else {
-                // Fetch all EmployeeNumbers from tblemployee
-                $getAllEmployeesQuery = "SELECT EmployeeNumber FROM tblemployee";
-                $employees_result = mysqli_query($conn, $getAllEmployeesQuery);
+            }
 
-                if ($employees_result) {
-                    while ($employee = mysqli_fetch_assoc($employees_result)) {
-                        // For each employee, insert the year into tblemployeeremarks if it doesn't already exist
-                        $employeeNumber = $employee['EmployeeNumber'];
+            // Fetch all EmployeeNumbers from tblemployee
+            $getAllEmployeesQuery = "SELECT EmployeeNumber FROM tblemployee";
+            $employees_result = mysqli_query($conn, $getAllEmployeesQuery);
 
-                        // Check if the year already exists for the employee
-                        $checkExistingQuery = "SELECT * FROM tblemployeeremarks WHERE EmployeeNumber = ? AND Year = ?";
-                        if ($checkStmt = mysqli_prepare($conn, $checkExistingQuery)) {
-                            mysqli_stmt_bind_param($checkStmt, 'ss', $employeeNumber, $year);
-                            mysqli_stmt_execute($checkStmt);
-                            $existingResult = mysqli_stmt_get_result($checkStmt);
+            if ($employees_result) {
+                while ($employee = mysqli_fetch_assoc($employees_result)) {
+                    $employeeNumber = $employee['EmployeeNumber'];
 
-                            // If the year does not exist for the employee, insert it
-                            if (mysqli_num_rows($existingResult) === 0) {
-                                $insertQuery = "INSERT INTO tblemployeeremarks (EmployeeNumber, Year) VALUES (?, ?)";
-                                if ($insertStmt = mysqli_prepare($conn, $insertQuery)) {
-                                    mysqli_stmt_bind_param($insertStmt, 'ss', $employeeNumber, $year);
-                                    mysqli_stmt_execute($insertStmt);
-                                }
+                    // Check if the employee does not already have the year
+                    $checkExistingQuery = "SELECT * FROM tblemployeeremarks WHERE EmployeeNumber = ? AND Year = ?";
+                    if ($checkStmt = mysqli_prepare($conn, $checkExistingQuery)) {
+                        mysqli_stmt_bind_param($checkStmt, 'ss', $employeeNumber, $year);
+                        mysqli_stmt_execute($checkStmt);
+                        $existingResult = mysqli_stmt_get_result($checkStmt);
+
+                        // If the year does not exist for the employee, insert it
+                        if (mysqli_num_rows($existingResult) === 0) {
+                            $insertQuery = "INSERT INTO tblemployeeremarks (EmployeeNumber, Year) VALUES (?, ?)";
+                            if ($insertStmt = mysqli_prepare($conn, $insertQuery)) {
+                                mysqli_stmt_bind_param($insertStmt, 'ss', $employeeNumber, $year);
+                                mysqli_stmt_execute($insertStmt);
                             }
                         }
                     }
-
-                    echo "<script>alert('Year $year added for all employees!');
-                            window.location.href = 'employee.php';
-                    </script>";
-                } else {
-                    echo "Error: Unable to fetch employees.";
                 }
+
+                echo "<script>alert('Year $year added for employees who did not have it!'); 
+                        window.location.href = 'index.php';</script>";
+            } else {
+                echo "Error: Unable to fetch employees.";
             }
         }
     } else {
@@ -628,10 +582,10 @@ if (isset($_POST['insertEmployee'])) {
 
     if ($query_run) {
         $_SESSION['success'] = "Employee Added Successfully";
-        header('Location:employee.php');
+        header('Location:index.php');
     } else {
         $_SESSION['error'] = mysqli_error($conn);
-        header('Location:employee.php');
+        header('Location:index.php');
     }
 }
 
@@ -648,14 +602,14 @@ if (isset($_POST['uploadCertificate'])) {
 
         if (!in_array($image_extension, $allowed_file_format)) {
             $_SESSION['error'] = "Upload valid file. jpg, png";
-            header('Location:employee.php');
+            header('Location:index.php');
         } else if ($_FILES['CertificateImage']['size'] > 5000000) {
             $_SESSION['error'] = "File size exceeds 5MB";
-            header('Location:employee.php');
+            header('Location:index.php');
         } else {
             // Move uploaded image to the directory
             $filename = time() . '.' . $image_extension;
-            move_uploaded_file($_FILES['CertificateImage']['tmp_name'], '../upload/certificates/' . $filename);
+            move_uploaded_file($_FILES['CertificateImage']['tmp_name'], '../../../upload/certificates/' . $filename);
         }
     }
 
@@ -667,10 +621,10 @@ if (isset($_POST['uploadCertificate'])) {
 
         if ($query_run) {
             $_SESSION['success'] = "Certificate Uploaded Successfully";
-            header('Location:employee.php');
+            header('Location:index.php');
         } else {
             $_SESSION['error'] = mysqli_error($conn);
-            header('Location:employee.php');
+            header('Location:index.php');
         }
     }
 }
