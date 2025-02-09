@@ -291,7 +291,7 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                                                                 $employeeNumber = $user['EmployeeNumber'];
                                                                 $currentYear = date('Y'); // Get the current year
 
-                                                                $sql = "SELECT * FROM tblemployeeseminar WHERE EmployeeNumber = '$employeeNumber' AND Date = '$currentYear'";
+                                                                $sql = "SELECT * FROM tblemployeeseminar WHERE EmployeeNumber = '$employeeNumber' AND year = '$currentYear'";
                                                                 $query_run = mysqli_query($conn, $sql);
 
                                                                 if (mysqli_num_rows($query_run) > 0) {
@@ -641,6 +641,7 @@ if (isset($_POST['uploadCertificate'])) {
     $certificateImage = $_FILES['CertificateImage']['name'];
     $uploadDate = date('Y-m-d H:i:s');
     $Title = $_POST['Title'];
+    $currentYear = date('Y');
 
     // Check if the image was uploaded
     if ($certificateImage != NULL) {
@@ -649,29 +650,29 @@ if (isset($_POST['uploadCertificate'])) {
 
         if (!in_array($image_extension, $allowed_file_format)) {
             $_SESSION['error'] = "Upload valid file. jpg, png";
-            header('Location:employee.php');
+            header('Location:index.php');
         } else if ($_FILES['CertificateImage']['size'] > 5000000) {
             $_SESSION['error'] = "File size exceeds 5MB";
-            header('Location:employee.php');
+            header('Location:index.php');
         } else {
             // Move uploaded image to the directory
             $filename = time() . '.' . $image_extension;
-            move_uploaded_file($_FILES['CertificateImage']['tmp_name'], '../upload/certificates/' . $filename);
+            move_uploaded_file($_FILES['CertificateImage']['tmp_name'], '../../../upload/certificates/' . $filename);
         }
     }
 
     if ($_SESSION['error'] == '') {
         // Insert certificate data into the database
-        $sql = "INSERT INTO tblemployeeseminar (EmployeeNumber, Date, CertificateImage, Title)
-                VALUES ('$employeeNumber', '$uploadDate', '$filename', '$Title')";
+        $sql = "INSERT INTO tblemployeeseminar (EmployeeNumber, Date, CertificateImage, year, Title)
+                VALUES ('$employeeNumber', '$uploadDate', '$filename', '$currentYear', '$Title')";
         $query_run = mysqli_query($conn, $sql);
 
         if ($query_run) {
             $_SESSION['success'] = "Certificate Uploaded Successfully";
-            header('Location:employee.php');
+            header('Location:index.php');
         } else {
             $_SESSION['error'] = mysqli_error($conn);
-            header('Location:employee.php');
+            header('Location:index.php');
         }
     }
 }
