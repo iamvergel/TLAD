@@ -289,8 +289,9 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                                                             <td class="w-25">
                                                                 <?php
                                                                 $employeeNumber = $user['EmployeeNumber'];
+                                                                $currentYear = date('Y'); // Get the current year
 
-                                                                $sql = "SELECT * FROM tblemployeeseminar WHERE EmployeeNumber = '$employeeNumber'";
+                                                                $sql = "SELECT * FROM tblemployeeseminar WHERE EmployeeNumber = '$employeeNumber' AND Date = '$currentYear'";
                                                                 $query_run = mysqli_query($conn, $sql);
 
                                                                 if (mysqli_num_rows($query_run) > 0) {
@@ -305,7 +306,7 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
 
                                                                     echo '</select>';
                                                                 } else {
-                                                                    echo "<p>No titles found for this user.</p>";
+                                                                    echo "<p>No titles found for this user in the current year.</p>";
                                                                 }
                                                                 ?>
                                                             </td>

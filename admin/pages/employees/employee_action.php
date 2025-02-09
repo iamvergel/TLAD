@@ -289,8 +289,9 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                                                             <td class="w-25">
                                                                 <?php
                                                                 $employeeNumber = $user['EmployeeNumber'];
+                                                                $currentYear = date('Y'); // Get the current year
 
-                                                                $sql = "SELECT * FROM tblemployeeseminar WHERE EmployeeNumber = '$employeeNumber'";
+                                                                $sql = "SELECT * FROM tblemployeeseminar WHERE EmployeeNumber = '$employeeNumber' AND year = '$currentYear'"; // Adjust column name accordingly
                                                                 $query_run = mysqli_query($conn, $sql);
 
                                                                 if (mysqli_num_rows($query_run) > 0) {
@@ -305,7 +306,7 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
 
                                                                     echo '</select>';
                                                                 } else {
-                                                                    echo "<p>No titles found for this user.</p>";
+                                                                    echo "<p>No titles found for this user in the current year.</p>";
                                                                 }
                                                                 ?>
                                                             </td>
@@ -568,9 +569,10 @@ if (isset($_POST['certificateId']) && isset($_POST['newTitle'])) {
     $certificateId = $_POST['certificateId'];
     $newTitle = $_POST['newTitle'];
 
-    $query = "UPDATE tblemployeeseminar SET Title = ? WHERE id = ?";
+    $query = "UPDATE tblemployeeseminar SET Title = ?, WHERE id = ?";
     $stmt = mysqli_prepare($conn, $query);
-    mysqli_stmt_bind_param($stmt, 'si', $newTitle, $certificateId);
+
+    mysqli_stmt_bind_param($stmt, 'sii', $newTitle, $currentYear, $certificateId);
 
     if (mysqli_stmt_execute($stmt)) {
         echo 'success';
@@ -638,6 +640,7 @@ if (isset($_POST['uploadCertificate'])) {
     $certificateImage = $_FILES['CertificateImage']['name'];
     $uploadDate = date('Y-m-d H:i:s');
     $Title = $_POST['Title'];
+    $currentYear = date('Y');
 
     // Check if the image was uploaded
     if ($certificateImage != NULL) {
@@ -659,8 +662,8 @@ if (isset($_POST['uploadCertificate'])) {
 
     if ($_SESSION['error'] == '') {
         // Insert certificate data into the database
-        $sql = "INSERT INTO tblemployeeseminar (EmployeeNumber, Date, CertificateImage, Title)
-                VALUES ('$employeeNumber', '$uploadDate', '$filename', '$Title')";
+        $sql = "INSERT INTO tblemployeeseminar (EmployeeNumber, Date, CertificateImage, year, Title)
+                VALUES ('$employeeNumber', '$uploadDate', '$filename', '$currentYear', '$Title')";
         $query_run = mysqli_query($conn, $sql);
 
         if ($query_run) {

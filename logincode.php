@@ -44,26 +44,26 @@ if (isset($_POST['login_btn'])) {
                     // } 
                     else {
                         $_SESSION['danger'] = "Access Denied";
-                        header('Location: login.php');
+                        header('Location: index.php');
                     }
                 } else if ($user_status == '4') {
                     $_SESSION['danger'] = "You have not confirmed your account yet. Please check your inbox and verify your email.";
-                    header('Location: login.php');
+                    header('Location: index.php');
                 } else {
                     $_SESSION['danger'] = "Sorry your account is temporarily disabled. Please contact the admin.";
-                    header('Location: login.php');
+                    header('Location: index.php');
                 }
             } else {
                 $_SESSION['error'] = "Incorrect Email or Password";
-                header('Location: login.php');
+                header('Location: index.php');
             }
         }
     } else {
         $_SESSION['error'] = "Incorrect Email or Password";
         echo mysqli_error($conn);
-        header('Location: login.php');
+        header('Location: index.php');
     }
 } else {
     $_SESSION['error'] = "Access Denied";
-    header('Location: patients.php');
+    header('Location: index.php');
 }
