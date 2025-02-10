@@ -423,7 +423,7 @@ include('../../config/dbconn.php');
 
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="submit" name="insertEmployee" class="btn btn-primary">Submit</button>
+              <button type="submit" name="insertEmployee" class="btn btn-success">Submit</button>
             </div>
           </form>
         </div>
@@ -435,7 +435,7 @@ include('../../config/dbconn.php');
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">Edit Employee</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -660,8 +660,8 @@ include('../../config/dbconn.php');
             </div>
 
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="submit" name="editEmployee" class="btn btn-primary">Submit</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close">Close</button>
+              <button type="submit" name="editEmployee" class="btn btn-success">Submit</button>
             </div>
           </form>
         </div>
@@ -674,7 +674,7 @@ include('../../config/dbconn.php');
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">Upload Certificate</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeModal">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -704,8 +704,8 @@ include('../../config/dbconn.php');
             </div>
 
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-              <button type="submit" name="uploadCertificate" class="btn btn-primary">Upload</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeModal">Cancel</button>
+              <button type="submit" name="uploadCertificate" class="btn btn-success">Upload</button>
             </div>
           </form>
         </div>
@@ -728,7 +728,7 @@ include('../../config/dbconn.php');
               <span class="text-danger">*</span>
               <div class="d-flex">
                 <input type="text" name="Year" id="year" class="form-control ml-1" required>
-                <button type="submit" name="addYear" class="btn btn-sm btn-primary addYear ml-1">
+                <button type="submit" name="addYear" class="btn btn-sm btn-success addYear ml-1">
                   <i class="fas fa-calendar"></i>
                 </button>
               </div>
@@ -757,7 +757,7 @@ include('../../config/dbconn.php');
       <div  class="container-fluid">
         <div class="row">
           <div class="col-md-12">
-            <div class="card card-primary card-outline">
+            <div class="card card-success card-outline">
               <div class="card-header">
                 <h3 class="card-title" id="EmployeeNumberTitle">Employee Information</h3>
                 <button type="button" class="btn btn-secondary float-right" id="closeEmployeeDetails">
@@ -794,7 +794,7 @@ include('../../config/dbconn.php');
           <?php include('../../message.php'); ?>
           <div class="row">
             <div class="col-md-12 col-lg-3 col-xl-2">
-              <div class="card card-primary card-outline">
+              <div class="card card-success card-outline">
                 <div class="card-header">
                   <h3 class="card-title">SELECT DEPARTMENT AND UNIT</h3>
                 </div>
@@ -839,7 +839,7 @@ include('../../config/dbconn.php');
             </div>
 
             <div class="col-md-12 col-lg-9 col-xl-10">
-              <div class="card card-primary card-outline">
+              <div class="card card-success card-outline">
                 <div class="card-header">
                   <h3 class="card-title">Employee List</h3>
                   <button type="button" class="btn btn-primary btn-sm float-right ml-2" data-toggle="modal"
@@ -1117,6 +1117,15 @@ include('../../config/dbconn.php');
             alert("Error fetching employee data.");
           }
         });
+
+      });
+
+      $(document).on('click', '#close', function () {
+        $('#EditEmployeeModal').modal('hide');
+      });
+
+      $(document).on('click', '#closeModal', function () {
+        $('#uploadCertificateModal').modal('hide');
       });
 
       $(document).on('click', '.uploadCertificate', function () {

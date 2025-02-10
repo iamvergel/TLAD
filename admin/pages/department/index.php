@@ -41,7 +41,7 @@ include('../../config/dbconn.php');
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Edit Department</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close">
                             <span aria-hidden="true">&times;</span></button>
                     </div>
                     <form action="department_action.php" method="POST" enctype="multipart/form-data">
@@ -57,7 +57,7 @@ include('../../config/dbconn.php');
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close">Close</button>
                             <button type="submit" name="update_department" class="btn btn-success">Submit</button>
                         </div>
                     </form>
@@ -147,13 +147,13 @@ include('../../config/dbconn.php');
                                                     <td><?= $row['name'] ?></td>
                                                     <td>
                                                         <button data-id="<?= $row['id'] ?>"
-                                                            class="btn btn-sm btn-primary editDepartmentbtn">
+                                                            class="btn btn-sm btn-info editDepartmentbtn">
                                                             <i class="fas fa-edit"></i>
                                                         </button>
-                                                        <button data-id="<?= $row['id'] ?>"
+                                                        <!-- <button data-id="<?= $row['id'] ?>"
                                                             class="btn btn-danger btn-sm deleteDepartmentModal">
                                                             <i class="far fa-trash-alt"></i>
-                                                        </button>
+                                                        </button> -->
                                                     </td>
                                                 </tr>
                                                 <?php
@@ -196,6 +196,10 @@ include('../../config/dbconn.php');
                         $('#EditDepartmentModal').modal('show');
                     }
                 });
+            });
+
+            $(document).on('click', '#close', function () {
+                $('#EditDepartmentModal').modal('hide');
             });
 
             $(document).on('click', '.deleteDepartmentModal', function () {

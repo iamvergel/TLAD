@@ -64,7 +64,7 @@ include('../../config/dbconn.php');
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Edit Unit</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -99,7 +99,7 @@ include('../../config/dbconn.php');
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close">Close</button>
                             <button type="submit" name="update_unit" class="btn btn-success">Submit</button>
                         </div>
                     </form>
@@ -165,7 +165,7 @@ include('../../config/dbconn.php');
                                     <h3 class="card-title">Units</h3>
                                     <button type="button" class="btn btn-success btn-sm float-right" data-toggle="modal"
                                         data-target="#AddUnitModal">
-                                        <i class="fa fa-plus"></i> &nbsp;&nbsp;Add Units</button>
+                                        <i class="fa fa-plus"></i> &nbsp;&nbsp;Add Unit</button>
                                 </div>
                                 <!-- /.card-header -->
                                 <div class="card-body">
@@ -194,13 +194,13 @@ include('../../config/dbconn.php');
                                                     <td>
                                                         <!-- Make sure the class is 'editUnitbtn' as referenced in JavaScript -->
                                                         <button data-id="<?= $row['id'] ?>"
-                                                            class="btn btn-sm btn-primary editUnitbtn">
+                                                            class="btn btn-sm btn-info editUnitbtn">
                                                             <i class="fas fa-edit"></i>
                                                         </button>
-                                                        <button data-id="<?= $row['id'] ?>"
+                                                        <!-- <button data-id="<?= $row['id'] ?>"
                                                             class="btn btn-danger btn-sm deleteUnitModal">
                                                             <i class="far fa-trash-alt"></i>
-                                                        </button>
+                                                        </button> -->
                                                     </td>
                                                 </tr>
                                                 <?php
@@ -265,6 +265,10 @@ include('../../config/dbconn.php');
                         alert("An error occurred while fetching data.");
                     }
                 });
+            });
+
+            $(document).on('click', '#close', function () {
+                $('#EditUnitModal').modal('hide');
             });
 
             $(document).on('click', '.deleteUnitModal', function () {

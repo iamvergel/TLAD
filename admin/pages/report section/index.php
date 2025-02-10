@@ -177,7 +177,7 @@ include('../../config/dbconn.php');
           <?php include('../../message.php'); ?>
           <div class="row">
             <div class="col-sm-2">
-              <div class="card card-primary card-outline">
+              <div class="card card-success card-outline">
                 <div class="card-header">
                   <h3 class="card-title">SELECT DEPARTMENT AND UNIT</h3>
                 </div>
@@ -256,10 +256,10 @@ include('../../config/dbconn.php');
             </div>
 
             <div class="col-md-10">
-              <div class="card card-primary card-outline">
+              <div class="card card-success card-outline">
                 <div class="card-header">
                   <h3 class="card-title">Employee List</h3>
-                  <!-- <button type="button" class="btn btn-primary btn-sm float-right ml-2" data-toggle="modal"
+                  <!-- <button type="button" class="btn btn-success btn-sm float-right ml-2" data-toggle="modal"
                     data-target="#AddEmployeeModal">
                     <i class="fa fa-plus"></i> &nbsp;&nbsp;Add Employee</button>
 

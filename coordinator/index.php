@@ -213,7 +213,7 @@ $total_employees = $with_training + $without_training;
                     </div>
                   </div>
                   <div class="col-12">
-                    <div class="small-box bg-primary p-3">
+                    <div class="small-box bg-danger p-3">
                       <div class="inner">
                         <h4 style="font-weight: bold">Without Training Percentage: <br/> <br/> <span id="withoutTrainingPercent" style="font-weight: normal">0%</span></h4>
                       </div>

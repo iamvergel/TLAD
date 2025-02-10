@@ -197,7 +197,7 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                             </ul>
                         </div>
 
-                        <div class="card-body">
+                        <div class="card-body p-3">
                             <div class="tab-content" id="custom-tabs-three-tabContent">
                                 <div class="tab-pane fade show active" id="certificate" role="tabpanel"
                                     aria-labelledby="certificate-tab">
@@ -286,7 +286,7 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                                                                     </option>
                                                                 </select>
                                                             </td>
-                                                            <td class="w-25">
+                                                            <td class="w-50">
                                                                 <?php
                                                                 $employeeNumber = $user['EmployeeNumber'];
                                                                 $currentYear = date('Y'); // Get the current year
@@ -332,7 +332,7 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                                     border: 3px solid #fff;
                                     border-radius: 8px;
                                     margin: 10px;
-                                    background-color: #fff;
+                                    background-color: #f0f0f0;
                                     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
                                     transition: transform 0.3s ease;
                                     display: flex;
@@ -343,7 +343,7 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
 
                                     .gallery .card-img-top {
                                     width: 100%;
-                                    height: 200px;
+                                    height: 100px;
                                     object-fit: cover;
                                     transition: all ease-in-out 0.4s;
                                     }
@@ -353,14 +353,7 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                                     }
 
                                     .card-body {
-                                    padding: 15px;
-                                    text-align: center;
-                                    }
-
-                                    .card-title {
-                                    font-size: 1.2rem;
-                                    font-weight: bold;
-                                    margin-bottom: 10px;
+                                    padding: 0px;
                                     }
 
                                     .card-text {
@@ -382,14 +375,14 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                                                 if ($check_services) {
                                                     while ($row = mysqli_fetch_array($query_run)) { ?>
                                                         <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
-                                                            <div class="gallery-item card">
-                                                                <p class="card-title" style="font-weight: normal; font-size: 15px; margin-bottom: 0;"><?= $row['Title'] ?></p>
+                                                            <div class="gallery-item card border-3">
+                                                                <p class="card-title p-2 text-center" style="font-weight: bold; font-size: 14px; margin-bottom: 0; height: 60px;"><?= $row['Title'] ?></p>
                                                                 <div class="card-body">
                                                                     <a href="../upload/certificates/<?= $row['CertificateImage'] ?>" class="gallery-lightbox">
                                                                         <img src="../upload/certificates/<?= $row['CertificateImage'] ?>" alt="Certificate" class="card-img-top">
                                                                     </a>
                                                                 </div>
-                                                                <p class="card-text" style="font-weight: normal; font-size: 12px;"><?= date('F j, Y', strtotime($row['Date'])) ?></p>
+                                                                <p class="card-text px-3 py-2" style="font-weight: normal; font-size: 12px;"><?= date('F j, Y', strtotime($row['Date'])) ?></p>
                                                             </div>
                                                         </div>
                                                     <?php }

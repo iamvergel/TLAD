@@ -20,7 +20,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="report_section.php" class="nav-link <?= $page == 'report_section' ? 'active' : '' ?>">
+          <a href="report_section.php" class="nav-link <?= $page == 'report_section.php' ? 'active' : '' ?>">
             <i class="nav-icon fas fa-file"></i>
             <p>Report Section</p>
           </a>

@@ -35,7 +35,7 @@
         <li class="nav-item">
           <a href="../employees" class="nav-link <?= $page == 'employees' ? 'active' : '' ?>">
             <i class="nav-icon fas fa-users"></i>
-            <p>Employee</p>
+            <p>Employees</p>
           </a>
         </li>
         <li class="nav-item">

@@ -296,7 +296,7 @@ include('../../config/dbconn.php');
       <div  class="container-fluid">
         <div class="row">
           <div class="col-md-12">
-            <div class="card card-primary card-outline">
+            <div class="card card-success card-outline">
               <div class="card-header">
                 <h3 class="card-title" id="EmployeeNumberTitle">Employee Information</h3>
                 <button type="button" class="btn btn-secondary float-right" id="closeEmployeeDetails">
@@ -333,7 +333,7 @@ include('../../config/dbconn.php');
           <?php include('../../message.php'); ?>
           <div class="row">
             <div class="col-md-12 col-lg-3 col-xl-2">
-              <div class="card card-primary card-outline">
+              <div class="card card-success card-outline">
                 <div class="card-header">
                   <h3 class="card-title">SELECT DEPARTMENT AND UNIT</h3>
                 </div>
@@ -378,10 +378,10 @@ include('../../config/dbconn.php');
             </div>
 
             <div class="col-md-12 col-lg-9 col-xl-10">
-              <div class="card card-primary card-outline">
+              <div class="card card-success card-outline">
                 <div class="card-header">
                   <h3 class="card-title">Employee List</h3>
-                  <!-- <button type="button" class="btn btn-primary btn-sm float-right ml-2" data-toggle="modal"
+                  <!-- <button type="button" class="btn btn-success btn-sm float-right ml-2" data-toggle="modal"
                     data-target="#AddEmployeeModal">
                     <i class="fa fa-plus"></i> &nbsp;&nbsp;Add Employee</button>
 
@@ -460,7 +460,7 @@ include('../../config/dbconn.php');
                           </td>
                           <td>
                             <!-- <button data-id="<?php echo $row['EmployeeNumber']; ?>"
-                              class="btn btn-sm btn-primary uploadCertificate"><i class="fas fa-upload me-2"></i></button> -->
+                              class="btn btn-sm btn-success uploadCertificate"><i class="fas fa-upload me-2"></i></button> -->
                             <button data-id="<?php echo $row['EmployeeNumber']; ?>"
                               class="btn btn-sm btn-secondary viewEmployeebtn"><i class="fas fa-eye me-2"></i></button>
                             <!-- <button data-id="<?php echo $row['id']; ?>" class="btn btn-sm btn-info editEmployeebtn"><i

@@ -457,7 +457,7 @@ include('../admin/config/dbconn.php');
 
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="submit" name="insertEmployee" class="btn btn-primary">Submit</button>
+              <button type="submit" name="insertEmployee" class="btn btn-success">Submit</button>
             </div>
           </form>
         </div>
@@ -695,7 +695,7 @@ include('../admin/config/dbconn.php');
 
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="submit" name="editEmployee" class="btn btn-primary">Submit</button>
+              <button type="submit" name="editEmployee" class="btn btn-success">Submit</button>
             </div>
           </form>
         </div>
@@ -739,7 +739,7 @@ include('../admin/config/dbconn.php');
 
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-              <button type="submit" name="uploadCertificate" class="btn btn-primary">Upload</button>
+              <button type="submit" name="uploadCertificate" class="btn btn-success">Upload</button>
             </div>
           </form>
         </div>

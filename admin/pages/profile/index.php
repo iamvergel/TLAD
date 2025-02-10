@@ -105,7 +105,7 @@ include('../../config/dbconn.php');
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <button type="submit" name="profile_details"
-                                                            class="btn btn-danger float-right">Update</button>
+                                                            class="btn btn-success float-right">Update</button>
                                                     </div>
                                                 </div>
                                             </form>
@@ -145,7 +145,7 @@ include('../../config/dbconn.php');
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <button type="submit" name="change_password"
-                                                            class="btn btn-danger float-right">Update</button>
+                                                            class="btn btn-success float-right">Update</button>
                                                     </div>
                                                 </div>
                                             </form>

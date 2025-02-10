@@ -171,7 +171,7 @@ if ($query_run_total && mysqli_num_rows($query_run_total) > 0) {
                   <div class="icon">
                     <i class="fas fa-users"></i>
                   </div>
-                  <a href="../../../admin/pages/admin/" class="small-box-footer">
+                  <a href="../../../admin/pages/inactive_employees/" class="small-box-footer">
                     More info <i class="fas fa-arrow-circle-right"></i>
                   </a>
                 </div>
@@ -257,7 +257,7 @@ if ($query_run_total && mysqli_num_rows($query_run_total) > 0) {
                     </div>
                   </div>
                   <div class="col-12">
-                    <div class="small-box bg-primary p-3">
+                    <div class="small-box bg-danger p-3">
                       <div class="inner">
                         <h4 style="font-weight: bold">Without Training Percentage: <br /> <br /> <span
                             id="withoutTrainingPercent" style="font-weight: normal">0%</span></h4>
