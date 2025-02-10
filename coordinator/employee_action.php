@@ -650,14 +650,14 @@ if (isset($_POST['uploadCertificate'])) {
 
         if (!in_array($image_extension, $allowed_file_format)) {
             $_SESSION['error'] = "Upload valid file. jpg, png";
-            header('Location:index.php');
+            header('Location:employee.php');
         } else if ($_FILES['CertificateImage']['size'] > 5000000) {
             $_SESSION['error'] = "File size exceeds 5MB";
-            header('Location:index.php');
+            header('Location:employee.php');
         } else {
             // Move uploaded image to the directory
             $filename = time() . '.' . $image_extension;
-            move_uploaded_file($_FILES['CertificateImage']['tmp_name'], '../../../upload/certificates/' . $filename);
+            move_uploaded_file($_FILES['CertificateImage']['tmp_name'], '../upload/certificates/' . $filename);
         }
     }
 
@@ -669,10 +669,10 @@ if (isset($_POST['uploadCertificate'])) {
 
         if ($query_run) {
             $_SESSION['success'] = "Certificate Uploaded Successfully";
-            header('Location:index.php');
+            header('Location:employee.php');
         } else {
             $_SESSION['error'] = mysqli_error($conn);
-            header('Location:index.php');
+            header('Location:employee.php');
         }
     }
 }
