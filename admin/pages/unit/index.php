@@ -197,10 +197,10 @@ include('../../config/dbconn.php');
                                                             class="btn btn-sm btn-info editUnitbtn">
                                                             <i class="fas fa-edit"></i>
                                                         </button>
-                                                        <!-- <button data-id="<?= $row['id'] ?>"
+                                                        <button data-id="<?= $row['id'] ?>"
                                                             class="btn btn-danger btn-sm deleteUnitModal">
                                                             <i class="far fa-trash-alt"></i>
-                                                        </button> -->
+                                                        </button>
                                                     </td>
                                                 </tr>
                                                 <?php

@@ -84,7 +84,7 @@ include('../../config/dbconn.php');
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="submit" id="submit_button" name="insertadmin" class="btn btn-primary">Submit</button>
+              <button type="submit" id="submit_button" name="insertadmin" class="btn btn-success">Submit</button>
             </div>
           </form>
         </div>
@@ -114,7 +114,7 @@ include('../../config/dbconn.php');
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">Edit Admin</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -177,8 +177,8 @@ include('../../config/dbconn.php');
             </div>
 
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="submit" name="updateadmin" class="btn btn-primary">Submit</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close">Close</button>
+              <button type="submit" name="updateadmin" class="btn btn-success">Submit</button>
             </div>
           </form>
         </div>
@@ -202,7 +202,7 @@ include('../../config/dbconn.php');
 
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-              <button type="submit" name="deletedata" class="btn btn-primary ">Submit</button>
+              <button type="submit" name="deletedata" class="btn btn-rimary ">Submit</button>
             </div>
           </form>
         </div>
@@ -455,6 +455,10 @@ include('../../config/dbconn.php');
             }
           });
         }
+      });
+
+      $(document).on('click', '#close', function () {
+        $('#EditAdminModal').modal('hide');
       });
     });
   </script>

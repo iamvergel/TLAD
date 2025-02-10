@@ -4,12 +4,13 @@ include('../../config/dbconn.php');
 $department_id = isset($_GET['department_id']) ? $_GET['department_id'] : '';
 $unit_id = isset($_GET['unit_id']) ? $_GET['unit_id'] : '';
 
-$whereClause = '';
+$whereClause = " WHERE tblemployee.Status = 1";
+
 if ($department_id) {
-    $whereClause .= " WHERE tblemployee.Department = '$department_id'";
+    $whereClause .= " AND tblemployee.Department = '$department_id'";
 }
 if ($unit_id) {
-    $whereClause .= ($whereClause ? " AND " : " WHERE ") . " tblemployee.UnitSection = '$unit_id'";
+    $whereClause .= " AND tblemployee.UnitSection = '$unit_id'";
 }
 
 $sql = "
@@ -39,7 +40,7 @@ while ($row = mysqli_fetch_array($query_run)) {
     } elseif ($row['Sex'] == 'M') {
         echo "<td>Male</td>";
     } else {
-        echo "<td>Not Specified</tf>";
+        echo "<td>Not Specified</td>";
     }
     echo '<td>' . $row['Position'] . '</td>';
     echo '<td>' . $row['department_name'] . '</td>';
@@ -55,7 +56,6 @@ while ($row = mysqli_fetch_array($query_run)) {
     echo '<button data-id="' . $row['id'] . '" class="btn btn-sm btn-info editAdminbtn"><i class="fas fa-edit"></i></button>';
     echo '<button data-id="' . $row['EmployeeNumber'] . '" class="btn btn-sm btn-secondary viewEmployeebtn ml-1"><i class="fas fa-eye me-2"></i></button>';
     echo '<button data-id="' . $row['EmployeeNumber'] . '" class="btn btn-sm btn-primary uploadCertificate ml-1"><i class="fas fa-upload"></i></button>';
-    // echo '<button data-id="' . $row['id'] . '" class="btn btn-danger btn-sm deleteAdminbtn"><i class="far fa-trash-alt"></i></button>';
     echo '</td>';
     echo '</tr>';
 }

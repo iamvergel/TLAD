@@ -69,7 +69,8 @@ include('../admin/config/dbconn.php');
                                                                     <input type="file" name="img_url" placeholder="">
                                                                     <input type="hidden" name="old_image"
                                                                         value="<?= $row['image'] ?>" />
-                                                                    <div id="uploaded_image" class="d-flex justify-content-center align-items-center">
+                                                                    <div id="uploaded_image"
+                                                                        class="d-flex justify-content-center align-items-center">
                                                                         <img src="../upload/coordinators/<?= $row['image'] ?>"
                                                                             class="img-thumbnail img-fluid mt-5" width="250"
                                                                             alt="Coordiantor Image">
@@ -247,30 +248,31 @@ include('../admin/config/dbconn.php');
                 </div>
             </div>
         </div>
-        <?php include('includes/scripts.php'); ?>
-        <script>
-            $(document).ready(function () {
-                //     $('.nav-pills a').click(function(e) {
-                //   e.preventDefault();
-                //   $(this).tab('show');
-                // });
+    </div>
+    <?php include('includes/scripts.php'); ?>
+    <script>
+        $(document).ready(function () {
+            //     $('.nav-pills a').click(function(e) {
+            //   e.preventDefault();
+            //   $(this).tab('show');
+            // });
 
-                // // store the currently selected tab in the hash value
-                // $("ul.nav-pills > li > a").on("shown.bs.tab", function(e) {
-                //   var id = $(e.target).attr("href").substr(1);
-                //   window.location.hash = id;
-                // });
+            // // store the currently selected tab in the hash value
+            // $("ul.nav-pills > li > a").on("shown.bs.tab", function(e) {
+            //   var id = $(e.target).attr("href").substr(1);
+            //   window.location.hash = id;
+            // });
 
-                // // on load of the page: switch to the currently selected tab
-                // var hash = window.location.hash;
-                // $('.nav-pills a[href="' + hash + '"]').tab('show');
-                $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
-                    localStorage.setItem('activeTab', $(e.target).attr('href'));
-                });
-                var activeTab = localStorage.getItem('activeTab');
-                if (activeTab) {
-                    $('.nav-pills a[href="' + activeTab + '"]').tab('show');
-                }
+            // // on load of the page: switch to the currently selected tab
+            // var hash = window.location.hash;
+            // $('.nav-pills a[href="' + hash + '"]').tab('show');
+            $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+                localStorage.setItem('activeTab', $(e.target).attr('href'));
             });
-        </script>
-        <?php include('includes/footer.php'); ?>
+            var activeTab = localStorage.getItem('activeTab');
+            if (activeTab) {
+                $('.nav-pills a[href="' + activeTab + '"]').tab('show');
+            }
+        });
+    </script>
+    <?php include('includes/footer.php'); ?>

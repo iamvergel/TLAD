@@ -325,7 +325,7 @@ include('../admin/config/dbconn.php');
               <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label>Sex</label>
+                    <label>Gender</label>
                     <span class="text-danger">*</span>
                     <select name="Sex" class="form-control" required>
                       <option value="M">Male</option>
@@ -548,7 +548,7 @@ include('../admin/config/dbconn.php');
               <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label>Sex</label>
+                    <label>Gender</label>
                     <span class="text-danger">*</span>
                     <select name="Sex" id="editSex" class="form-control" required>
                       <option value="M">Male</option>
@@ -813,10 +813,10 @@ include('../admin/config/dbconn.php');
                   <table id="employee_table" class="table table-borderless table-hover" style="width:100%;">
                     <thead class="bg-light">
                       <tr>
-                        <th class="text-center">Employee #</th>
+                        <th class="text-center">Employee No.</th>
                         <th class="export">Name</th>
                         <th class="export">Contact No.</th>
-                        <th class="export">Sex</th>
+                        <th class="export">Gender</th>
                         <th class="export">Position</th>
                         <th class="export">Department</th>
                         <th class="export">Unit</th>
@@ -883,10 +883,10 @@ include('../admin/config/dbconn.php');
                     </tbody>
                     <tfoot>
                       <tr>
-                        <th class="search">Employee #</th>
+                        <th class="search">Employee No.</th>
                         <th class="search">Name</th>
                         <th class="search">Contact No.</th>
-                        <th class="search">Sex</th>
+                        <th class="search">Gender</th>
                         <th class="search">Position</th>
                         <th class="search">Department</th>
                         <th class="search">Unit</th>

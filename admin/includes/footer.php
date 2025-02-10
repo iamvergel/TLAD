@@ -12,7 +12,7 @@
                  <div class="modal-body">Are you sure you want to logout?</div>
                  <div class="modal-footer">
                      <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                     <button type="submit" class="btn btn-primary" name="logout_btn">Logout</button>
+                     <button type="submit" class="btn btn-success" name="logout_btn">Logout</button>
                  </div>
              </form>
          </div>

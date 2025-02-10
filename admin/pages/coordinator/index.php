@@ -272,7 +272,7 @@ include('../../config/dbconn.php');
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">Edit Admin</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -416,7 +416,7 @@ include('../../config/dbconn.php');
             </div>
 
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close">Close</button>
               <button type="submit" name="updatecoordinator" class="btn btn-success">Submit</button>
             </div>
           </form>
@@ -717,6 +717,10 @@ include('../../config/dbconn.php');
             $('#EditAdminModal').modal('show');
           }
         });
+      });
+
+      $(document).on('click', '#close', function () {
+        $('#EditAdminModal').modal('hide');
       });
     });
   </script>

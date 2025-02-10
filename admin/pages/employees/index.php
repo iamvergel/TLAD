@@ -346,7 +346,7 @@ include('../../config/dbconn.php');
               <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label>Sex</label>
+                    <label>Gender</label>
                     <span class="text-danger">*</span>
                     <select name="Sex" class="form-control" required>
                       <option value="M">Male</option>
@@ -514,7 +514,7 @@ include('../../config/dbconn.php');
               <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label>Sex</label>
+                    <label>Gender</label>
                     <span class="text-danger">*</span>
                     <select name="Sex" id="editSex" class="form-control" required>
                       <option value="M">Male</option>
