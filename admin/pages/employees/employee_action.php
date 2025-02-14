@@ -100,7 +100,7 @@ if (isset($_POST['editEmployee'])) {
 
 if (isset($_POST['getEmployeeDetails'])) {
     $employee_id = $_POST['employee_id'];
-    
+
     $sql = "SELECT * FROM tblemployee WHERE id='$employee_id'";
     $query_run = mysqli_query($conn, $sql);
 
@@ -202,12 +202,12 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                                 <div class="tab-pane fade show active" id="certificate" role="tabpanel"
                                     aria-labelledby="certificate-tab">
 
-                                    <!-- Certificate-->
                                     <table id="certificatetable" class="table table-hover table-borderless" style="width:100%;">
                                         <thead class="bg-light">
                                             <tr>
-                                                <th>Date Uploaded</th>
+                                                <!-- <th>Date Uploaded</th> -->
                                                 <th>Certificate</th>
+                                                <th>Year</th>
                                                 <th>Title (Date of Training)</th>
                                                 <th>Action</th>
                                             </tr>
@@ -223,18 +223,18 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                                                     foreach ($users_run as $user) {
                                                         ?>
                                                         <tr>
-                                                            <td><?= date('d-M-Y', strtotime($user['Date'])) ?></td>
-                                                            <td style="text-align: center;" width="10%">
+                                                            <!-- <td><?= date('d-M-Y', strtotime($user['Date'])) ?></td> -->
+                                                            <td style="text-align: center;" width="50%">
                                                                 <img src="../../../upload/certificates/<?= $user['CertificateImage'] ?>"
                                                                     class="img-thumbnail" width="200" alt="No Image Available"
                                                                     id="showCertificate"
                                                                     onclick="showCertificate('<?= $user['CertificateImage'] ?>')">
                                                             </td>
+                                                            <td><?php echo $user['year']; ?></td>
                                                             <td class="w-50">
                                                                 <textarea class="form-control title-input border-0" rows="3"
                                                                     data-id="<?= $user['id'] ?>"><?= htmlspecialchars($user['Title']) ?></textarea>
                                                             </td>
-
                                                             <td>
                                                                 <button class="btn btn-sm btn-success saveTitle" data-id="<?= $user['id'] ?>">
                                                                     <i class="fas fa-save"></i>
@@ -266,16 +266,19 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                                             <?php
                                             if (isset($_POST['user_id'])) {
                                                 $employeeNumber = $_POST['user_id'];
-                                                $user = "SELECT * FROM tblemployeeremarks WHERE EmployeeNumber = '$employeeNumber'";
-                                                $users_run = mysqli_query($conn, $user);
+                                                $user_query = "SELECT * FROM tblemployeeremarks WHERE EmployeeNumber = '$employeeNumber'";
+                                                $users_run = mysqli_query($conn, $user_query);
 
                                                 if (mysqli_num_rows($users_run) > 0) {
                                                     foreach ($users_run as $user) {
+                                                        $remarksYear = $user['Year'];
+                                
                                                         ?>
                                                         <tr>
-                                                            <td><?= $user['Year'] ?></td>
+                                                            <td><?= $remarksYear ?></td>
                                                             <td>
-                                                                <select class="form-control remark-dropdown 
+                                                                <select
+                                                                    class="form-control remark-dropdown 
                                                                     <?php echo $user['Remarks'] == 1 ? 'text-success' : ($user['Remarks'] == 0 ? 'text-danger' : ''); ?>"
                                                                     data-id="<?= $user['id'] ?>">
                                                                     <option class="text-success" value="1" <?= $user['Remarks'] == 1 ? 'selected' : '' ?>>
@@ -288,14 +291,11 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                                                             </td>
                                                             <td class="w-50">
                                                                 <?php
-                                                                $employeeNumber = $user['EmployeeNumber'];
-                                                                $currentYear = date('Y'); // Get the current year
-
-                                                                $sql = "SELECT * FROM tblemployeeseminar WHERE EmployeeNumber = '$employeeNumber' AND year = '$currentYear'"; // Adjust column name accordingly
+                                                                $sql = "SELECT * FROM tblemployeeseminar WHERE EmployeeNumber = '$employeeNumber' AND year = '$remarksYear'";
                                                                 $query_run = mysqli_query($conn, $sql);
 
                                                                 if (mysqli_num_rows($query_run) > 0) {
-                                                                    // Start the dropdown for titles
+
                                                                     echo '<select class="form-control title-dropdown" data-id="' . $user['id'] . '">';
                                                                     echo '<option value="">Select Title</option>';
 
@@ -306,12 +306,13 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
 
                                                                     echo '</select>';
                                                                 } else {
-                                                                    echo "<p>No titles found for this user in the current year.</p>";
+                                                                    echo "<p>No titles found for this user in the year " . $remarksYear . ".</p>";
                                                                 }
                                                                 ?>
                                                             </td>
                                                             <td>
-                                                                <button class="btn btn-sm btn-success saveRemarks ml-1" data-id="<?= $user['id'] ?>">
+                                                                <button class="btn btn-sm btn-success saveRemarks ml-1"
+                                                                    data-id="<?= $user['id'] ?>">
                                                                     <i class="fas fa-save"></i>
                                                                 </button>
                                                             </td>
@@ -325,40 +326,41 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                                     </table>
                                 </div>
 
+
                                 <style>
                                     .gallery .gallery-item {
-                                    overflow: hidden;
-                                    position: relative;
-                                    border: 3px solid #fff;
-                                    border-radius: 8px;
-                                    margin: 10px;
-                                    background-color: #f0f0f0;
-                                    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-                                    transition: transform 0.3s ease;
-                                    display: flex;
-                                    flex-direction: column;
-                                    max-width: 100%;
-                                    cursor: default;
+                                        overflow: hidden;
+                                        position: relative;
+                                        border: 3px solid #fff;
+                                        border-radius: 8px;
+                                        margin: 10px;
+                                        background-color: #f0f0f0;
+                                        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+                                        transition: transform 0.3s ease;
+                                        display: flex;
+                                        flex-direction: column;
+                                        max-width: 100%;
+                                        cursor: default;
                                     }
 
                                     .gallery .card-img-top {
-                                    width: 100%;
-                                    height: 100px;
-                                    object-fit: cover;
-                                    transition: all ease-in-out 0.4s;
+                                        width: 100%;
+                                        height: 100px;
+                                        object-fit: cover;
+                                        transition: all ease-in-out 0.4s;
                                     }
 
                                     .gallery .card-img-top:hover {
-                                    transform: scale(1.1);
+                                        transform: scale(1.1);
                                     }
 
                                     .card-body {
-                                    padding: 0px;
+                                        padding: 0px;
                                     }
 
                                     .card-text {
-                                    font-size: 1rem;
-                                    color: #777;
+                                        font-size: 1rem;
+                                        color: #777;
                                     }
                                 </style>
 
@@ -376,13 +378,18 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                                                     while ($row = mysqli_fetch_array($query_run)) { ?>
                                                         <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
                                                             <div class="gallery-item card border-3">
-                                                                <p class="card-title p-2 text-center" style="font-weight: bold; font-size: 14px; margin-bottom: 0; height: 60px;"><?= $row['Title'] ?></p>
+                                                                <p class="card-title p-2 text-center"
+                                                                    style="font-weight: bold; font-size: 14px; margin-bottom: 0; height: 60px;">
+                                                                    <?= $row['Title'] ?></p>
                                                                 <div class="card-body">
-                                                                    <a href="../../../upload/certificates/<?= $row['CertificateImage'] ?>" class="gallery-lightbox">
-                                                                        <img src="../../../upload/certificates/<?= $row['CertificateImage'] ?>" alt="Certificate" class="card-img-top">
+                                                                    <a href="../../../upload/certificates/<?= $row['CertificateImage'] ?>"
+                                                                        class="gallery-lightbox">
+                                                                        <img src="../../../upload/certificates/<?= $row['CertificateImage'] ?>"
+                                                                            alt="Certificate" class="card-img-top">
                                                                     </a>
                                                                 </div>
-                                                                <p class="card-text px-3 py-2" style="font-weight: normal; font-size: 12px;"><?= date('F j, Y', strtotime($row['Date'])) ?></p>
+                                                                <p class="card-text px-3 py-2" style="font-weight: normal; font-size: 12px;">
+                                                                    <?= date('F j, Y', strtotime($row['Date'])) ?></p>
                                                             </div>
                                                         </div>
                                                     <?php }
@@ -434,9 +441,9 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                         }
                     });
 
-                    $('.remark-dropdown').on('change', function() {
-                        var selectedValue = $(this).val();  
-                        var $select = $(this);  
+                    $('.remark-dropdown').on('change', function () {
+                        var selectedValue = $(this).val();
+                        var $select = $(this);
 
                         if (selectedValue == '1') {
                             $select.removeClass('text-danger').addClass('text-success');
@@ -632,7 +639,7 @@ if (isset($_POST['uploadCertificate'])) {
     $certificateImage = $_FILES['CertificateImage']['name'];
     $uploadDate = date('Y-m-d H:i:s');
     $Title = $_POST['Title'];
-    $currentYear = date('Y');
+    $currentYear = $_POST['year'];
 
     // Check if the image was uploaded
     if ($certificateImage != NULL) {

@@ -266,16 +266,19 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                                             <?php
                                             if (isset($_POST['user_id'])) {
                                                 $employeeNumber = $_POST['user_id'];
-                                                $user = "SELECT * FROM tblemployeeremarks WHERE EmployeeNumber = '$employeeNumber'";
-                                                $users_run = mysqli_query($conn, $user);
+                                                $user_query = "SELECT * FROM tblemployeeremarks WHERE EmployeeNumber = '$employeeNumber'";
+                                                $users_run = mysqli_query($conn, $user_query);
 
                                                 if (mysqli_num_rows($users_run) > 0) {
                                                     foreach ($users_run as $user) {
+                                                        $remarksYear = $user['Year']; // Get the year from tblremarks
+                                
                                                         ?>
                                                         <tr>
-                                                            <td><?= $user['Year'] ?></td>
+                                                            <td><?= $remarksYear ?></td>
                                                             <td>
-                                                                <select class="form-control remark-dropdown 
+                                                                <select
+                                                                    class="form-control remark-dropdown 
                                                                     <?php echo $user['Remarks'] == 1 ? 'text-success' : ($user['Remarks'] == 0 ? 'text-danger' : ''); ?>"
                                                                     data-id="<?= $user['id'] ?>">
                                                                     <option class="text-success" value="1" <?= $user['Remarks'] == 1 ? 'selected' : '' ?>>
@@ -288,10 +291,7 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                                                             </td>
                                                             <td class="w-50">
                                                                 <?php
-                                                                $employeeNumber = $user['EmployeeNumber'];
-                                                                $currentYear = date('Y'); // Get the current year
-
-                                                                $sql = "SELECT * FROM tblemployeeseminar WHERE EmployeeNumber = '$employeeNumber' AND year = '$currentYear'";
+                                                                $sql = "SELECT * FROM tblemployeeseminar WHERE EmployeeNumber = '$employeeNumber' AND year = '$remarksYear'";
                                                                 $query_run = mysqli_query($conn, $sql);
 
                                                                 if (mysqli_num_rows($query_run) > 0) {
@@ -306,12 +306,13 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
 
                                                                     echo '</select>';
                                                                 } else {
-                                                                    echo "<p>No titles found for this user in the current year.</p>";
+                                                                    echo "<p>No titles found for this user in the year " . $remarksYear . ".</p>";
                                                                 }
                                                                 ?>
                                                             </td>
                                                             <td>
-                                                                <button class="btn btn-sm btn-success saveRemarks ml-1" data-id="<?= $user['id'] ?>">
+                                                                <button class="btn btn-sm btn-success saveRemarks ml-1"
+                                                                    data-id="<?= $user['id'] ?>">
                                                                     <i class="fas fa-save"></i>
                                                                 </button>
                                                             </td>
