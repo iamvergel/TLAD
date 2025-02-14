@@ -23,19 +23,13 @@
             LEFT JOIN unit ON tblcoordinator.unit_id = unit.id
             WHERE tblcoordinator.id = ?
         ";
-
-            // Prepare the statement
             if ($stmt = mysqli_prepare($conn, $sql)) {
-              // Bind the session user_id to the prepared statement
               mysqli_stmt_bind_param($stmt, "i", $_SESSION['auth_user']['user_id']);
 
-              // Execute the statement
               mysqli_stmt_execute($stmt);
 
-              // Get the result
               $result = mysqli_stmt_get_result($stmt);
 
-              // Fetch the row and display the data
               while ($row = mysqli_fetch_array($result)) {
                 ?>
                 <span class="d-none d-md-inline text-uppercase" style="font-weight: bold; font-size: 20px;">
@@ -43,8 +37,6 @@
                 </span>
                 <?php
               }
-
-              // Close the statement
               mysqli_stmt_close($stmt);
             }
           } else {

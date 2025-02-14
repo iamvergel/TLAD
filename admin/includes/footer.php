@@ -8,7 +8,7 @@
                      <span aria-hidden="true">&times;</span>
                  </button>
              </div>
-             <form action="../dentists/doctor_action.php" method="POST">
+             <form action="../admins/admin_action.php" method="POST">
                  <div class="modal-body">Are you sure you want to logout?</div>
                  <div class="modal-footer">
                      <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>

@@ -146,10 +146,10 @@ include('../../config/dbconn.php');
               <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label>Department</label><span class="text-danger">*</span>
+                    <label>Division</label><span class="text-danger">*</span>
                     <select id="department_id" name="department_id" class="form-control" required
                       onchange="loadUnitsForDepartment()">
-                      <option value="">Select Department</option>
+                      <option value="">Select Division</option>
                       <?php
                       include('../../config/dbconn.php');
                       $sql = "SELECT * FROM department";
@@ -160,7 +160,7 @@ include('../../config/dbconn.php');
                           echo "<option value='" . $row['id'] . "'>" . $row['name'] . "</option>";
                         }
                       } else {
-                        echo "<option value=''>No departments available</option>";
+                        echo "<option value=''>No Division available</option>";
                       }
                       ?>
                     </select>
@@ -181,13 +181,13 @@ include('../../config/dbconn.php');
               <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label>Unit Section Head Name</label>
+                    <label>Unit Section Head Name</label><span class="text-danger">*</span>
                     <input type="text" name="unit_section_head_name" class="form-control" required>
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label>Unit Section Head Title</label>
+                    <label>Unit Section Head Title</label><span class="text-danger">*</span>
                     <input type="text" name="unit_section_head_title" class="form-control" required>
                   </div>
                 </div>
@@ -196,13 +196,13 @@ include('../../config/dbconn.php');
               <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label>Division Head Name</label>
+                    <label>Division Head Name</label><span class="text-danger">*</span>
                     <input type="text" name="division_head_name" class="form-control" required>
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label>Division Head Position</label>
+                    <label>Division Head Position</label><span class="text-danger">*</span>
                     <input type="text" name="division_head_position" class="form-control" required>
                   </div>
                 </div>
@@ -322,9 +322,9 @@ include('../../config/dbconn.php');
                 <input type="hidden" id="editunit_id" name="unit_id">
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label>Department</label><span class="text-danger">*</span>
+                    <label>Division</label><span class="text-danger">*</span>
                     <select id="edit_department_id" class="form-control"  required disabled>
-                      <option value="">Select Department</option>
+                      <option value="">Select Division</option>
                       <?php
 
                       $sql = "SELECT * FROM department";
@@ -335,7 +335,7 @@ include('../../config/dbconn.php');
                           echo "<option value='" . $row['id'] . "'>" . $row['name'] . "</option>";
                         }
                       } else {
-                        echo "<option value=''>No departments available</option>";
+                        echo "<option value=''>No Division available</option>";
                       }
                       ?>
                     </select>
@@ -368,14 +368,14 @@ include('../../config/dbconn.php');
               <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label>Unit Section Head Name</label>
+                    <label>Unit Section Head Name</label><span class="text-danger">*</span>
                     <input type="text" name="unit_section_head_name" id="edit_unit_section_head_name"
                       class="form-control" required>
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label>Unit Section Head Title</label>
+                    <label>Unit Section Head Title</label><span class="text-danger">*</span>
                     <input type="text" name="unit_section_head_title" id="edit_unit_section_head_title"
                       class="form-control" required>
                   </div>
@@ -385,14 +385,14 @@ include('../../config/dbconn.php');
               <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label>Division Head Name</label>
+                    <label>Division Head Name</label><span class="text-danger">*</span>
                     <input type="text" name="division_head_name" id="edit_division_head_name" class="form-control"
                       required>
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label>Division Head Position</label>
+                    <label>Division Head Position</label><span class="text-danger">*</span>
                     <input type="text" name="division_head_position" id="edit_division_head_position"
                       class="form-control" required>
                   </div>
@@ -482,7 +482,7 @@ include('../../config/dbconn.php');
                         <th class="text-center">Photo</th>
                         <th class="export">Name</th>
                         <th class="export">Email</th>
-                        <th class="export">department</th>
+                        <th class="export">Division</th>
                         <th class="export">unit</th>
                         <th class="export" width="5%">Status</th>
                         <th>Action</th>
@@ -543,9 +543,9 @@ include('../../config/dbconn.php');
                       <tr>
                         <th></th>
                         <th class="search">Name</th>
-                        <th class="search">Address</th>
-                        <th class="search">Contact No.</th>
                         <th class="search">Email</th>
+                        <th class="search">Division</th>
+                        <th class="search">Unit</th>
                         <th class="search">Status</th>
                         <th></th>
                       </tr>

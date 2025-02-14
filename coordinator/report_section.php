@@ -95,7 +95,7 @@ include('../admin/config/dbconn.php');
             <div class="col-sm-2">
               <div class="card card-success card-outline">
                 <div class="card-header">
-                  <h3 class="card-title">SELECT DEPARTMENT AND UNIT</h3>
+                  <h3 class="card-title">SELECT YEAR AND REMARKS</h3>
                 </div>
                 <div class="row px-3 py-2">
                   <div class="col-md-12 mt-2">
@@ -159,7 +159,7 @@ include('../admin/config/dbconn.php');
                       <tr>
                         <th class="export">Name</th>
                         <th class="export">Position</th>
-                        <th class="export">Department</th>
+                        <th class="export">Division</th>
                         <th class="export">Unit</th>
                         <th class="export">Title</th>
                         <th class="export">Remarks</th>
@@ -216,7 +216,7 @@ include('../admin/config/dbconn.php');
                       <tr>
                         <th class="search">Name</th>
                         <th class="search">Position</th>
-                        <th class="search">Department</th>
+                        <th class="search">Division</th>
                         <th class="search">Unit</th>
                         <th class="search">Status</th>
                         <th class="search">Title</th>

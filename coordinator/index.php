@@ -90,8 +90,9 @@ $total_employees = $with_training + $without_training;
                       echo "<h1 style='font-weight: bold; font-size: 50px;'>" . $row['employee_count'] . "</h1>";
                       echo "<label style='text-transform: uppercase;'>" . $row['department_name'] . ' / ' . $row['unit_name'] . "</label> <p style='text-transform: uppercase;'>Active</p>";
                     } else {
-                      echo "<h5>No department or unit found for this user.</h5>";
-                      echo "<h3>No employees found for this user.</h3>";
+                      $row = mysqli_fetch_array($query_run);
+                      echo "<h1 style='font-weight: bold; font-size: 50px;'> 0 </h1>";
+                      echo "<label style='text-transform: uppercase;'> Division / Unit </label> <p style='text-transform: uppercase;'>Active</p>";
                     }
                     ?>
                   </div>
@@ -126,13 +127,14 @@ $total_employees = $with_training + $without_training;
                       GROUP BY department.name, unit.unit_name
                       LIMIT 1";
                     $query_run = mysqli_query($conn, $sql);
+
                     if ($query_run && mysqli_num_rows($query_run) > 0) {
                       $row = mysqli_fetch_array($query_run);
                       echo "<h1 style='font-weight: bold; font-size: 50px;'>" . $row['employee_count'] . "</h1>";
                       echo "<label style='text-transform: uppercase;'>" . $row['department_name'] . ' / ' . $row['unit_name'] . "</label> <p style='text-transform: uppercase;'>WITH TRAINING (" . $current_year . ")</p>";
                     } else {
                       echo "<h1 style='font-weight: bold; font-size: 50px;'> 0 </h1>";
-                      echo "<label style='text-transform: uppercase;'>" . $row['department_name'] . ' / ' . $row['unit_name'] . "</label> <p style='text-transform: uppercase;'>WITH TRAINING (" . $current_year . ")</p>";
+                      echo "<label style='text-transform: uppercase;'>No data available</label> <p style='text-transform: uppercase;'>WITH TRAINING (" . $current_year . ")</p>";
                     }
                     ?>
                   </div>
@@ -173,7 +175,7 @@ $total_employees = $with_training + $without_training;
                       echo "<label style='text-transform: uppercase;'>" . $row['department_name'] . ' / ' . $row['unit_name'] . "</label> <p style='text-transform: uppercase;'>WITHOUT TRAINING (" . $current_year . ")</p>";
                     } else {
                       echo "<h1 style='font-weight: bold; font-size: 50px;'> 0 </h1>";
-                      echo "<label style='text-transform: uppercase;'>" . $row['department_name'] . ' / ' . $row['unit_name'] . "</label> <p style='text-transform: uppercase;'>WITHOUT TRAINING (" . $current_year . ")</p>";
+                      echo "<label style='text-transform: uppercase;'>No data available</label> <p style='text-transform: uppercase;'>WITH TRAINING (" . $current_year . ")</p>";
                     }
                     ?>
                   </div>
@@ -205,7 +207,8 @@ $total_employees = $with_training + $without_training;
                   <div class="col-12">
                     <div class="small-box bg-success p-3">
                       <div class="inner">
-                        <h4 style="font-weight: bold">With Training Percentage: <br/> <br/> <span id="withTrainingPercent" style="font-weight: normal">0%</span></h4>
+                        <h4 style="font-weight: bold">With Training Percentage: <br /> <br /> <span
+                            id="withTrainingPercent" style="font-weight: normal">0%</span></h4>
                       </div>
                       <div class="icon">
                         <i class="fas fa-percent"></i>
@@ -215,7 +218,8 @@ $total_employees = $with_training + $without_training;
                   <div class="col-12">
                     <div class="small-box bg-danger p-3">
                       <div class="inner">
-                        <h4 style="font-weight: bold">Without Training Percentage: <br/> <br/> <span id="withoutTrainingPercent" style="font-weight: normal">0%</span></h4>
+                        <h4 style="font-weight: bold">Without Training Percentage: <br /> <br /> <span
+                            id="withoutTrainingPercent" style="font-weight: normal">0%</span></h4>
                       </div>
                       <div class="icon">
                         <i class="fas fa-percent"></i>

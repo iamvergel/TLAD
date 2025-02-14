@@ -184,10 +184,10 @@ include('../../config/dbconn.php');
                 <div class="row px-3 py-2">
                   <div class="col-md-12 mt-2">
                     <div class="form-group">
-                      <label>Department</label><span class="text-danger">*</span>
+                      <label>Division</label><span class="text-danger">*</span>
                       <select id="department_id" name="department_id" class="form-control" required
                         onchange="loadUnitsForDepartment()">
-                        <option value="">Select Department</option>
+                        <option value="">Select Division</option>
                         <?php
                         include('../../config/dbconn.php');
                         $sql = "SELECT * FROM department";
@@ -198,7 +198,7 @@ include('../../config/dbconn.php');
                             echo "<option value='" . $row['id'] . "'>" . $row['name'] . "</option>";
                           }
                         } else {
-                          echo "<option value=''>No departments available</option>";
+                          echo "<option value=''>No division available</option>";
                         }
                         ?>
                       </select>
@@ -273,7 +273,7 @@ include('../../config/dbconn.php');
                       <tr>
                         <th class="export">Name</th>
                         <th class="export">Position</th>
-                        <th class="export">Department</th>
+                        <th class="export">Division</th>
                         <th class="export">Unit</th>
                         <th class="export">Title</th>
                         <th class="export">Remarks</th>
@@ -333,7 +333,7 @@ include('../../config/dbconn.php');
                       <tr>
                         <th class="search">Name</th>
                         <th class="search">Position</th>
-                        <th class="search">Department</th>
+                        <th class="search">Division</th>
                         <th class="search">Unit</th>
                         <th class="search">Status</th>
                         <th class="search">Title</th>

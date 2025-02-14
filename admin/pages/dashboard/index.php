@@ -188,9 +188,9 @@ if ($query_run_total && mysqli_num_rows($query_run_total) > 0) {
                     if ($query_run && mysqli_num_rows($query_run) > 0) {
                       $row = mysqli_fetch_array($query_run);
                       echo "<h1 style='font-weight: bold; font-size: 50px;'>" . $row['department_count'] . "</h1>";
-                      echo "<label style='text-transform: uppercase;'>Departments</label>";
+                      echo "<label style='text-transform: uppercase;'>Divisions</label>";
                     } else {
-                      echo "<h3>No Departments found.</h3>";
+                      echo "<h3>No Division found.</h3>";
                     }
                     ?>
                   </div>

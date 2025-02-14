@@ -104,29 +104,29 @@ include('../admin/config/dbconn.php');
                                                                     <div class="form-group col-md-6">
                                                                         <label for="">Department Head</label>
                                                                         <span class="text-danger">*</span>
-                                                                        <input type="text" name="address" class="form-control"
-                                                                            value="<?= $row['division_head_name'] ?>" readonly>
+                                                                        <input type="text" name="division_head_name" class="form-control"
+                                                                            value="<?= $row['division_head_name'] ?>" >
                                                                     </div>
                                                                     <div class="form-group col-md-6">
                                                                         <label for="">Department Head Position</label>
                                                                         <span class="text-danger">*</span>
-                                                                        <input type="text" name="address" class="form-control"
+                                                                        <input type="text" name="division_head_position" class="form-control"
                                                                             value="<?= $row['division_head_position'] ?>"
-                                                                            readonly>
+                                                                            >
                                                                     </div>
                                                                     <div class="form-group col-md-6">
                                                                         <label for="">Unit Section Head</label>
                                                                         <span class="text-danger">*</span>
-                                                                        <input type="text" name="address" class="form-control"
+                                                                        <input type="text" name="unit_section_head_name" class="form-control"
                                                                             value="<?= $row['unit_section_head_name'] ?>"
-                                                                            readonly>
+                                                                            >
                                                                     </div>
                                                                     <div class="form-group col-md-6">
                                                                         <label for="">Unit Section Head Position</label>
                                                                         <span class="text-danger">*</span>
-                                                                        <input type="text" name="address" class="form-control"
+                                                                        <input type="text" name="unit_section_head_title" class="form-control"
                                                                             value="<?= $row['unit_section_head_title'] ?>"
-                                                                            readonly>
+                                                                            >
                                                                     </div>
                                                                     <div class="form-group col-md-6">
                                                                         <label for="">Full Name</label>
@@ -134,13 +134,6 @@ include('../admin/config/dbconn.php');
                                                                         <input type="text" name="name" class="form-control"
                                                                             value="<?= $row['name'] ?>" pattern="[a-zA-Z'-'\s]*"
                                                                             required>
-                                                                    </div>
-                                                                    <div class="form-group col-md-4 d-none">
-                                                                        <label for="">Birthdate</label>
-                                                                        <span class="text-danger">*</span>
-                                                                        <input type="text" autocomplete="off" id="edit_dob"
-                                                                            name="birthday" value="<?= $row['dob'] ?>"
-                                                                            class="form-control" id="datepicker" required>
                                                                     </div>
                                                                     <div class="form-group col-md-6">
                                                                         <label for="">Address</label>

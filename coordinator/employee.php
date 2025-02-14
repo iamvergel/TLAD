@@ -355,12 +355,11 @@ include('../admin/config/dbconn.php');
                 <!-- Department -->
                 <div class="col-sm-4">
                   <div class="form-group">
-                    <label>Department</label>
+                    <label>Division</label>
                     <span class="text-danger">*</span>
                     <select id="department_id1" name="Department" class="form-control" readonly required>
                       <?php
                       if (isset($_SESSION['auth'])) {
-                        // SQL query to fetch department, unit, and coordinator info
                         $sql = "SELECT 
                               tblcoordinator.*, 
                               department.id AS department_id, 
@@ -374,7 +373,6 @@ include('../admin/config/dbconn.php');
                         $query_run = mysqli_query($conn, $sql);
 
                         while ($row = mysqli_fetch_array($query_run)) {
-                          // Display the department name
                           echo "<option name='' value='" . $row['department_id'] . "'>" . $row['department_name'] . "</option>";
                           ;
                         }
@@ -568,7 +566,7 @@ include('../admin/config/dbconn.php');
               <div class="row">
                 <div class="col-sm-4">
                   <div class="form-group">
-                    <label>Department</label>
+                    <label>Division</label>
                     <span class="text-danger">*</span>
                     <select id="department" class="form-control" required disabled>
                       <option value="">Select Department</option>
@@ -647,11 +645,11 @@ include('../admin/config/dbconn.php');
               <div class="row mt-4">
                 <div class="col-sm-4">
                   <div class="form-group">
-                    <label>Department</label>
+                    <label>Division</label>
                     <span class="text-danger">*</span>
                     <select id="edit_department_id1" name="Department" class="form-control" required
                       onchange="addloadUnitsForDepartmentedit()">
-                      <option value="">Select Department</option>
+                      <option value="">Select Division</option>
                       <?php
                       $sql = "SELECT * FROM department";
                       $query_run = mysqli_query($conn, $sql);
@@ -661,7 +659,7 @@ include('../admin/config/dbconn.php');
                           echo "<option value='" . $row['id'] . "'>" . $row['name'] . "</option>";
                         }
                       } else {
-                        echo "<option value=''>No departments available</option>";
+                        echo "<option value=''>No Division available</option>";
                       }
                       ?>
                     </select>
@@ -818,7 +816,7 @@ include('../admin/config/dbconn.php');
                         <th class="export">Contact No.</th>
                         <th class="export">Gender</th>
                         <th class="export">Position</th>
-                        <th class="export">Department</th>
+                        <th class="export">Division</th>
                         <th class="export">Unit</th>
                         <!-- <th class="export" width="5%">Status</th> -->
                         <th>Action</th>
@@ -888,7 +886,7 @@ include('../admin/config/dbconn.php');
                         <th class="search">Contact No.</th>
                         <th class="search">Gender</th>
                         <th class="search">Position</th>
-                        <th class="search">Department</th>
+                        <th class="search">Division</th>
                         <th class="search">Unit</th>
                         <th class="search">Status</th>
                       </tr>

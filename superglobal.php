@@ -14,6 +14,8 @@ if (mysqli_num_rows($query_run) > 0) {
         $mobile = $row['mobile'];
         $map = $row['map'];
         $brand = $row['brand'];
+        $logo1 = $row['logo1'];
+        $logo2 = $row['logo2'];
         $facebook = $row['facebook'];
     }
 }

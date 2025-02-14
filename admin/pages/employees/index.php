@@ -367,18 +367,18 @@ include('../../config/dbconn.php');
 
               <div class="form-group">
                 <span class="text-danger">*</span>
-                <label style="font-weight: normal;">Please ensure you select the department before choosing the unit and
+                <label style="font-weight: normal;">Please ensure you select the division before choosing the unit and
                   coordinator options.</label>
               </div>
 
               <div class="row mt-4">
                 <div class="col-sm-4">
                   <div class="form-group">
-                    <label>Department</label>
+                    <label>Division</label>
                     <span class="text-danger">*</span>
                     <select id="department_id1" name="Department" class="form-control" required
                       onchange="addloadUnitsForDepartment()">
-                      <option value="">Select Department</option>
+                      <option value="">Select Division</option>
                       <?php
                       include('../../config/dbconn.php');
                       $sql = "SELECT * FROM department";
@@ -389,7 +389,7 @@ include('../../config/dbconn.php');
                           echo "<option value='" . $row['id'] . "'>" . $row['name'] . "</option>";
                         }
                       } else {
-                        echo "<option value=''>No departments available</option>";
+                        echo "<option value=''>No division available</option>";
                       }
                       ?>
                     </select>
@@ -534,7 +534,7 @@ include('../../config/dbconn.php');
               <div class="row">
                 <div class="col-sm-4">
                   <div class="form-group">
-                    <label>Department</label>
+                    <label>Division</label>
                     <span class="text-danger">*</span>
                     <select id="department" class="form-control" required disabled>
                       <option value="">Select Department</option>
@@ -547,7 +547,7 @@ include('../../config/dbconn.php');
                           echo "<option value='" . $row['id'] . "'>" . $row['name'] . "</option>";
                         }
                       } else {
-                        echo "<option value=''>No departments available</option>";
+                        echo "<option value=''>No division available</option>";
                       }
                       ?>
                     </select>
@@ -600,24 +600,24 @@ include('../../config/dbconn.php');
               <hr>
 
               <div class="form-group">
-                <h5 style="font-weight: bold;">EDIT DEPARTMENT, UNIT AND COORDINATOR</h5>
+                <h5 style="font-weight: bold;">EDIT DIVISION, UNIT AND COORDINATOR</h5>
               </div>
 
               <!-- Department, Unit, and Coordinator -->
               <div class="form-group">
                 <span class="text-danger">*</span>
-                <label style="font-weight: normal;">Please ensure you select the department before choosing the unit and
+                <label style="font-weight: normal;">Please ensure you select the division before choosing the unit and
                   coordinator options.</label>
               </div>
 
               <div class="row mt-4">
                 <div class="col-sm-4">
                   <div class="form-group">
-                    <label>Department</label>
+                    <label>Division</label>
                     <span class="text-danger">*</span>
                     <select id="edit_department_id1" name="Department" class="form-control" required
                       onchange="addloadUnitsForDepartmentedit()">
-                      <option value="">Select Department</option>
+                      <option value="">Select Division</option>
                       <?php
                       $sql = "SELECT * FROM department";
                       $query_run = mysqli_query($conn, $sql);
@@ -627,7 +627,7 @@ include('../../config/dbconn.php');
                           echo "<option value='" . $row['id'] . "'>" . $row['name'] . "</option>";
                         }
                       } else {
-                        echo "<option value=''>No departments available</option>";
+                        echo "<option value=''>No division available</option>";
                       }
                       ?>
                     </select>
@@ -812,15 +812,15 @@ include('../../config/dbconn.php');
             <div class="col-md-12 col-lg-3 col-xl-2">
               <div class="card card-success card-outline">
                 <div class="card-header">
-                  <h3 class="card-title">SELECT DEPARTMENT AND UNIT</h3>
+                  <h3 class="card-title">SELECT DIVISION AND UNIT</h3>
                 </div>
                 <div class="row px-3 py-2">
                   <div class="col-md-12 mt-2">
                     <div class="form-group">
-                      <label>Department</label><span class="text-danger">*</span>
+                      <label>Division</label><span class="text-danger">*</span>
                       <select id="department_id" name="department_id" class="form-control" required
                         onchange="loadUnitsForDepartment()">
-                        <option value="">Select Department</option>
+                        <option value="">Select Division</option>
                         <?php
                         include('../../config/dbconn.php');
                         $sql = "SELECT * FROM department";
@@ -831,7 +831,7 @@ include('../../config/dbconn.php');
                             echo "<option value='" . $row['id'] . "'>" . $row['name'] . "</option>";
                           }
                         } else {
-                          echo "<option value=''>No departments available</option>";
+                          echo "<option value=''>No division available</option>";
                         }
                         ?>
                       </select>
@@ -875,7 +875,7 @@ include('../../config/dbconn.php');
                         <th class="export">Contact No.</th>
                         <th class="export">Gender</th>
                         <th class="export">Position</th>
-                        <th class="export">Department</th>
+                        <th class="export">Division</th>
                         <th class="export">Unit</th>
                         <th class="export" width="5%">Status</th>
                         <th style="width: 100px;">Action</th>
@@ -957,7 +957,7 @@ include('../../config/dbconn.php');
                         <th class="search">Contact No.</th>
                         <th class="search">Gender</th>
                         <th class="search">Position</th>
-                        <th class="search">Department</th>
+                        <th class="search">Division</th>
                         <th class="search">Unit</th>
                         <th class="search">Status</th>
                         <th></th>
