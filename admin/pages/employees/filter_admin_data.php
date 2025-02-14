@@ -53,9 +53,9 @@ while ($row = mysqli_fetch_array($query_run)) {
     }
 
     echo '<td>';
-    echo '<button data-id="' . $row['id'] . '" class="btn btn-sm btn-info editAdminbtn"><i class="fas fa-edit"></i></button>';
+    echo '<button data-id="' . $row['EmployeeNumber'] . '" class="btn btn-sm btn-primary uploadCertificate"><i class="fas fa-upload"></i></button>';
     echo '<button data-id="' . $row['EmployeeNumber'] . '" class="btn btn-sm btn-secondary viewEmployeebtn ml-1"><i class="fas fa-eye me-2"></i></button>';
-    echo '<button data-id="' . $row['EmployeeNumber'] . '" class="btn btn-sm btn-primary uploadCertificate ml-1"><i class="fas fa-upload"></i></button>';
+    echo '<button data-id="' . $row['id'] . '" class="btn btn-sm btn-info editEmployeebtn ml-1"><i class="fas fa-edit"></i></button>';
     echo '</td>';
     echo '</tr>';
 }

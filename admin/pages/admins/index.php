@@ -202,7 +202,7 @@ include('../../config/dbconn.php');
 
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-              <button type="submit" name="deletedata" class="btn btn-rimary ">Submit</button>
+              <button type="submit" name="deletedata" class="btn btn-danger ">Submit</button>
             </div>
           </form>
         </div>

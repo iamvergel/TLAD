@@ -191,14 +191,14 @@ include('../../config/dbconn.php');
                                                     <td><?= $row['id'] ?></td>
                                                     <td><?= $row['department_name'] ?></td>
                                                     <td><?= $row['unit_name'] ?></td>
-                                                    <td>
+                                                    <td class="d-flex">
                                                         <!-- Make sure the class is 'editUnitbtn' as referenced in JavaScript -->
                                                         <button data-id="<?= $row['id'] ?>"
                                                             class="btn btn-sm btn-info editUnitbtn">
                                                             <i class="fas fa-edit"></i>
                                                         </button>
                                                         <button data-id="<?= $row['id'] ?>"
-                                                            class="btn btn-danger btn-sm deleteUnitModal">
+                                                            class="btn btn-danger btn-sm deleteUnitModal ml-1">
                                                             <i class="far fa-trash-alt"></i>
                                                         </button>
                                                     </td>

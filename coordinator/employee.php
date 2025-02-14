@@ -700,13 +700,13 @@ include('../admin/config/dbconn.php');
       </div>
     </div>
 
-    <!-- Modal for Uploading Certificate -->
+    <<!-- Modal for Uploading Certificate -->
     <div class="modal fade" id="uploadCertificateModal">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">Upload Certificate</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeModal">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -729,20 +729,36 @@ include('../admin/config/dbconn.php');
                 <p class="text-muted">(Ex. ExampleCertificate (January 01, 2025))</p>
                 <input type="text" name="Title" id="Title" class="form-control" required>
               </div>
-              <!-- <div class="form-group">
-                <label for="Remarks">Remarks:</label>
-                <textarea name="Remarks" id="Remarks" class="form-control" rows="3"></textarea>
-              </div> -->
+              <div class="form-group">
+                <label>Year</label>
+                <span class="text-danger">*</span>
+                <select id="year" name="year" class="form-control" required
+                  onchange="addloadUnitsForDepartmentedit()">
+                  <option value="">Select Year</option>
+                  <?php
+                  $sql = "SELECT DISTINCT Year FROM tblemployeeremarks ORDER BY Year DESC";
+                  $query_run = mysqli_query($conn, $sql);
+
+                  if (mysqli_num_rows($query_run) > 0) {
+                    while ($row = mysqli_fetch_assoc($query_run)) {
+                      echo "<option value='" . $row['Year'] . "'>" . $row['Year'] . "</option>";
+                    }
+                  } else {
+                    echo "<option value=''>No Year available</option>";
+                  }
+                  ?>
+                </select>
+              </div>
             </div>
 
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeModal">Cancel</button>
               <button type="submit" name="uploadCertificate" class="btn btn-success">Upload</button>
             </div>
           </form>
         </div>
       </div>
-    </div>
+    </div>  
 
     <div id="employeeDetails" class="content-wrapper  d-none">
       <div class="content-header">

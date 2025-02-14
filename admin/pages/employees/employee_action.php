@@ -133,11 +133,11 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
             ?>
             <div class="row">
                 <div class="col-md-3">
-                    <h3 class="profile-username text-center">
+                    <h3 class="profile-username text-center mt-5">
                         <?php echo $row['Lastname'] . ', ' . $row['Firstname'] . ' ' . $row['Suffix'] . ' ' . $row['Middlename']; ?>
                     </h3>
                     <h3 class="profile-username text-center"><?php echo $row['EmployeeNumber']; ?></h3>
-                    <p class="text-muted text-center"><?php echo $row['department_name'] . ' / ' . $row['unit_name']; ?></p>
+                    <p class="text-muted text-center mb-5"><?php echo $row['department_name'] . ' / ' . $row['unit_name']; ?></p>
                     <ul class="list-group list-group-unbordered mb-2 px-3">
                         <li class="list-group-item">
                             <b class="float-left">Position</b>
@@ -199,6 +199,32 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
 
                         <div class="card-body p-3">
                             <div class="tab-content" id="custom-tabs-three-tabContent">
+
+                                <div class="modal fade" id="DeleteCertModal">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Delete Certificate</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close">
+                                            <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+
+                                        <form action="employee_action.php" method="POST">
+                                            <div class="modal-body">
+                                            <input type="hidden" name="delete_id" id="delete_id">
+                                            <p> Do you want to delete this data?</p>
+                                            </div>
+
+                                            <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close">Cancel</button>
+                                            <button type="submit" name="deletedata" class="btn btn-danger ">Submit</button>
+                                            </div>
+                                        </form>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="tab-pane fade show active" id="certificate" role="tabpanel"
                                     aria-labelledby="certificate-tab">
 
@@ -207,7 +233,7 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                                             <tr>
                                                 <!-- <th>Date Uploaded</th> -->
                                                 <th>Certificate</th>
-                                                <th>Year</th>
+                                                <!-- <th>Year</th> -->
                                                 <th>Title (Date of Training)</th>
                                                 <th>Action</th>
                                             </tr>
@@ -218,26 +244,28 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                                                 $employeeNumber = $_POST['user_id'];
                                                 $user = "SELECT * FROM tblemployeeseminar WHERE EmployeeNumber = '$employeeNumber'";
                                                 $users_run = mysqli_query($conn, $user);
-
+                                            
                                                 if (mysqli_num_rows($users_run) > 0) {
-                                                    foreach ($users_run as $user) {
+                                                    while ($user = mysqli_fetch_assoc($users_run)) {
                                                         ?>
-                                                        <tr>
-                                                            <!-- <td><?= date('d-M-Y', strtotime($user['Date'])) ?></td> -->
+                                                        <tr data-id="<?= $user['id'] ?>">
                                                             <td style="text-align: center;" width="50%">
                                                                 <img src="../../../upload/certificates/<?= $user['CertificateImage'] ?>"
                                                                     class="img-thumbnail" width="200" alt="No Image Available"
                                                                     id="showCertificate"
                                                                     onclick="showCertificate('<?= $user['CertificateImage'] ?>')">
                                                             </td>
-                                                            <td><?php echo $user['year']; ?></td>
+                                                            <!-- <td><?= $user['year']; ?></td> -->
                                                             <td class="w-50">
                                                                 <textarea class="form-control title-input border-0" rows="3"
                                                                     data-id="<?= $user['id'] ?>"><?= htmlspecialchars($user['Title']) ?></textarea>
                                                             </td>
-                                                            <td>
+                                                            <td class="d-flex">
                                                                 <button class="btn btn-sm btn-success saveTitle" data-id="<?= $user['id'] ?>">
                                                                     <i class="fas fa-save"></i>
+                                                                </button>
+                                                                <button class="btn btn-sm btn-danger delete ml-1" data-id="<?= $user['id'] ?>">
+                                                                    <i class="fas fa-trash"></i>
                                                                 </button>
                                                             </td>
                                                         </tr>
@@ -246,7 +274,7 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                                                 } else {
                                                     echo "<tr><td colspan='3'>No Data Found</td></tr>";
                                                 }
-                                            }
+                                            }                                            
                                             ?>
                                         </tbody>
                                     </table>
@@ -388,8 +416,12 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                                                                             alt="Certificate" class="card-img-top">
                                                                     </a>
                                                                 </div>
-                                                                <p class="card-text px-3 py-2" style="font-weight: normal; font-size: 12px;">
+                                                                <div class="d-flex justify-content-between">
+                                                                    <p class="card-text px-3 py-2" style="font-weight: normal; font-size: 12px;">
                                                                     <?= date('F j, Y', strtotime($row['Date'])) ?></p>
+                                                                    <p class="card-text px-3 py-2" style="font-weight: normal; font-size: 12px;">
+                                                                    <?= $row['year']; ?></p>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     <?php }
@@ -429,6 +461,44 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                         paging: true,
                         info: true,
                         pageLength: 5,
+                    });
+
+                    $(document).on('click', '.delete', function () {
+                        var user_id = $(this).data('id');
+                        $('#delete_id').val(user_id);
+                        $('#DeleteCertModal').modal('show');
+                    });
+
+                    $(document).on('submit', '#DeleteCertModal form', function (e) {
+                        e.preventDefault();
+
+                        var delete_id = $('#delete_id').val();
+
+                        $.ajax({
+                            type: 'POST',
+                            url: 'employee_action.php',
+                            data: { 
+                                delete_id: delete_id,
+                                deletedata: true
+                            },
+                            success: function(response) {
+                                if (response == 'success') {
+                                    alert('Record deleted successfully!');
+                                    $('#DeleteCertModal').modal('hide');
+                                    
+                                    location.reload();
+                                } else {
+                                    alert('Failed to delete the record. Please try again.');
+                                }
+                            },
+                            error: function() {
+                                alert('Error occurred while trying to delete. Please try again.');
+                            }
+                        });
+                    });
+
+                    $(document).on('click', '#close', function () {
+                        $('#DeleteCertModal').modal('hide');
                     });
 
                     $('.nav-pills a').on('shown.bs.tab', function (event) {
@@ -508,6 +578,35 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
     } else {
         echo $return = "<h5> No Record Found</h5>";
     }
+}
+
+if (isset($_POST['deletedata']) && isset($_POST['delete_id'])) {
+    $delete_id = $_POST['delete_id'];
+
+    $query = "SELECT CertificateImage FROM tblemployeeseminar WHERE id = ?";
+    $stmt = mysqli_prepare($conn, $query);
+    mysqli_stmt_bind_param($stmt, 'i', $delete_id);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $imagePath);
+    mysqli_stmt_fetch($stmt);
+    mysqli_stmt_close($stmt);
+
+    if ($imagePath && file_exists('../../../upload/certificates/' . $imagePath)) {
+        unlink('../../../upload/certificates/' . $imagePath);  // Delete the image from the folder
+    }
+
+    $query = "DELETE FROM tblemployeeseminar WHERE id = ?";
+    $stmt = mysqli_prepare($conn, $query);
+    mysqli_stmt_bind_param($stmt, 'i', $delete_id);
+
+    if (mysqli_stmt_execute($stmt)) {
+        echo 'success'; 
+    } else {
+        echo 'failure'; 
+    }
+
+    mysqli_stmt_close($stmt);
+    exit;
 }
 
 if (isset($_POST['addYear'])) {

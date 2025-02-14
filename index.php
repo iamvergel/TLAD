@@ -71,7 +71,7 @@ if (isset($_SESSION['auth'])) {
 
 <body class="hold-transition login-page">
     <div class="d-none d-lg-block">
-        <div class="d-flex" style="position: absolute; bottom: 1rem; left: 1rem">
+        <div class="d-flex" style="position: absolute; bottom: 2rem; left: 2rem">
             <img src="upload/<?= $logo1 ?>" alt="logo1" height="80" class="rounded-circle ">
             <img src="upload/<?= $logo2 ?>" alt="logo2" height="80" class="rounded-circle mx-3">
             <img src="upload/<?= $system_logo ?>" alt="logo" height="80" class="rounded-circle">

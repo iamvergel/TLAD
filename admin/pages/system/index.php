@@ -214,7 +214,7 @@ include('../../config/dbconn.php');
                                         ?>
                                         <div class="row mt-5">
                                             <div class="col-md-6">
-                                                <button type="submit" name="system_details" class="btn btn-primary"
+                                                <button type="submit" name="system_details" class="btn btn-success"
                                                     onClick="return checkForm(this);">Update</button>
                                             </div>
                                         </div>

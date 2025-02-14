@@ -206,10 +206,11 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                                     <table id="certificatetable" class="table table-hover table-borderless" style="width:100%;">
                                         <thead class="bg-light">
                                             <tr>
-                                                <th>Date Uploaded</th>
+                                                <!-- <th>Date Uploaded</th> -->
                                                 <th>Certificate</th>
+                                                <!-- <th>Year</th> -->
                                                 <th>Title (Date of Training)</th>
-                                                <th>Action</th>
+                                                <!-- <th>Action</th> -->
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -223,23 +224,23 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                                                     foreach ($users_run as $user) {
                                                         ?>
                                                         <tr>
-                                                            <td><?= date('d-M-Y', strtotime($user['Date'])) ?></td>
-                                                            <td style="text-align: center;" width="10%">
+                                                        <td style="text-align: center;" width="50%">
                                                                 <img src="../../../upload/certificates/<?= $user['CertificateImage'] ?>"
                                                                     class="img-thumbnail" width="200" alt="No Image Available"
                                                                     id="showCertificate"
                                                                     onclick="showCertificate('<?= $user['CertificateImage'] ?>')">
                                                             </td>
+                                                            <!-- <td><?php echo $user['year']; ?></td> -->
                                                             <td class="w-50">
-                                                                <textarea class="form-control title-input border-0" rows="3"
+                                                                <textarea class="form-control title-input border-0" rows="3" disabled
                                                                     data-id="<?= $user['id'] ?>"><?= htmlspecialchars($user['Title']) ?></textarea>
                                                             </td>
 
-                                                            <td>
+                                                            <!-- <td>
                                                                 <button class="btn btn-sm btn-success saveTitle" data-id="<?= $user['id'] ?>">
                                                                     <i class="fas fa-save"></i>
                                                                 </button>
-                                                            </td>
+                                                            </td> -->
                                                         </tr>
                                                         <?php
                                                     }
@@ -259,7 +260,7 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                                                 <th class="bg-light">Year</th>
                                                 <th class="bg-light">Remarks</th>
                                                 <th class="bg-light">Title</th>
-                                                <th>Action</th>
+                                                <!-- <th>Action</th> -->
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -275,9 +276,9 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                                                         <tr>
                                                             <td><?= $user['Year'] ?></td>
                                                             <td>
-                                                                <select class="form-control remark-dropdown 
+                                                                <select class="form-control remark-dropdown  
                                                                     <?php echo $user['Remarks'] == 1 ? 'text-success' : ($user['Remarks'] == 0 ? 'text-danger' : ''); ?>"
-                                                                    data-id="<?= $user['id'] ?>">
+                                                                    data-id="<?= $user['id'] ?>" disabled>
                                                                     <option class="text-success" value="1" <?= $user['Remarks'] == 1 ? 'selected' : '' ?>>
                                                                         WITH TRAINING
                                                                     </option>
@@ -295,7 +296,7 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
 
                                                                 if (mysqli_num_rows($query_run) > 0) {
                                                                     // Start the dropdown for titles
-                                                                    echo '<select class="form-control title-dropdown" data-id="' . $user['id'] . '">';
+                                                                    echo '<select class="form-control title-dropdown" data-id="' . $user['id'] . '" disabled>';
                                                                     echo '<option value="">Select Title</option>';
 
                                                                     while ($row = mysqli_fetch_array($query_run)) {
@@ -309,11 +310,11 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                                                                 }
                                                                 ?>
                                                             </td>
-                                                            <td>
+                                                            <!-- <td>
                                                                 <button class="btn btn-sm btn-success saveRemarks ml-1" data-id="<?= $user['id'] ?>">
                                                                     <i class="fas fa-save"></i>
                                                                 </button>
-                                                            </td>
+                                                            </td> -->
                                                         </tr>
                                                         <?php
                                                     }
@@ -381,7 +382,12 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                                                                         <img src="../../../upload/certificates/<?= $row['CertificateImage'] ?>" alt="Certificate" class="card-img-top">
                                                                     </a>
                                                                 </div>
-                                                                <p class="card-text px-3 py-2" style="font-weight: normal; font-size: 12px;"><?= date('F j, Y', strtotime($row['Date'])) ?></p>
+                                                                <div class="d-flex justify-content-between">
+                                                                    <p class="card-text px-3 py-2" style="font-weight: normal; font-size: 12px;">
+                                                                    <?= date('F j, Y', strtotime($row['Date'])) ?></p>
+                                                                    <p class="card-text px-3 py-2" style="font-weight: normal; font-size: 12px;">
+                                                                    <?= $row['year']; ?></p>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     <?php }
