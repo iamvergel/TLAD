@@ -6,6 +6,8 @@ $unit_id = isset($_GET['unit_id']) ? $_GET['unit_id'] : '';
 
 $whereClause = " WHERE tblemployee.Status = 1";
 
+$i = 1;
+
 if ($department_id) {
     $whereClause .= " AND tblemployee.Department = '$department_id'";
 }
@@ -32,6 +34,7 @@ if (!$query_run) {
 
 while ($row = mysqli_fetch_array($query_run)) {
     echo '<tr>';
+    echo '<td>' . $i++ . '</td>';
     echo '<td>' . $row['EmployeeNumber'] . '</td>';
     echo '<td>' . $row['Lastname'] . ' ' . $row['Firstname'] . ' ' . $row['Middlename'] . ' ' . $row['Suffix'] . '</td>';
     echo '<td>' . $row['ContactNumber'] . '</td>';

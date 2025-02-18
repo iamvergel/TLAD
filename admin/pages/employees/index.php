@@ -700,8 +700,7 @@ include('../../config/dbconn.php');
               <div class="form-group">
                 <label>Year</label>
                 <span class="text-danger">*</span>
-                <select id="year" name="year" class="form-control" required
-                  onchange="addloadUnitsForDepartmentedit()">
+                <select id="year" name="year" class="form-control" required onchange="addloadUnitsForDepartmentedit()">
                   <option value="">Select Year</option>
                   <?php
                   $sql = "SELECT DISTINCT Year FROM tblemployeeremarks ORDER BY Year DESC";
@@ -870,7 +869,8 @@ include('../../config/dbconn.php');
                   <table id="employee_table" class="table table-borderless table-hover" style="width:100%;">
                     <thead class="bg-light">
                       <tr>
-                        <th class="text-center">Employee #</th>
+                        <th class="export">#</th>
+                        <th class="export text-center">Employee No.</th>
                         <th class="export">Name</th>
                         <th class="export">Contact No.</th>
                         <th class="export">Gender</th>
@@ -906,6 +906,7 @@ include('../../config/dbconn.php');
                       while ($row = mysqli_fetch_array($query_run)) {
                         ?>
                         <tr>
+                          <td><?php echo $i++; ?></td>
                           <td><?php echo $row['EmployeeNumber']; ?></td>
                           <td>
                             <?php echo $row['Lastname'] . ' ' . $row['Firstname'] . ' ' . $row['Suffix'] . ' ' . $row['Middlename']; ?>
@@ -952,6 +953,7 @@ include('../../config/dbconn.php');
                     </tbody>
                     <tfoot>
                       <tr>
+                        <th class="search">#</th>
                         <th class="search">Employee #</th>
                         <th class="search">Name</th>
                         <th class="search">Contact No.</th>
@@ -1079,13 +1081,13 @@ include('../../config/dbconn.php');
               columns: '.export'
             },
             action: function (e, dt, button, config) {
-                const currentDate = new Date().toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric'
-                });
+              const currentDate = new Date().toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              });
 
-                config.messageBottom = `
+              config.messageBottom = `
                     <div style="text-align: start;">
                         <p style="margin-bottom: 5rem;">Date: ${currentDate}</p>
                         <hr>

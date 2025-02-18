@@ -343,7 +343,7 @@ include('../admin/config/dbconn.php');
 
                 doc.content.push({
                   text: 'Date: ' + new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
-                  marginTop: 25,
+                  marginTop: 15,
                   fontSize: 12,
                   alignment: 'left'
                 });
@@ -357,7 +357,7 @@ include('../admin/config/dbconn.php');
 
                 doc.content.push({
                   text: coordinatorData.coordinator_name + '\n________________________________\nLearning and Development Coordinator',
-                  marginTop: 25,
+                  marginTop: 15,
                   fontSize: 12,
                   alignment: 'left'
                 });
@@ -371,7 +371,7 @@ include('../admin/config/dbconn.php');
 
                 doc.content.push({
                   text: coordinatorData.unit_section_head_name + '\n________________________________\nUnit/Section Head',
-                  marginTop: 25,
+                  marginTop: 15,
                   fontSize: 12,
                   alignment: 'left'
                 });
@@ -385,7 +385,7 @@ include('../admin/config/dbconn.php');
 
                 doc.content.push({
                   text: coordinatorData.division_head_name + '\n________________________________\nUnit/Section Head',
-                  marginTop: 25,
+                  marginTop: 15,
                   fontSize: 12,
                   alignment: 'left'
                 });

@@ -464,7 +464,7 @@ include('../../config/dbconn.php');
 
                 doc.content.push({
                   text: coordinatorData.admin_name + '\n________________________________\nLearning and Development Coordinator',
-                  marginTop: 25,
+                  marginTop: 15,
                   fontSize: 12,
                   alignment: 'left'
                 });
@@ -478,7 +478,7 @@ include('../../config/dbconn.php');
 
                 doc.content.push({
                   text: coordinatorData.address + '\n________________________________\nUnit/Section Head',
-                  marginTop: 25,
+                  marginTop: 15,
                   fontSize: 12,
                   alignment: 'left'
                 });
@@ -492,7 +492,7 @@ include('../../config/dbconn.php');
 
                 doc.content.push({
                   text: coordinatorData.division_head_name + '\n________________________________\nUnit/Section Head',
-                  marginTop: 25,
+                  marginTop: 15,
                   fontSize: 12,
                   alignment: 'left'
                 });
