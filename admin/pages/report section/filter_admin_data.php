@@ -7,6 +7,8 @@ $unit_id = $_GET['unit_id'] ?? '';
 $year = $_GET['year'] ?? '';
 $remarks = $_GET['remarks'] ?? '';
 
+$i = 1;
+
 // Construct the WHERE clause based on the filters
 $whereClause = "WHERE tblemployee.Status = 1";
 if ($department_id)
@@ -38,6 +40,7 @@ if ($query_run) {
     while ($row = mysqli_fetch_array($query_run)) {
         // Output table rows
         echo '<tr>';
+        echo '<td class="d-none">' . $i++ . '</td>';
         echo '<td>' . $row['Lastname'] . ' ' . $row['Firstname'] . ' ' . $row['Middlename'] . ' ' . $row['Suffix'] . '</td>';
         echo '<td>' . $row['Position'] . '</td>';
         echo '<td>' . $row['department_name'] . '</td>';

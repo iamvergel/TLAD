@@ -6,6 +6,7 @@ if (isset($_POST['profile_details'])) {
     $id = $_POST['userid'];
     $name = $_POST['name'];
     $address = $_POST['address'];
+    $divHead = $_POST['divisionHead'];
     $contact = $_POST['contact'];
 
     $old_image = $_POST['old_image'];
@@ -29,7 +30,7 @@ if (isset($_POST['profile_details'])) {
         $update_filename = $old_image;
     }
     if ($_SESSION['error'] == '') {
-        $sql = "UPDATE tbladmin SET name='$name',address='$address',phone='$contact',image='$update_filename' WHERE id='$id'";
+        $sql = "UPDATE tbladmin SET name='$name',address='$address', division_head_name='$divHead',phone='$contact',image='$update_filename' WHERE id='$id'";
         $query_run = mysqli_query($conn, $sql);
 
         if ($query_run) {

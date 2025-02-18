@@ -47,7 +47,6 @@ include('../admin/config/dbconn.php');
                                                 enctype="multipart/form-data">
                                                 <?php
                                                 if (isset($_SESSION['auth'])) {
-                                                    // Proper SQL query with JOIN and WHERE condition
                                                     $sql = "SELECT 
                                                                 tblcoordinator.*, 
                                                                 department.name AS department_name, 

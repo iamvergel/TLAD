@@ -701,147 +701,148 @@ include('../admin/config/dbconn.php');
     </div>
 
     <<!-- Modal for Uploading Certificate -->
-    <div class="modal fade" id="uploadCertificateModal">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Upload Certificate</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeModal">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
+      <div class="modal fade" id="uploadCertificateModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Upload Certificate</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeModal">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
 
-          <form action="employee_action.php" method="POST" enctype="multipart/form-data">
-            <div class="modal-body">
-              <div class="form-group">
-                <label>Employee Number</label>
-                <span class="text-danger">*</span>
-                <input type="text" name="EmployeeNumber" id="employeeNumber" class="form-control" required readonly>
-              </div>
-              <div class="form-group">
-                <label>Certificate Image</label>
-                <span class="text-danger">*</span>
-                <input type="file" name="CertificateImage" id="CertificateImage" class="form-control" required>
-              </div>
-              <div class="form-group">
-                <label>Certificate Title (Date of Training)</label>
-                <span class="text-danger">*</span>
-                <p class="text-muted">(Ex. ExampleCertificate (January 01, 2025))</p>
-                <input type="text" name="Title" id="Title" class="form-control" required>
-              </div>
-              <div class="form-group">
-                <label>Year</label>
-                <span class="text-danger">*</span>
-                <select id="year" name="year" class="form-control" required
-                  onchange="addloadUnitsForDepartmentedit()">
-                  <option value="">Select Year</option>
-                  <?php
-                  $sql = "SELECT DISTINCT Year FROM tblemployeeremarks ORDER BY Year DESC";
-                  $query_run = mysqli_query($conn, $sql);
+            <form action="employee_action.php" method="POST" enctype="multipart/form-data">
+              <div class="modal-body">
+                <div class="form-group">
+                  <label>Employee Number</label>
+                  <span class="text-danger">*</span>
+                  <input type="text" name="EmployeeNumber" id="employeeNumber" class="form-control" required readonly>
+                </div>
+                <div class="form-group">
+                  <label>Certificate Image</label>
+                  <span class="text-danger">*</span>
+                  <input type="file" name="CertificateImage" id="CertificateImage" class="form-control" required>
+                </div>
+                <div class="form-group">
+                  <label>Certificate Title (Date of Training)</label>
+                  <span class="text-danger">*</span>
+                  <p class="text-muted">(Ex. ExampleCertificate (January 01, 2025))</p>
+                  <input type="text" name="Title" id="Title" class="form-control" required>
+                </div>
+                <div class="form-group">
+                  <label>Year</label>
+                  <span class="text-danger">*</span>
+                  <select id="year" name="year" class="form-control" required
+                    onchange="addloadUnitsForDepartmentedit()">
+                    <option value="">Select Year</option>
+                    <?php
+                    $sql = "SELECT DISTINCT Year FROM tblemployeeremarks ORDER BY Year DESC";
+                    $query_run = mysqli_query($conn, $sql);
 
-                  if (mysqli_num_rows($query_run) > 0) {
-                    while ($row = mysqli_fetch_assoc($query_run)) {
-                      echo "<option value='" . $row['Year'] . "'>" . $row['Year'] . "</option>";
+                    if (mysqli_num_rows($query_run) > 0) {
+                      while ($row = mysqli_fetch_assoc($query_run)) {
+                        echo "<option value='" . $row['Year'] . "'>" . $row['Year'] . "</option>";
+                      }
+                    } else {
+                      echo "<option value=''>No Year available</option>";
                     }
-                  } else {
-                    echo "<option value=''>No Year available</option>";
-                  }
-                  ?>
-                </select>
+                    ?>
+                  </select>
+                </div>
               </div>
-            </div>
 
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeModal">Cancel</button>
-              <button type="submit" name="uploadCertificate" class="btn btn-success">Upload</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>  
-
-    <div id="employeeDetails" class="content-wrapper  d-none">
-      <div class="content-header">
-        <div class="container-fluid">
-          <div class="row mb-2">
-            <div class="col-sm-6">
-              <h1>Employee</h1>
-            </div>
-            <div class="col-sm-6">
-              <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="../dashboard/">Home</a></li>
-                <li class="breadcrumb-item active">Employee</li>
-              </ol>
-            </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeModal">Cancel</button>
+                <button type="submit" name="uploadCertificate" class="btn btn-success">Upload</button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
-      <div  class="container-fluid">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="card card-primary card-outline">
-              <div class="card-header">
-                <h3 class="card-title" id="EmployeeNumberTitle">Employee Information</h3>
-                <button type="button" class="btn btn-secondary float-right" id="closeEmployeeDetails">
-                  BACK
-                </button>
+
+      <div id="employeeDetails" class="content-wrapper  d-none">
+        <div class="content-header">
+          <div class="container-fluid">
+            <div class="row mb-2">
+              <div class="col-sm-6">
+                <h1>Employee</h1>
               </div>
-              <div class="card-body">
-                <div class="admin_viewing_data"></div>
+              <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                  <li class="breadcrumb-item"><a href="../dashboard/">Home</a></li>
+                  <li class="breadcrumb-item active">Employee</li>
+                </ol>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-
-    <div class="content-wrapper main">
-      <div class="content-header">
-        <div class="container-fluid">
-          <div class="row mb-2">
-            <div class="col-sm-6">
-              <h1>Employee</h1>
-            </div>
-            <div class="col-sm-6">
-              <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="../dashboard/">Home</a></li>
-                <li class="breadcrumb-item active">Employee</li>
-              </ol>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="content">
         <div class="container-fluid">
           <div class="row">
             <div class="col-md-12">
-              <?php include('message.php'); ?>
-              <div class="card card-success card-outline">
+              <div class="card card-primary card-outline">
                 <div class="card-header">
-                  <h3 class="card-title">Employee List</h3>
-                  <button type="button" class="btn btn-primary btn-sm float-right" data-toggle="modal"
-                    data-target="#AddEmployeeModal">
-                    <i class="fa fa-plus"></i> &nbsp;&nbsp;Add Employee</button>
+                  <h3 class="card-title" id="EmployeeNumberTitle">Employee Information</h3>
+                  <button type="button" class="btn btn-secondary float-right" id="closeEmployeeDetails">
+                    BACK
+                  </button>
                 </div>
                 <div class="card-body">
-                  <table id="employee_table" class="table table-borderless table-hover" style="width:100%;">
-                    <thead class="bg-light">
-                      <tr>
-                        <th class="text-center">Employee No.</th>
-                        <th class="export">Name</th>
-                        <th class="export">Contact No.</th>
-                        <th class="export">Gender</th>
-                        <th class="export">Position</th>
-                        <th class="export">Division</th>
-                        <th class="export">Unit</th>
-                        <!-- <th class="export" width="5%">Status</th> -->
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody><?php
-                    $i = 1;
-                    $user = $_SESSION['auth_user']['user_id'];
-                    $sql = "SELECT 
+                  <div class="admin_viewing_data"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-wrapper main">
+        <div class="content-header">
+          <div class="container-fluid">
+            <div class="row mb-2">
+              <div class="col-sm-6">
+                <h1>Employee</h1>
+              </div>
+              <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                  <li class="breadcrumb-item"><a href="../dashboard/">Home</a></li>
+                  <li class="breadcrumb-item active">Employee</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-12">
+                <?php include('message.php'); ?>
+                <div class="card card-success card-outline">
+                  <div class="card-header">
+                    <h3 class="card-title">Employee List</h3>
+                    <button type="button" class="btn btn-primary btn-sm float-right" data-toggle="modal"
+                      data-target="#AddEmployeeModal">
+                      <i class="fa fa-plus"></i> &nbsp;&nbsp;Add Employee</button>
+                  </div>
+                  <div class="card-body">
+                    <table id="employee_table" class="table table-borderless table-hover" style="width:100%;">
+                      <thead class="bg-light">
+                        <tr>
+                          <th class="text-center">Employee No.</th>
+                          <th class="export">Name</th>
+                          <th class="export">Contact No.</th>
+                          <th class="export">Gender</th>
+                          <th class="export">Position</th>
+                          <th class="export">Division</th>
+                          <th class="export">Unit</th>
+                          <!-- <th class="export" width="5%">Status</th> -->
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody class="text-uppercase">
+                        <?php
+                        $i = 1;
+                        $user = $_SESSION['auth_user']['user_id'];
+                        $sql = "SELECT 
                                 tblemployee.*, 
                                 department.name AS department_name, 
                                 unit.unit_name AS unit_name
@@ -850,30 +851,30 @@ include('../admin/config/dbconn.php');
                             LEFT JOIN unit ON tblemployee.UnitSection = unit.id
                             WHERE tblemployee.coordinator_id = $user AND Status = 1";
 
-                    $query_run = mysqli_query($conn, $sql);
+                        $query_run = mysqli_query($conn, $sql);
 
-                    while ($row = mysqli_fetch_array($query_run)) { ?>
-                        <tr>
-                          <!-- <td style="text-align: center;" width="10%"><img src="../../../upload/Employees/<?= $row['image'] ?>" class="img-thumbnail img-circle" width="50" alt=""></td> -->
-                          <td><?php echo $row['EmployeeNumber']; ?></td>
-                          <td>
-                            <?php echo $row['Lastname'] . ' ' . $row['Firstname'] . ' ' . $row['Middlename'] . ' ' . $row['Suffix']; ?>
-                          </td>
-                          <td><?php echo $row['ContactNumber']; ?></td>
-                          <td><?php
-                          if ($row['Sex'] == 'F') {
-                            echo "Female";
-                          } elseif ($row['Sex'] == 'M') {
-                            echo "Male";
-                          } else {
-                            echo "Not Specified";
-                          }
-                          ?></td>
-                          <td><?php echo $row['Position']; ?></td>
-                          <td><?php echo $row['department_name']; ?></td>
-                          <td><?php echo $row['unit_name']; ?></td>
+                        while ($row = mysqli_fetch_array($query_run)) { ?>
+                          <tr>
+                            <!-- <td style="text-align: center;" width="10%"><img src="../../../upload/Employees/<?= $row['image'] ?>" class="img-thumbnail img-circle" width="50" alt=""></td> -->
+                            <td><?php echo $row['EmployeeNumber']; ?></td>
+                            <td>
+                              <?php echo $row['Lastname'] . ' ' . $row['Firstname'] . ' ' . $row['Middlename'] . ' ' . $row['Suffix']; ?>
+                            </td>
+                            <td><?php echo $row['ContactNumber']; ?></td>
+                            <td><?php
+                            if ($row['Sex'] == 'F') {
+                              echo "Female";
+                            } elseif ($row['Sex'] == 'M') {
+                              echo "Male";
+                            } else {
+                              echo "Not Specified";
+                            }
+                            ?></td>
+                            <td><?php echo $row['Position']; ?></td>
+                            <td><?php echo $row['department_name']; ?></td>
+                            <td><?php echo $row['unit_name']; ?></td>
 
-                          <!-- <td>
+                            <!-- <td>
                             <?php
                             if ($row['Status'] == 1) {
                               echo '<button data-id="' . $row['id'] . '" data-status="' . $row['Status'] . '" class="btn btn-sm btn-success activatebtn">Active</button>';
@@ -882,39 +883,40 @@ include('../admin/config/dbconn.php');
                             }
                             ?>
                           </td> -->
-                          <td style="width: 150px;">
-                            <button data-id="<?php echo $row['EmployeeNumber']; ?>"
-                              class="btn btn-sm btn-primary uploadCertificate"><i class="fas fa-upload me-2"></i></button>
-                            <button data-id="<?php echo $row['EmployeeNumber']; ?>"
-                              class="btn btn-sm btn-secondary viewEmployeebtn"><i class="fas fa-eye me-2"></i></button>
-                            <button data-id="<?php echo $row['id']; ?>" class="btn btn-sm btn-info editEmployeebtn"><i
-                                class="fas fa-edit me-2"></i></button>
-                          </td>
+                            <td style="width: 150px;">
+                              <button data-id="<?php echo $row['EmployeeNumber']; ?>"
+                                class="btn btn-sm btn-primary uploadCertificate"><i
+                                  class="fas fa-upload me-2"></i></button>
+                              <button data-id="<?php echo $row['EmployeeNumber']; ?>"
+                                class="btn btn-sm btn-secondary viewEmployeebtn"><i class="fas fa-eye me-2"></i></button>
+                              <button data-id="<?php echo $row['id']; ?>" class="btn btn-sm btn-info editEmployeebtn"><i
+                                  class="fas fa-edit me-2"></i></button>
+                            </td>
+                          </tr>
+                          <?php
+                        }
+                        ?>
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <th class="search">Employee No.</th>
+                          <th class="search">Name</th>
+                          <th class="search">Contact No.</th>
+                          <th class="search">Gender</th>
+                          <th class="search">Position</th>
+                          <th class="search">Division</th>
+                          <th class="search">Unit</th>
+                          <th class="search">Status</th>
                         </tr>
-                        <?php
-                    }
-                    ?>
-                    </tbody>
-                    <tfoot>
-                      <tr>
-                        <th class="search">Employee No.</th>
-                        <th class="search">Name</th>
-                        <th class="search">Contact No.</th>
-                        <th class="search">Gender</th>
-                        <th class="search">Position</th>
-                        <th class="search">Division</th>
-                        <th class="search">Unit</th>
-                        <th class="search">Status</th>
-                      </tr>
-                    </tfoot>
-                  </table>
+                      </tfoot>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
   </div>
   <?php include('includes/scripts.php'); ?>
   <script>

@@ -77,10 +77,16 @@ include('../../config/dbconn.php');
                                                                             required>
                                                                     </div>
                                                                     <div class="form-group col-md-6">
-                                                                        <label for="">Address</label>
+                                                                        <label for="">Unit Section Head Name</label>
                                                                         <span class="text-danger">*</span>
                                                                         <input type="text" name="address" class="form-control"
                                                                             value="<?= $row['address'] ?>" required>
+                                                                    </div>
+                                                                    <div class="form-group col-md-6">
+                                                                        <label for="">Division Head Name</label>
+                                                                        <span class="text-danger">*</span>
+                                                                        <input type="text" name="divisionHead" class="form-control"
+                                                                            value="<?= $row['division_head_name'] ?>" required>
                                                                     </div>
                                                                     <div class="form-group col-md-6">
                                                                         <label for="">Contact Number</label>

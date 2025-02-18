@@ -5,9 +5,8 @@ include('../admin/config/dbconn.php');
 if (isset($_GET['department_id'])) {
     $department_id = $_GET['department_id'];
 
-    // Prepared statement to avoid SQL injection
     $stmt = $conn->prepare("SELECT * FROM unit WHERE department_id = ?");
-    $stmt->bind_param('i', $department_id);  // 'i' denotes integer
+    $stmt->bind_param('i', $department_id);
     $stmt->execute();
     $result = $stmt->get_result();
 
@@ -16,12 +15,12 @@ if (isset($_GET['department_id'])) {
         while ($row = $result->fetch_assoc()) {
             $units[] = $row;
         }
-        echo json_encode($units);  // Send units as a JSON response
+        echo json_encode($units);
     } else {
-        echo json_encode([]);  // If no units found, return an empty array
+        echo json_encode([]);
     }
 
-    $stmt->close();  // Close the statement
+    $stmt->close(); 
 } else {
-    echo json_encode([]);  // If no department_id is passed, return an empty array
+    echo json_encode([]); 
 }

@@ -67,8 +67,9 @@ if (isset($_POST['deletedata'])) {
 
 if (isset($_POST['updateadmin'])) {
     $id = $_POST['edit_id'];
-    $fname  = $_POST['fname'];
+    $fname = $_POST['fname'];
     $address = $_POST['address'];
+    $divHead = $_POST['divisionHead'];
     $phone = $_POST['phone'];
     $admin_email = $_POST['email'];
     $password = $_POST['edit_password'];
@@ -111,7 +112,7 @@ if (isset($_POST['updateadmin'])) {
                 $update_filename = $old_image;
             }
             if ($_SESSION['error'] == '') {
-                $sql = "UPDATE tbladmin set name='$fname',address='$address', phone='$phone', email='$admin_email', password='$password', image='$update_filename' WHERE id='$id' ";
+                $sql = "UPDATE tbladmin set name='$fname',address='$address',division_head_name='$divHead', phone='$phone', email='$admin_email', password='$password', image='$update_filename' WHERE id='$id' ";
                 $query_run = mysqli_query($conn, $sql);
 
                 if ($query_run) {
@@ -161,9 +162,10 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
 
     if (mysqli_num_rows($query_run) > 0) {
         foreach ($query_run as $row) {
-?>
+            ?>
             <div class="text-center">
-                <img src="../../../upload/admin/<?= $row['image'] ?>" class="img-thumbnail img-fluid img-circle" width="120" alt="Admin Image">
+                <img src="../../../upload/admin/<?= $row['image'] ?>" class="img-thumbnail img-fluid img-circle" width="120"
+                    alt="Admin Image">
             </div>
             <h3 class="profile-username text-center"><?php echo $row['name']; ?></h3>
             <p class="text-muted text-center"><?php echo $row['specialty']; ?></p>
@@ -181,7 +183,7 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                     <p class="float-right text-muted"><?php echo $row['address']; ?></p>
                 </li>
             </ul>
-<?php
+            <?php
         }
     } else {
         echo $return = "<h5> No Record Found</h5>";
@@ -189,8 +191,9 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
 }
 
 if (isset($_POST['insertadmin'])) {
-    $doc_fname  = $_POST['fname'];
+    $doc_fname = $_POST['fname'];
     $doc_address = $_POST['address'];
+    $divHead = $_POST['divisionHead'];
     $doc_phone = $_POST['phone'];
     $admin_email = $_POST['email'];
     $role = '';
@@ -244,8 +247,8 @@ if (isset($_POST['insertadmin'])) {
             }
 
             if ($_SESSION['error'] == '') {
-                $sql = "INSERT INTO tbladmin (name,address,phone,email,image,password,role,created_at)
-                    VALUES ('$doc_fname','$doc_address','$doc_phone','$admin_email','$filename','$hash','admin','$regdate')";
+                $sql = "INSERT INTO tbladmin (name,address,division_head_name,phone,email,image,password,role,created_at)
+                    VALUES ('$doc_fname','$doc_address', '$divHead', '$doc_phone','$admin_email','$filename','$hash','admin','$regdate')";
                 $doctor_query_run = mysqli_query($conn, $sql);
                 if ($doctor_query_run) {
 

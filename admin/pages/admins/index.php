@@ -31,9 +31,18 @@ include('../../config/dbconn.php');
               <div class="row">
                 <div class="col-sm-12">
                   <div class="form-group">
-                    <label>Address</label>
+                    <label>Unit Section Head Name</label>
                     <span class="text-danger">*</span>
                     <input type="text" name="address" class="form-control" required>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label>Division Head Name</label>
+                    <span class="text-danger">*</span>
+                    <input type="text" name="divisionHead" class="form-control" required>
                   </div>
                 </div>
               </div>
@@ -134,9 +143,18 @@ include('../../config/dbconn.php');
               <div class="row">
                 <div class="col-sm-12">
                   <div class="form-group">
-                    <label>Address</label>
+                    <label>Unit Section Head Name</label>
                     <span class="text-danger">*</span>
                     <input type="text" name="address" id="edit_address" class="form-control" required>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label>Division Head Name</label>
+                    <span class="text-danger">*</span>
+                    <input type="text" name="divisionHead" id="edit_Head" class="form-control" required>
                   </div>
                 </div>
               </div>
@@ -412,6 +430,7 @@ include('../../config/dbconn.php');
               $('#edit_id').val(value['id']);
               $('#edit_fname').val(value['name']);
               $('#edit_address').val(value['address']);
+              $('#edit_Head').val(value['division_head_name']);
               $('#edit_phone').val(value['phone'].substring(3));
               $('#edit_email').val(value['email']);
               $('#uploaded_image').html('<img src="../../../upload/admin/' + value['image'] + '" class="img-fluid img-thumbnail" width="120" />');
