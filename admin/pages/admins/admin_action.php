@@ -201,6 +201,8 @@ if (isset($_POST['insertadmin'])) {
     $confirmPassword = $_POST['confirmPassword'];
     $regdate = date('Y-m-d H:i:s');
     $status = 1;
+    $verify = 1;
+    $verify_status = 1;
 
     $image = $_FILES['doc_image']['name'];
 
@@ -248,8 +250,8 @@ if (isset($_POST['insertadmin'])) {
             }
 
             if ($_SESSION['error'] == '') {
-                $sql = "INSERT INTO tbladmin (name,address,division_head_name,phone,email,status,image,password,role,created_at)
-                    VALUES ('$doc_fname','$doc_address', '$divHead', '$doc_phone','$admin_email','$status','$filename','$hash','admin','$regdate')";
+                $sql = "INSERT INTO tbladmin (name,address,division_head_name,phone,email,status,verify_token,verify_status,image,password,role,created_at)
+                    VALUES ('$doc_fname','$doc_address', '$divHead', '$doc_phone','$admin_email','$status','$verify','$verify_status','$filename','$hash','admin','$regdate')";
                 $doctor_query_run = mysqli_query($conn, $sql);
                 if ($doctor_query_run) {
 
