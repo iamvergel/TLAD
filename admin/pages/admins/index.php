@@ -85,8 +85,8 @@ include('../../config/dbconn.php');
               <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label for="admin_image">Upload Image</label>
-                    <input type="file" name="admin_image" id="doc_image">
+                    <label for="doc_image">Upload Image</label>
+                    <input type="file" name="doc_image" id="doc_image">
                   </div>
                 </div>
               </div>
