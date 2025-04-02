@@ -55,15 +55,15 @@ include('../../config/dbconn.php');
                                                             <input type="hidden" name="userid"
                                                                 value="<?= $_SESSION['auth_user']['user_id'] ?>">
                                                             <div class="col-md-4">
-                                                                <div class="form-group col-md-3">
+                                                                <div class="form-group">
                                                                     <label for="">Image</label>
                                                                     <input type="file" name="img_url" placeholder="">
                                                                     <input type="hidden" name="old_image"
                                                                         value="<?= $row['image'] ?>" />
-                                                                    <div id="uploaded_image" class="p-5">
+                                                                    <div id="uploaded_image" class="p-5 w-100 bg-secondary object-cover overflow-hidden d-flex justify-content-center align-items-center">
                                                                         <img src="../../../upload/admin/<?= $row['image'] ?>"
-                                                                            class="" width="400"
-                                                                            alt="Doctor Image">
+                                                                            class="" width="200"
+                                                                            alt="Admin Image" class="img-thumbnail img-fluid object-cover">
                                                                     </div>
                                                                 </div>
                                                             </div>
