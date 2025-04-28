@@ -235,7 +235,7 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                                                 <th>Certificate</th>
                                                 <!-- <th>Year</th> -->
                                                 <th>Title (Date of Training)</th>
-                                                <th>Action</th>
+                                                <th >Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -249,24 +249,38 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                                                     while ($user = mysqli_fetch_assoc($users_run)) {
                                                         ?>
                                                         <tr data-id="<?= $user['id'] ?>">
-                                                            <td style="text-align: center;" width="50%">
-                                                                <img src="../../../upload/certificates/<?= $user['CertificateImage'] ?>"
-                                                                    class="img-thumbnail" width="200" alt="No Image Available"
-                                                                    id="showCertificate"
-                                                                    onclick="showCertificate('<?= $user['CertificateImage'] ?>')">
-                                                            </td>
+                                                        <td style="text-align: center;" width="50%">
+                                                            <?php 
+                                                                $fileExtension = pathinfo($user['CertificateImage'], PATHINFO_EXTENSION); 
+                                                                $filePath = "../../../upload/certificates/" . $user['CertificateImage'];
+                                                                
+                                                                if (in_array(strtolower($fileExtension), ['jpg', 'jpeg', 'png'])) {
+                                                                    // Display image for jpg, jpeg, and png
+                                                                    echo "<img class='gallery-lightbox' src='$filePath' class='img-thumbnail' width='200' id='showCertificate' >";
+                                                                } elseif (strtolower($fileExtension) == 'pdf') {
+                                                                    // Display PDF for pdf files
+                                                                    echo "<div class='d-flex flex-column justify-content-center align-items-center ' style='scrollbar-width: thin;'><iframe src='$filePath' width='200' style='scrollbar-width: thin;' class='gallery-lightbox' height='200' frameborder='0' id='showCertificate'></iframe>
+                                                                    <a href='$filePath' target='_blank' class='btn btn-primary gallery-lightbox w-50 mt-2 py-1 px-0'><i class='far fa-file-pdf me-3'></i> View Certificate</a></div>";
+                                                                } else {
+                                                                    echo "<p>No valid file to display.</p>";
+                                                                }
+                                                            ?>
+                                                        </td>
+
                                                             <!-- <td><?= $user['year']; ?></td> -->
                                                             <td class="w-50">
                                                                 <textarea class="form-control title-input border-0" rows="3"
                                                                     data-id="<?= $user['id'] ?>"><?= htmlspecialchars($user['Title']) ?></textarea>
                                                             </td>
-                                                            <td class="d-flex">
-                                                                <button class="btn btn-sm btn-success saveTitle" data-id="<?= $user['id'] ?>">
-                                                                    <i class="fas fa-save"></i>
-                                                                </button>
-                                                                <button class="btn btn-sm btn-danger delete ml-1" data-id="<?= $user['id'] ?>">
-                                                                    <i class="fas fa-trash"></i>
-                                                                </button>
+                                                            <td class="">
+                                                                <div class="d-flex">
+                                                                    <button class="btn btn-sm btn-success saveTitle" data-id="<?= $user['id'] ?>">
+                                                                        <i class="fas fa-save"></i>
+                                                                    </button>
+                                                                    <button class="btn btn-sm btn-danger delete ml-1" data-id="<?= $user['id'] ?>">
+                                                                        <i class="fas fa-trash"></i>
+                                                                    </button>
+                                                                </div>
                                                             </td>
                                                         </tr>
                                                         <?php
@@ -370,7 +384,6 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                                         max-width: 100%;
                                         cursor: default;
                                     }
-
                                     .gallery .card-img-top {
                                         width: 100%;
                                         height: 100px;
@@ -392,47 +405,63 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                                     }
                                 </style>
 
-                                <div class="tab-pane fade gallery" id="gallery" role="tabpanel" aria-labelledby="gallery-tab">
-                                    <div class="container-fluid" style="overflow-y: scroll; height: 500px; scrollbar-width: thin;">
-                                        <div class="row no-gutters">
-                                            <?php
-                                            if (isset($_POST['user_id'])) {
-                                                $employeeNumber = $_POST['user_id'];
-                                                $sql = "SELECT * FROM tblemployeeseminar WHERE EmployeeNumber = '$employeeNumber' ORDER BY Date DESC";
-                                                $query_run = mysqli_query($conn, $sql);
-                                                $check_services = mysqli_num_rows($query_run) > 0;
+<div class="tab-pane fade gallery" id="gallery" role="tabpanel" aria-labelledby="gallery-tab">
+    <div class="container-fluid" style="overflow-y: scroll; height: 500px; scrollbar-width: thin;">
+        <div class="row no-gutters">
+            <?php
+            if (isset($_POST['user_id'])) {
+                $employeeNumber = $_POST['user_id'];
+                $sql = "SELECT * FROM tblemployeeseminar WHERE EmployeeNumber = '$employeeNumber' ORDER BY Date DESC";
+                $query_run = mysqli_query($conn, $sql);
+                $check_services = mysqli_num_rows($query_run) > 0;
 
-                                                if ($check_services) {
-                                                    while ($row = mysqli_fetch_array($query_run)) { ?>
-                                                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
-                                                            <div class="gallery-item card border-3">
-                                                                <p class="card-title p-2 text-center"
-                                                                    style="font-weight: bold; font-size: 14px; margin-bottom: 0; height: 60px;">
-                                                                    <?= $row['Title'] ?></p>
-                                                                <div class="card-body">
-                                                                    <a href="../../../upload/certificates/<?= $row['CertificateImage'] ?>"
-                                                                        class="gallery-lightbox">
-                                                                        <img src="../../../upload/certificates/<?= $row['CertificateImage'] ?>"
-                                                                            alt="Certificate" class="card-img-top">
-                                                                    </a>
-                                                                </div>
-                                                                <div class="d-flex justify-content-between">
-                                                                    <p class="card-text px-3 py-2" style="font-weight: normal; font-size: 12px;">
-                                                                    <?= date('F j, Y', strtotime($row['Date'])) ?></p>
-                                                                    <p class="card-text px-3 py-2" style="font-weight: normal; font-size: 12px;">
-                                                                    <?= $row['year']; ?></p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    <?php }
-                                                } else {
-                                                    echo "<p>No certificates found for this user.</p>";
-                                                }
-                                            }
-                                            ?>
-                                        </div>
-                                    </div>
+                if ($check_services) {
+                    while ($row = mysqli_fetch_array($query_run)) {
+                        $fileExtension = pathinfo($row['CertificateImage'], PATHINFO_EXTENSION);
+                        $filePath = "../../../upload/certificates/" . $row['CertificateImage'];
+                        $title = $row['Title'];
+                        $maxTitleLength = 30; // Set the maximum length for the title
+                        $shortenedTitle = (strlen($title) > $maxTitleLength) ? substr($title, 0, $maxTitleLength) . '...' : $title;
+                        ?>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                            <div class="gallery-item card border-3">
+                                <p class="card-title p-2 text-center"
+                                    style="font-weight: bold; font-size: 14px; margin-bottom: 0; height: 60px;"
+                                    title="<?= $title ?>">
+                                    <?= $shortenedTitle ?></p>
+                                <div class="card-body">
+                                    <?php
+                                    if (in_array(strtolower($fileExtension), ['jpg', 'jpeg', 'png'])) {
+                                        // Display image for jpg, jpeg, and png
+                                        echo "<a href='$filePath' class='gallery-lightbox'>
+                                                <img src='$filePath' alt='Certificate' class='card-img-top'>
+                                              </a>";
+                                    } elseif (strtolower($fileExtension) == 'pdf') {
+                                        // Display PDF button for pdf files
+                                        echo "<a href='$filePath' class='btn btn-primary w-100 gallery-lightbox' target='_blank'>
+                                                <i class='far fa-file-pdf me-3'></i> View Certificate
+                                              </a>";
+                                    }
+                                    ?>
                                 </div>
+                                <div class="d-flex justify-content-between">
+                                    <p class="card-text px-3 py-2" style="font-weight: normal; font-size: 12px;">
+                                        <?= date('F j, Y', strtotime($row['Date'])) ?></p>
+                                    <p class="card-text px-3 py-2" style="font-weight: normal; font-size: 12px;">
+                                        <?= $row['year']; ?></p>
+                                </div>
+                            </div>
+                        </div>
+                    <?php }
+                } else {
+                    echo "<p>No certificates found for this user.</p>";
+                }
+            }
+            ?>
+        </div>
+    </div>
+</div>
+
                             </div>
                         </div>
                     </div>
@@ -570,7 +599,7 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
                 });
 
                 function showCertificate(imageSrc) {
-                    window.open("../../../upload/certificates/" + imageSrc);
+                    window.open("../../upload/certificates/" + imageSrc);
                 }
             </script>
             <?php
@@ -735,26 +764,32 @@ if (isset($_POST['insertEmployee'])) {
 
 if (isset($_POST['uploadCertificate'])) {
     $employeeNumber = $_POST['EmployeeNumber'];
-    $certificateImage = $_FILES['CertificateImage']['name'];
+    $certificateFile = $_FILES['CertificateImage']['name']; // Now it's called CertificateFile for clarity
     $uploadDate = date('Y-m-d H:i:s');
     $Title = $_POST['Title'];
     $currentYear = $_POST['year'];
 
-    // Check if the image was uploaded
-    if ($certificateImage != NULL) {
-        $allowed_file_format = array('jpg', 'png', 'jpeg');
-        $image_extension = pathinfo($certificateImage, PATHINFO_EXTENSION);
+    // Check if a file was uploaded
+    if ($certificateFile != NULL) {
+        // Allow jpg, jpeg, png, and pdf
+        $allowed_file_format = array('jpg', 'jpeg', 'png', 'pdf');
+        $file_extension = pathinfo($certificateFile, PATHINFO_EXTENSION);
 
-        if (!in_array($image_extension, $allowed_file_format)) {
-            $_SESSION['error'] = "Upload valid file. jpg, png";
+        if (!in_array(strtolower($file_extension), $allowed_file_format)) {
+            $_SESSION['error'] = "Upload valid file. jpg, jpeg, png, pdf";
             header('Location:index.php');
+            exit();
         } else if ($_FILES['CertificateImage']['size'] > 5000000) {
             $_SESSION['error'] = "File size exceeds 5MB";
             header('Location:index.php');
+            exit();
         } else {
-            // Move uploaded image to the directory
-            $filename = time() . '.' . $image_extension;
-            move_uploaded_file($_FILES['CertificateImage']['tmp_name'], '../../../upload/certificates/' . $filename);
+            // Generate a unique filename based on time
+            $filename = time() . '.' . $file_extension;
+            $uploadDirectory = '../../../upload/certificates/';
+            
+            // Move the uploaded file to the directory
+            move_uploaded_file($_FILES['CertificateImage']['tmp_name'], $uploadDirectory . $filename);
         }
     }
 

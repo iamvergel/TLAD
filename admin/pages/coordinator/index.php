@@ -115,11 +115,11 @@ include('../../config/dbconn.php');
               </div>
 
               <div class="row">
-                <div class="col-sm-12">
+                <div class="col-sm-12 d-none">
                   <div class="form-group">
                     <label>Address</label>
                     <span class="text-danger">*</span>
-                    <input type="text" name="address" class="form-control" required>
+                    <input type="text" name="address" class="form-control" >
                   </div>
                 </div>
               </div>
@@ -211,15 +211,27 @@ include('../../config/dbconn.php');
               <!-- Password Fields -->
               <div class="row">
                 <div class="col-sm-6">
-                  <div class="form-group">
+                  <div class="form-group position-relative">
                     <label>Password</label>
                     <span class="text-danger">*</span>
                     <input type="password" id="password" name="password" class="form-control"
                       pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
                       title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters and one special character"
                       required>
+                    <i class="fa fa-eye" id="togglePassword" style="cursor: pointer; position: absolute; top: 8px; right: 10px;"></i>
                   </div>
                 </div>
+                <script>
+                  const togglePassword = document.querySelector('#togglePassword');
+                  const password = document.querySelector('#password');
+                  togglePassword.addEventListener('click', function (e) {
+                    // toggle the type attribute
+                    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                    password.setAttribute('type', type);
+                    // toggle the eye slash icon
+                    this.classList.toggle('fa-eye-slash');
+                  });
+                </script>
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label>Confirm Password</label>
@@ -271,7 +283,7 @@ include('../../config/dbconn.php');
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Edit Admin</h5>
+            <h5 class="modal-title">Edit Coordinator Information</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -290,11 +302,11 @@ include('../../config/dbconn.php');
                 </div>
               </div>
               <div class="row">
-                <div class="col-sm-12">
+                <div class="col-sm-12 d-none">
                   <div class="form-group">
                     <label>Address</label>
                     <span class="text-danger">*</span>
-                    <input type="text" name="address" id="edit_address" class="form-control" required>
+                    <input type="text" name="address" id="edit_address" class="form-control" >
                   </div>
                 </div>
               </div>

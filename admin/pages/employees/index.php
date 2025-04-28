@@ -434,7 +434,7 @@ include('../../config/dbconn.php');
       <div class="modal-dialog modal-xl">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Edit Employee</h5>
+            <h5 class="modal-title">Edit Employee Information</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -673,7 +673,7 @@ include('../../config/dbconn.php');
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Upload Certificate</h5>
+            <h5 class="modal-title">Upload Certificate for <br /><span id="certificateTitle"></span></h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeModal">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -681,7 +681,7 @@ include('../../config/dbconn.php');
 
           <form action="employee_action.php" method="POST" enctype="multipart/form-data">
             <div class="modal-body">
-              <div class="form-group">
+              <div class="form-group d-none">
                 <label>Employee Number</label>
                 <span class="text-danger">*</span>
                 <input type="text" name="EmployeeNumber" id="employeeNumber" class="form-control" required readonly>
@@ -690,12 +690,14 @@ include('../../config/dbconn.php');
                 <label>Certificate Image</label>
                 <span class="text-danger">*</span>
                 <input type="file" name="CertificateImage" id="CertificateImage" class="form-control" required>
+                <small class="text-muted">( upload JPEG, PNG, JPG, and PDF files. )</small>
               </div>
               <div class="form-group">
                 <label>Certificate Title (Date of Training)</label>
                 <span class="text-danger">*</span>
-                <p class="text-muted">(Ex. ExampleCertificate (January 01, 2025))</p>
+
                 <input type="text" name="Title" id="Title" class="form-control" required>
+                <small class="text-muted">(Ex. ExampleCertificate (January 01, 2025))</small>
               </div>
               <div class="form-group">
                 <label>Year</label>
@@ -937,11 +939,14 @@ include('../../config/dbconn.php');
                           ?>
                           </td>
                           <td>
-                            <button data-id="<?php echo $row['EmployeeNumber']; ?>"
+                            <button title="Upload Certificate" data-id="<?php echo $row['EmployeeNumber']; ?>"
+                              data-Firstname="<?php echo $row['Firstname']; ?>"
+                              data-Middlename="<?php echo $row['Middlename']; ?>"
+                              data-Lastname="<?php echo $row['Lastname']; ?>" data-Suffix="<?php echo $row['Suffix']; ?>"
                               class="btn btn-sm btn-primary uploadCertificate"><i class="fas fa-upload me-2"></i></button>
-                            <button data-id="<?php echo $row['EmployeeNumber']; ?>"
+                            <button title="View Employee" data-id="<?php echo $row['EmployeeNumber']; ?>"
                               class="btn btn-sm btn-secondary viewEmployeebtn"><i class="fas fa-eye me-2"></i></button>
-                            <button data-id="<?php echo $row['id']; ?>" class="btn btn-sm btn-info editEmployeebtn"><i
+                            <button title="Edit Employee" data-id="<?php echo $row['id']; ?>" class="btn btn-sm btn-info editEmployeebtn"><i
                                 class="fas fa-edit me-2"></i></button>
                             <!-- <button data-id="<?php echo $row['id']; ?>" class="btn btn-danger btn-sm deleteAdminbtn"><i
                                 class="far fa-trash-alt"></i></button> -->
@@ -1196,11 +1201,24 @@ include('../../config/dbconn.php');
 
       $(document).on('click', '.uploadCertificate', function () {
         var employeeNumber = $(this).data('id');
+        var firstName = $(this).data('firstname');  // Use lowercase `data-*` attribute names
+        var middleName = $(this).data('middlename');
+        var lastName = $(this).data('lastname');
+        var suffix = $(this).data('suffix');
 
+        // Check if any of the data attributes are undefined
+        if (firstName === undefined || middleName === undefined || lastName === undefined || suffix === undefined) {
+          console.error("One or more data attributes are missing.");
+          return;
+        }
+
+        var fullName = firstName + ' ' + middleName + ' ' + lastName + ' ' + suffix;
+        console.log(fullName);
+
+        $('#certificateTitle').html(fullName);
         $('#employeeNumber').val(employeeNumber);
         $('#uploadCertificateModal').modal('show');
       });
-
 
       $(document).on('click', '.activatebtn', function () {
         var userid = $(this).data('id');

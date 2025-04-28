@@ -57,7 +57,7 @@ if (isset($_POST['deletedata'])) {
 if (isset($_POST['updatecoordinator'])) {
     $id = $_POST['edit_id'];
     $fname = $_POST['fname'];
-    $address = $_POST['address'];
+    $address = "";
     $phone = $_POST['phone'];
     $coor_email = $_POST['email'];
     $coor_department = $_POST['department_id'];
@@ -177,7 +177,7 @@ if (isset($_POST['checking_viewAdmintbtn'])) {
 
 if (isset($_POST['insertcoordinator'])) {
     $coor_fname = $_POST['fname'];
-    $coor_address = $_POST['address'];
+    $coor_address = "";
     $coor_phone = $_POST['phone'];
     $coor_email = $_POST['email'];
     $coor_department = $_POST['department_id'];
