@@ -301,27 +301,27 @@ include('../../config/dbconn.php');
                   <div class="form-group">
                     <label>Lastname</label>
                     <span class="text-danger">*</span>
-                    <input type="text" name="Lastname" class="form-control" required>
+                    <input type="text" name="Lastname" class="form-control text-capitalize" required>
                   </div>
                 </div>
                 <div class="col-sm-3">
                   <div class="form-group">
                     <label>Firstname</label>
                     <span class="text-danger">*</span>
-                    <input type="text" name="Firstname" class="form-control" required>
+                    <input type="text" name="Firstname" class="form-control text-capitalize" required>
                   </div>
                 </div>
                 <div class="col-sm-3">
                   <div class="form-group">
                     <label>Middlename</label>
                     <span class="text-danger">*</span>
-                    <input type="text" name="Middlename" class="form-control">
+                    <input type="text" name="Middlename" class="form-control text-capitalize">
                   </div>
                 </div>
                 <div class="col-sm-3">
                   <div class="form-group">
                     <label>Suffix</label>
-                    <input type="text" name="Suffix" class="form-control">
+                    <input type="text" name="Suffix" class="form-control text-capitalize">
                   </div>
                 </div>
               </div>
@@ -358,7 +358,7 @@ include('../../config/dbconn.php');
                   <div class="form-group">
                     <label>Position</label>
                     <span class="text-danger">*</span>
-                    <input type="text" name="Position" class="form-control" required>
+                    <input type="text" name="Position" class="form-control text-capitalize" required>
                   </div>
                 </div>
               </div>
@@ -461,7 +461,7 @@ include('../../config/dbconn.php');
                   <div class="form-group">
                     <label>Lastname</label>
                     <span class="text-danger">*</span>
-                    <input type="text" name="Lastname" id="editLastname" class="form-control" required>
+                    <input type="text" name="Lastname" id="editLastname" class="form-control text-capitalize" required>
                   </div>
                 </div>
 
@@ -470,7 +470,7 @@ include('../../config/dbconn.php');
                   <div class="form-group">
                     <label>Firstname</label>
                     <span class="text-danger">*</span>
-                    <input type="text" name="Firstname" id="editFirstname" class="form-control" required>
+                    <input type="text" name="Firstname" id="editFirstname" class="form-control text-capitalize" required>
                   </div>
                 </div>
 
@@ -479,7 +479,7 @@ include('../../config/dbconn.php');
                   <div class="form-group">
                     <label>Middlename</label>
                     <span class="text-danger">*</span>
-                    <input type="text" name="Middlename" id="editMiddlename" class="form-control">
+                    <input type="text" name="Middlename" id="editMiddlename" class="form-control text-capitalize">
                   </div>
                 </div>
 
@@ -487,7 +487,7 @@ include('../../config/dbconn.php');
                 <div class="col-sm-3">
                   <div class="form-group">
                     <label>Suffix</label>
-                    <input type="text" name="Suffix" id="editSuffix" class="form-control">
+                    <input type="text" name="Suffix" id="editSuffix" class="form-control text-capitalize">
                   </div>
                 </div>
               </div>
@@ -526,7 +526,7 @@ include('../../config/dbconn.php');
                   <div class="form-group">
                     <label>Position</label>
                     <span class="text-danger">*</span>
-                    <input type="text" name="Position" id="editPosition" class="form-control" required>
+                    <input type="text" name="Position" id="editPosition" class="form-control text-capitalize" required>
                   </div>
                 </div>
               </div>

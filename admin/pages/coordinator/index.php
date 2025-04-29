@@ -109,7 +109,7 @@ include('../../config/dbconn.php');
                   <div class="form-group">
                     <label>Full Name</label>
                     <span class="text-danger">*</span>
-                    <input type="text" name="fname" class="form-control" pattern="[a-zA-Z'-'\s]*" required>
+                    <input type="text" name="fname" class="form-control text-capitalize" required>
                   </div>
                 </div>
               </div>
@@ -119,7 +119,7 @@ include('../../config/dbconn.php');
                   <div class="form-group">
                     <label>Address</label>
                     <span class="text-danger">*</span>
-                    <input type="text" name="address" class="form-control" >
+                    <input type="text" name="address" class="form-control text-capitalize" >
                   </div>
                 </div>
               </div>
@@ -182,13 +182,13 @@ include('../../config/dbconn.php');
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label>Unit Section Head Name</label><span class="text-danger">*</span>
-                    <input type="text" name="unit_section_head_name" class="form-control" required>
+                    <input type="text" name="unit_section_head_name" class="form-control text-capitalize" required>
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label>Unit Section Head Title</label><span class="text-danger">*</span>
-                    <input type="text" name="unit_section_head_title" class="form-control" required>
+                    <input type="text" name="unit_section_head_title" class="form-control text-capitalize" required>
                   </div>
                 </div>
               </div>
@@ -197,13 +197,13 @@ include('../../config/dbconn.php');
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label>Division Head Name</label><span class="text-danger">*</span>
-                    <input type="text" name="division_head_name" class="form-control" required>
+                    <input type="text" name="division_head_name" class="form-control text-capitalize" required>
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label>Division Head Position</label><span class="text-danger">*</span>
-                    <input type="text" name="division_head_position" class="form-control" required>
+                    <input type="text" name="division_head_position" class="form-control text-capitalize" required>
                   </div>
                 </div>
               </div>
@@ -296,7 +296,7 @@ include('../../config/dbconn.php');
                   <div class="form-group">
                     <label>Full Name</label>
                     <span class="text-danger">*</span>
-                    <input type="text" name="fname" id="edit_fname" class="form-control" pattern="[a-zA-Z'-'\s]*"
+                    <input type="text" name="fname" id="edit_fname" class="form-control text-capitalize"
                       required>
                   </div>
                 </div>
@@ -382,14 +382,14 @@ include('../../config/dbconn.php');
                   <div class="form-group">
                     <label>Unit Section Head Name</label><span class="text-danger">*</span>
                     <input type="text" name="unit_section_head_name" id="edit_unit_section_head_name"
-                      class="form-control" required>
+                      class="form-control text-capitalize" required>
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label>Unit Section Head Title</label><span class="text-danger">*</span>
                     <input type="text" name="unit_section_head_title" id="edit_unit_section_head_title"
-                      class="form-control" required>
+                      class="form-control text-capitalize" required>
                   </div>
                 </div>
               </div>
@@ -398,7 +398,7 @@ include('../../config/dbconn.php');
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label>Division Head Name</label><span class="text-danger">*</span>
-                    <input type="text" name="division_head_name" id="edit_division_head_name" class="form-control"
+                    <input type="text" name="division_head_name" id="edit_division_head_name" class="form-control text-capitalize"
                       required>
                   </div>
                 </div>
@@ -406,7 +406,7 @@ include('../../config/dbconn.php');
                   <div class="form-group">
                     <label>Division Head Position</label><span class="text-danger">*</span>
                     <input type="text" name="division_head_position" id="edit_division_head_position"
-                      class="form-control" required>
+                      class="form-control text-capitalize" required>
                   </div>
                 </div>
               </div>
@@ -526,7 +526,7 @@ include('../../config/dbconn.php');
                             <img src="../../../upload/coordinators/<?= $row['image'] ?>" class="img-thumbnail img-circle"
                               width="50" alt="">
                           </td>
-                          <td><?php echo $row['name']; ?></td>
+                          <td class="text-capitalize"><?php echo $row['name']; ?></td>
                           <td><?php echo $row['email']; ?></td>
                           <td><?php echo $row['department_name']; ?></td>
                           <td><?php echo $row['unit_name']; ?></td>

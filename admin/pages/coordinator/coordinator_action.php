@@ -190,6 +190,7 @@ if (isset($_POST['insertcoordinator'])) {
     $password = $_POST['password'];
     $confirmPassword = $_POST['confirmPassword'];
     $regdate = date('Y-m-d H:i:s');
+    $gender = "";
 
     $image = $_FILES['coor_image']['name'];
 
@@ -237,8 +238,8 @@ if (isset($_POST['insertcoordinator'])) {
 
             if ($_SESSION['error'] == '') {
                 // Insert into the tblcoordinator table with the new fields
-                $sql = "INSERT INTO tblcoordinator (name, address, phone, email, division_id, unit_id, unit_section_head_name, unit_section_head_title, division_head_name, division_head_position, image, password, role, created_at)
-                        VALUES ('$coor_fname','$coor_address','$coor_phone','$coor_email', '$coor_department', '$coor_unit', '$unit_section_head_name','$unit_section_head_title','$division_head_name','$division_head_position','$filename','$hash','$role','$regdate')";
+                $sql = "INSERT INTO tblcoordinator (name, address, gender, phone, email, division_id, unit_id, unit_section_head_name, unit_section_head_title, division_head_name, division_head_position, image, password, role, created_at)
+                        VALUES ('$coor_fname','$coor_address', '$gender','$coor_phone','$coor_email', '$coor_department', '$coor_unit', '$unit_section_head_name','$unit_section_head_title','$division_head_name','$division_head_position','$filename','$hash','$role','$regdate')";
                 $coortor_query_run = mysqli_query($conn, $sql);
 
                 if ($coortor_query_run) {

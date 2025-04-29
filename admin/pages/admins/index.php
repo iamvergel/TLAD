@@ -24,7 +24,7 @@ include('../../config/dbconn.php');
                   <div class="form-group">
                     <label>Full Name</label>
                     <span class="text-danger">*</span>
-                    <input type="text" name="fname" class="form-control" pattern="[a-zA-Z'-'\s]*" required>
+                    <input type="text" name="fname" class="form-control text-capitalize" required>
                   </div>
                 </div>
               </div>
@@ -33,7 +33,7 @@ include('../../config/dbconn.php');
                   <div class="form-group">
                     <label>Unit Section Head Name</label>
                     <span class="text-danger">*</span>
-                    <input type="text" name="address" class="form-control" required>
+                    <input type="text" name="address" class="form-control text-capitalize" required>
                   </div>
                 </div>
               </div>
@@ -42,7 +42,7 @@ include('../../config/dbconn.php');
                   <div class="form-group">
                     <label>Division Head Name</label>
                     <span class="text-danger">*</span>
-                    <input type="text" name="divisionHead" class="form-control" required>
+                    <input type="text" name="divisionHead" class="form-control text-capitalize" required>
                   </div>
                 </div>
               </div>
@@ -64,16 +64,28 @@ include('../../config/dbconn.php');
                 </div>
               </div>
               <div class="row">
-                <div class="col-sm-6">
-                  <div class="form-group">
+              <div class="col-sm-6">
+                  <div class="form-group position-relative">
                     <label>Password</label>
                     <span class="text-danger">*</span>
                     <input type="password" id="password" name="password" class="form-control"
                       pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
                       title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters and one special character"
                       required>
+                    <i class="fa fa-eye" id="togglePassword" style="cursor: pointer; position: absolute; top: 8px; right: 10px;"></i>
                   </div>
                 </div>
+                <script>
+                  const togglePassword = document.querySelector('#togglePassword');
+                  const password = document.querySelector('#password');
+                  togglePassword.addEventListener('click', function (e) {
+                    // toggle the type attribute
+                    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                    password.setAttribute('type', type);
+                    // toggle the eye slash icon
+                    this.classList.toggle('fa-eye-slash');
+                  });
+                </script>
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label>Confirm Password</label>
@@ -122,7 +134,7 @@ include('../../config/dbconn.php');
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Edit Admin</h5>
+            <h5 class="modal-title">Edit Admin Information</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -135,7 +147,7 @@ include('../../config/dbconn.php');
                   <div class="form-group">
                     <label>Full Name</label>
                     <span class="text-danger">*</span>
-                    <input type="text" name="fname" id="edit_fname" class="form-control" pattern="[a-zA-Z'-'\s]*"
+                    <input type="text" name="fname" id="edit_fname" class="form-control text-capitalize" 
                       required>
                   </div>
                 </div>
@@ -145,7 +157,7 @@ include('../../config/dbconn.php');
                   <div class="form-group">
                     <label>Unit Section Head Name</label>
                     <span class="text-danger">*</span>
-                    <input type="text" name="address" id="edit_address" class="form-control" required>
+                    <input type="text" name="address" id="edit_address" class="form-control text-capitalize" required>
                   </div>
                 </div>
               </div>
@@ -154,7 +166,7 @@ include('../../config/dbconn.php');
                   <div class="form-group">
                     <label>Division Head Name</label>
                     <span class="text-danger">*</span>
-                    <input type="text" name="divisionHead" id="edit_Head" class="form-control" required>
+                    <input type="text" name="divisionHead" id="edit_Head" class="form-control text-capitalize" required>
                   </div>
                 </div>
               </div>
@@ -260,7 +272,8 @@ include('../../config/dbconn.php');
                       <tr>
                         <th class="text-center">Photo</th>
                         <th class="export">Name</th>
-                        <th class="export" width="10%">Address</th>
+                        <th class="export">Unit Section Head Name</th>
+                        <th class="export">Division Head Name</th>
                         <th class="export">Contact No.</th>
                         <th class="export">Email</th>
                         <th class="export" width="5%">Status</th>
@@ -278,8 +291,9 @@ include('../../config/dbconn.php');
                           <td style="text-align: center;" width="10%"><img
                               src="../../../upload/admin/<?= $row['image'] ?>" class="img-thumbnail img-circle" width="50"
                               alt=""></td>
-                          <td><?php echo $row['name']; ?></td>
-                          <td><?php echo $row['address']; ?></td>
+                          <td class="text-capitalize"><?php echo $row['name']; ?></td>
+                          <td class="text-capitalize"><?php echo $row['address']; ?></td>
+                          <td class="text-capitalize"><?php echo $row['division_head_name']; ?></td>
                           <td><?php echo $row['phone']; ?></td>
                           <td><?php echo $row['email']; ?></td>
                           <td><?php
@@ -309,7 +323,8 @@ include('../../config/dbconn.php');
                       <tr>
                         <th></th>
                         <th class="search">Name</th>
-                        <th class="search">Address</th>
+                        <th class="search">Unit Section Head Name</th>
+                        <th class="search">Division Head Name</th>
                         <th class="search">Contact No.</th>
                         <th class="search">Email</th>
                         <th class="search">Status</th>
