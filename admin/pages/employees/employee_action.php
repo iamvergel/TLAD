@@ -769,6 +769,8 @@ if (isset($_POST['uploadCertificate'])) {
     $Title = $_POST['Title'];
     $currentYear = $_POST['year'];
 
+    $uploadDirectory = $_SERVER['DOCUMENT_ROOT'] . '/TLAD/upload/certificates/';
+
     // Check if a file was uploaded
     if ($certificateFile != NULL) {
         // Allow jpg, jpeg, png, and pdf
@@ -786,7 +788,6 @@ if (isset($_POST['uploadCertificate'])) {
         } else {
             // Generate a unique filename based on time
             $filename = time() . '.' . $file_extension;
-            $uploadDirectory = '../../../upload/certificates/';
             
             // Move the uploaded file to the directory
             move_uploaded_file($_FILES['CertificateImage']['tmp_name'], $uploadDirectory . $filename);

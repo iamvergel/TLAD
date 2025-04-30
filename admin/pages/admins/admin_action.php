@@ -78,6 +78,8 @@ if (isset($_POST['updateadmin'])) {
     $old_image = $_POST['old_image'];
     $image = $_FILES['edit_docimage']['name'];
 
+    $uploadDirectory = $_SERVER['DOCUMENT_ROOT'] . '/TLAD/upload/admin/';
+
     $checkemail = "SELECT email FROM tbladmin WHERE email='$admin_email'
         AND id != '$id'  
         UNION ALL SELECT email FROM tblstaff WHERE email='$admin_email'
@@ -117,10 +119,10 @@ if (isset($_POST['updateadmin'])) {
 
                 if ($query_run) {
                     if ($image != NULL) {
-                        if (file_exists('../../../upload/admin/' . $old_image)) {
-                            unlink("../../../upload/admin/" . $old_image);
+                        if (file_exists($uploadDirectory . $old_image)) {
+                            unlink($uploadDirectory . $old_image);
                         }
-                        move_uploaded_file($_FILES['edit_docimage']['tmp_name'], '../../../upload/admin/' . $update_filename);
+                        move_uploaded_file($_FILES['edit_docimage']['tmp_name'], $uploadDirectory . $update_filename);
                     }
                     $_SESSION['success'] = "Admin Updated Successfully";
                     header('Location:index.php');
@@ -206,6 +208,8 @@ if (isset($_POST['insertadmin'])) {
 
     $image = $_FILES['doc_image']['name'];
 
+    $uploadDirectory = $_SERVER['DOCUMENT_ROOT'] . '/TLAD/upload/admin/';
+
     if ($password == $confirmPassword) {
         $hash = password_hash($password, PASSWORD_DEFAULT);
         $checkemail = "SELECT email FROM tbladmin WHERE email='$admin_email' 
@@ -232,10 +236,11 @@ if (isset($_POST['insertadmin'])) {
                     header('Location:index.php');
                 } else {
                     $filename = time() . '.' . $image_extension;
-                    move_uploaded_file($_FILES['doc_image']['tmp_name'], '../../../upload/admin/' . $filename);
+                    
+                    move_uploaded_file($_FILES['doc_image']['tmp_name'], $uploadDirectory . $filename);
                 }
             } else {
-                $character = $_POST["fname"][0];
+                $character = strtoupper($_POST["fname"][0]);
                 $path = time() . ".png";
                 $imagecreate = imagecreate(200, 200);
                 $red = rand(0, 255);
@@ -244,7 +249,7 @@ if (isset($_POST['insertadmin'])) {
                 imagecolorallocate($imagecreate, 230, 230, 230);
                 $textcolor = imagecolorallocate($imagecreate, $red, $green, $blue);
                 imagettftext($imagecreate, 100, 0, 55, 150, $textcolor, '../../font/arial.ttf', $character);
-                imagepng($imagecreate, '../../../upload/admin/' . $path);
+                imagepng($imagecreate, $uploadDirectory . $path);
                 imagedestroy($imagecreate);
                 $filename = $path;
             }

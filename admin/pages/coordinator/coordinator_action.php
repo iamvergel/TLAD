@@ -72,6 +72,8 @@ if (isset($_POST['updatecoordinator'])) {
     $old_image = $_POST['old_image'];
     $image = $_FILES['coor_image']['name'];
 
+    $uploadDirectory = $_SERVER['DOCUMENT_ROOT'] . '/TLAD/upload/coordinators/';
+
     if ($password == $confirmPassword) {
         $update_filename = " ";
 
@@ -88,7 +90,7 @@ if (isset($_POST['updatecoordinator'])) {
             } else {
                 $filename = time() . '.' . $image_extension;
                 $update_filename = $filename;
-                move_uploaded_file($_FILES['coor_image']['tmp_name'], '../../../upload/coordinators/' . $update_filename);
+                move_uploaded_file($_FILES['coor_image']['tmp_name'], $uploadDirectory . $update_filename);
             }
         } else {
             $update_filename = $old_image; // Keep the old image if none is uploaded
@@ -104,8 +106,8 @@ if (isset($_POST['updatecoordinator'])) {
             $query_run = mysqli_query($conn, $sql);
 
             if ($query_run) {
-                if ($image != NULL && file_exists('../../../upload/coordinators/' . $old_image)) {
-                    unlink("../../../upload/coordinators/" . $old_image);  // Remove old image
+                if ($image != NULL && file_exists($uploadDirectory . $old_image)) {
+                    unlink($uploadDirectory . $old_image);  // Remove old image
                 }
                 $_SESSION['success'] = "Coordinator Updated Successfully";
                 header('Location:index.php');
@@ -195,6 +197,8 @@ if (isset($_POST['insertcoordinator'])) {
 
     $image = $_FILES['coor_image']['name'];
 
+    $uploadDirectory = $_SERVER['DOCUMENT_ROOT'] . '/TLAD/upload/coordinators/';
+
     if ($password == $confirmPassword) {
         $hash = password_hash($password, PASSWORD_DEFAULT);
         $checkemail = "SELECT email FROM tbladmin WHERE email='$coor_email' 
@@ -219,11 +223,11 @@ if (isset($_POST['insertcoordinator'])) {
                 } else {
                     // Upload image to 'upload/coordinators'
                     $filename = time() . '.' . $image_extension;
-                    move_uploaded_file($_FILES['coor_image']['tmp_name'], '../../../upload/coordinators/' . $filename);
+                    move_uploaded_file($_FILES['coor_image']['tmp_name'], $uploadDirectory . $filename);
                 }
             } else {
                 // Default image creation if no image is uploaded
-                $character = $_POST["fname"][0];
+                $character = strtoupper($_POST["fname"][0]);
                 $path = time() . ".png";
                 $imagecreate = imagecreate(200, 200);
                 $red = rand(0, 255);
@@ -232,7 +236,7 @@ if (isset($_POST['insertcoordinator'])) {
                 imagecolorallocate($imagecreate, 230, 230, 230);
                 $textcolor = imagecolorallocate($imagecreate, $red, $green, $blue);
                 imagettftext($imagecreate, 100, 0, 55, 150, $textcolor, '../../font/arial.ttf', $character);
-                imagepng($imagecreate, '../../../upload/coordinators/' . $path);  // Save default image to 'coordinators'
+                imagepng($imagecreate, $uploadDirectory . $path);  // Save default image to 'coordinators'
                 imagedestroy($imagecreate);
                 $filename = $path;
             }
