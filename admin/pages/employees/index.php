@@ -85,14 +85,14 @@ include('../../config/dbconn.php');
             var unitSelect1 = $('#unitSection');
 
             unitSelect1.empty();
-            unitSelect1.append('<option value="">Select Unit</option>');
+            unitSelect1.append('<option value="" selected disabled>Select Unit</option>');
 
             if (units1.length > 0) {
               units1.forEach(function (unit) {
                 unitSelect1.append('<option value="' + unit.id + '">' + unit.unit_name + '</option>');
               });
             } else {
-              unitSelect1.append('<option value="">No units available</option>');
+              unitSelect1.append('<option value="" disabled>No units available</option>');
             }
           } catch (error) {
             console.error('Error parsing response:', error);
@@ -102,11 +102,11 @@ include('../../config/dbconn.php');
         error: function (xhr, status, error) {
           console.error('AJAX request failed:', error);
           alert('An error occurred while fetching the units.');
-          $('#unitSection').html('<option value="">Select Unit</option>');
+          $('#unitSection').html('<option value="" disabled selected>Select Unit</option>');
         }
       });
     } else {
-      $('#unitSection').html('<option value="">Select Unit</option>');
+      $('#unitSection').html('<option value="" disabled selected>Select Unit</option>');
     }
   }
 
@@ -126,14 +126,14 @@ include('../../config/dbconn.php');
             var coordinatorSelect = $('#coordinator_id');
 
             coordinatorSelect.empty();
-            coordinatorSelect.append('<option value="">Select Coordinator</option>');
+            coordinatorSelect.append('<option value="" disabled selected>Select Coordinator</option>');
 
             if (coordinators.length > 0) {
               coordinators.forEach(function (coordinator) {
                 coordinatorSelect.append('<option value="' + coordinator.id + '">' + coordinator.name + '</option>');
               });
             } else {
-              coordinatorSelect.append('<option value="">No coordinators available</option>');
+              coordinatorSelect.append('<option value="" disabled >No coordinators available</option>');
             }
           } catch (error) {
             console.error('Error parsing response:', error);
@@ -143,11 +143,11 @@ include('../../config/dbconn.php');
         error: function (xhr, status, error) {
           console.error('AJAX request failed:', error);
           alert('An error occurred while fetching the coordinators.');
-          $('#coordinator_id').html('<option value="">Select Coordinator</option>');
+          $('#coordinator_id').html('<option value="" disabled selected>Select Coordinator</option>');
         }
       });
     } else {
-      $('#coordinator_id').html('<option value="">Select Coordinator</option>');
+      $('#coordinator_id').html('<option value="" disabled selected>Select Coordinator</option>');
     }
   }
 
@@ -208,14 +208,14 @@ include('../../config/dbconn.php');
             var unitSelect1 = $('#edit_unitSection');
 
             unitSelect1.empty();
-            unitSelect1.append('<option value="">Select Unit</option>');
+            unitSelect1.append('<option value="" disabled selected>Select Unit</option>');
 
             if (units1.length > 0) {
               units1.forEach(function (unit) {
                 unitSelect1.append('<option value="' + unit.id + '">' + unit.unit_name + '</option>');
               });
             } else {
-              unitSelect1.append('<option value="">No units available</option>');
+              unitSelect1.append('<option value="" disabled>No units available</option>');
             }
           } catch (error) {
             console.error('Error parsing response:', error);
@@ -225,11 +225,11 @@ include('../../config/dbconn.php');
         error: function (xhr, status, error) {
           console.error('AJAX request failed:', error);
           alert('An error occurred while fetching the units.');
-          $('#edit_unitSection').html('<option value="">Select Unit</option>');
+          $('#edit_unitSection').html('<option value="" selected disabled>Select Unit</option>');
         }
       });
     } else {
-      $('#edit_unitSection').html('<option value="">Select Unit</option>');
+      $('#edit_unitSection').html('<option value="" selected disabled>Select Unit</option>');
     }
   }
 
@@ -249,14 +249,14 @@ include('../../config/dbconn.php');
             var coordinatorSelect = $('#edit_coordinator_id');
 
             coordinatorSelect.empty();
-            coordinatorSelect.append('<option value="">Select Coordinator</option>');
+            coordinatorSelect.append('<option value="" disabled selected>Select Coordinator</option>');
 
             if (coordinators.length > 0) {
               coordinators.forEach(function (coordinator) {
                 coordinatorSelect.append('<option value="' + coordinator.id + '">' + coordinator.name + '</option>');
               });
             } else {
-              coordinatorSelect.append('<option value="">No coordinators available</option>');
+              coordinatorSelect.append('<option value="" disabled>No coordinators available</option>');
             }
           } catch (error) {
             console.error('Error parsing response:', error);
@@ -266,11 +266,11 @@ include('../../config/dbconn.php');
         error: function (xhr, status, error) {
           console.error('AJAX request failed:', error);
           alert('An error occurred while fetching the coordinators.');
-          $('#edit_coordinator_id').html('<option value="">Select Coordinator</option>');
+          $('#edit_coordinator_id').html('<option value="" disabled selected>Select Coordinator</option>');
         }
       });
     } else {
-      $('#edit_coordinator_id').html('<option value="">Select Coordinator</option>');
+      $('#edit_coordinator_id').html('<option value="" disabled selected>Select Coordinator</option>');
     }
   }
 </script>
@@ -378,7 +378,7 @@ include('../../config/dbconn.php');
                     <span class="text-danger">*</span>
                     <select id="department_id1" name="Department" class="form-control" required
                       onchange="addloadUnitsForDepartment()">
-                      <option value="">Select Division</option>
+                      <option value="" disabled selected>Select Division</option>
                       <?php
                       include('../../config/dbconn.php');
                       $sql = "SELECT * FROM department";
@@ -402,7 +402,7 @@ include('../../config/dbconn.php');
                     <span class="text-danger">*</span>
                     <select id="unitSection" name="UnitSection" class="form-control" onchange="loadCoordinator()"
                       required>
-                      <option value="">Select Unit</option>
+                      <option value="" disabled selected>Select Unit</option>
                       <!-- Units will be dynamically loaded here -->
                     </select>
                   </div>
@@ -413,7 +413,7 @@ include('../../config/dbconn.php');
                     <label>Coordinator</label>
                     <span class="text-danger">*</span>
                     <select id="coordinator_id" name="coordinator_id" class="form-control" required>
-                      <option value="">Select Coordinator</option>
+                      <option value="" disabled selected>Select Coordinator</option>
                       <!-- Coordinators will be dynamically loaded here -->
                     </select>
                   </div>
@@ -537,7 +537,7 @@ include('../../config/dbconn.php');
                     <label>Division</label>
                     <span class="text-danger">*</span>
                     <select id="department" class="form-control" required disabled>
-                      <option value="">Select Department</option>
+                      <option value="" >Select Department</option>
                       <?php
                       $sql = "SELECT * FROM department";
                       $query_run = mysqli_query($conn, $sql);
@@ -617,7 +617,7 @@ include('../../config/dbconn.php');
                     <span class="text-danger">*</span>
                     <select id="edit_department_id1" name="Department" class="form-control" required
                       onchange="addloadUnitsForDepartmentedit()">
-                      <option value="">Select Division</option>
+                      <option value="" disabled selected>Select Division</option>
                       <?php
                       $sql = "SELECT * FROM department";
                       $query_run = mysqli_query($conn, $sql);
@@ -640,7 +640,7 @@ include('../../config/dbconn.php');
                     <span class="text-danger">*</span>
                     <select id="edit_unitSection" name="UnitSection" class="form-control"
                       onchange="loadCoordinatoredit()" required>
-                      <option value="">Select Unit</option>
+                      <option value="" disabled selected>Select Unit</option>
                       <!-- Units will be dynamically loaded here -->
                     </select>
                   </div>
@@ -651,7 +651,7 @@ include('../../config/dbconn.php');
                     <label>Coordinator</label>
                     <span class="text-danger">*</span>
                     <select id="edit_coordinator_id" name="coordinator_id" class="form-control" required>
-                      <option value="">Select Coordinator</option>
+                      <option value="" disabled selected>Select Coordinator</option>
                       <!-- Coordinators will be dynamically loaded here -->
                     </select>
                   </div>
