@@ -72,7 +72,7 @@ if (isset($_POST['updatecoordinator'])) {
     $old_image = $_POST['old_image'];
     $image = $_FILES['coor_image']['name'];
 
-    $uploadDirectory = $_SERVER['DOCUMENT_ROOT'] . '/TLAD/upload/coordinators/';
+    $uploadDirectory = '../../../upload/coordinators/';
 
     if ($password == $confirmPassword) {
         $update_filename = " ";
@@ -197,7 +197,7 @@ if (isset($_POST['insertcoordinator'])) {
 
     $image = $_FILES['coor_image']['name'];
 
-    $uploadDirectory = $_SERVER['DOCUMENT_ROOT'] . '/TLAD/upload/coordinators/';
+    $uploadDirectory = '../../../upload/coordinators/';
 
     if ($password == $confirmPassword) {
         $hash = password_hash($password, PASSWORD_DEFAULT);
