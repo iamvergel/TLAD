@@ -63,16 +63,20 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 <script>
     $.widget.bridge('uibutton', $.ui.button)
+
+    $('#closeModalBtb').on('click', function () {
+        $('#logoutModal').modal('hide');
+    });
 </script>
 <script>
-    window.setTimeout(function() {
-        $(".alert").fadeTo(600, 0).slideUp(600, function() {
+    window.setTimeout(function () {
+        $(".alert").fadeTo(600, 0).slideUp(600, function () {
             $(this).remove();
         });
     }, 4000);
 </script>
 <script>
-    jQuery(function($) {
+    jQuery(function ($) {
         $(".js-phone").inputmask({
             mask: ["+639999999999"],
             jitMasking: 3,
@@ -82,8 +86,8 @@
     });
 </script>
 <script>
-    $(document).ready(function() {
-        $('#password').keyup(function() {
+    $(document).ready(function () {
+        $('#password').keyup(function () {
 
             if ($(this).val().length == 0) {
                 $('.show_hide').hide();
@@ -92,7 +96,7 @@
             }
         }).keyup();
 
-        $('#password').keyup(function() {
+        $('#password').keyup(function () {
             var password = $('#password').val();
             if (checkStrength(password) == false) {
                 password.setCustomValidity('');
@@ -189,7 +193,7 @@
                     view: view
                 },
                 dataType: "json",
-                success: function(data) {
+                success: function (data) {
                     $('.dropdown-notif').html(data.notification);
                     if (data.unseen_notification > 0) {
                         $('.count').html(data.unseen_notification);
@@ -200,23 +204,23 @@
 
         load_unseen_notification();
 
-        $(document).on('click', '.notification', function() {
+        $(document).on('click', '.notification', function () {
             $('.count').html('');
             load_unseen_notification('yes');
         });
 
-        setInterval(function() {
+        setInterval(function () {
             load_unseen_notification();;
         }, 5000);
 
     });
 </script>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('.select2bs4').select2({
             theme: 'bootstrap4'
         })
-        $(document).on('click', '.logoutbtn', function() {
+        $(document).on('click', '.logoutbtn', function () {
             $('#logoutModal').modal('show');
         });
         $('#datepicker').datepicker({
@@ -249,7 +253,7 @@
 
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         // $("#example1").DataTable({
         //     "dom": 'Bfrtip',
         //     "responsive": true,
