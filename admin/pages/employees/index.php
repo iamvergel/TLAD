@@ -450,7 +450,7 @@ include('../../config/dbconn.php');
                     <label>Employee Number</label>
                     <span class="text-danger">*</span>
                     <input type="text" name="EmployeeNumber" id="editEmployeeNumber" class="form-control" required
-                      readonly>
+                    >
                   </div>
                 </div>
 
@@ -944,8 +944,8 @@ include('../../config/dbconn.php');
                               data-Middlename="<?php echo $row['Middlename']; ?>"
                               data-Lastname="<?php echo $row['Lastname']; ?>" data-Suffix="<?php echo $row['Suffix']; ?>"
                               class="btn btn-sm btn-primary uploadCertificate"><i class="fas fa-upload me-2"></i></button>
-                            <button title="View Employee" data-id="<?php echo $row['EmployeeNumber']; ?>"
-                              class="btn btn-sm btn-secondary viewEmployeebtn"><i class="fas fa-eye me-2"></i></button>
+                            <a title="View Employee" href="employee_info.php?EmployeeNumber=<?php echo $row['EmployeeNumber']; ?>"
+                              class="btn btn-sm btn-secondary"><i class="fas fa-eye me-2"></i></a>
                             <button title="Edit Employee" data-id="<?php echo $row['id']; ?>" class="btn btn-sm btn-info editEmployeebtn"><i
                                 class="fas fa-edit me-2"></i></button>
                             <!-- <button data-id="<?php echo $row['id']; ?>" class="btn btn-danger btn-sm deleteAdminbtn"><i

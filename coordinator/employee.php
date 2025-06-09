@@ -261,7 +261,7 @@ include('../admin/config/dbconn.php');
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">Add Employee</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close closeModalBtn" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -454,7 +454,7 @@ include('../admin/config/dbconn.php');
             </div>
 
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-secondaryx closeModalBtn" data-dismiss="modal">Close</button>
               <button type="submit" name="insertEmployee" class="btn btn-success">Submit</button>
             </div>
           </form>
@@ -467,7 +467,7 @@ include('../admin/config/dbconn.php');
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">Edit Employee Information</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close closeModalBtn" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -692,7 +692,7 @@ include('../admin/config/dbconn.php');
             </div>
 
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-secondary closeModalBtn" data-dismiss="modal">Close</button>
               <button type="submit" name="editEmployee" class="btn btn-success">Submit</button>
             </div>
           </form>
@@ -700,13 +700,13 @@ include('../admin/config/dbconn.php');
       </div>
     </div>
 
-    <<!-- Modal for Uploading Certificate -->
+    <!-- Modal for Uploading Certificate -->
       <div class="modal fade" id="uploadCertificateModal">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title">Upload Certificate for <br /><span id="certificateTitle"></span></h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeModal">
+              <button type="button" class="close closeModalBtn" data-dismiss="modal" aria-label="Close" id="closeModal">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
@@ -753,7 +753,7 @@ include('../admin/config/dbconn.php');
               </div>
 
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeModal">Cancel</button>
+                <button type="button" class="btn btn-secondary closeModalBtn" data-dismiss="modal" id="closeModal">Cancel</button>
                 <button type="submit" name="uploadCertificate" class="btn btn-success">Upload</button>
               </div>
             </form>
@@ -912,6 +912,8 @@ include('../admin/config/dbconn.php');
                           <th class="search">Position</th>
                           <th class="search">Division</th>
                           <th class="search">Unit</th>
+                          <!-- <th class="search">Status</th> -->
+                          <th></th>
                         </tr>
                       </tfoot>
                     </table>

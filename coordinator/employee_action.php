@@ -769,7 +769,7 @@ if (isset($_POST['uploadCertificate'])) {
     $Title = $_POST['Title'];
     $currentYear = $_POST['year'];
 
-    $uploadDirectory = $_SERVER['DOCUMENT_ROOT'] . '/TLAD/upload/certificates/';
+    $uploadDirectory = '../upload/certificates/';
 
     // Check if a file was uploaded
     if ($certificateFile != NULL) {

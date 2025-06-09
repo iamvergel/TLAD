@@ -55,8 +55,8 @@ if (isset($_POST['change_status'])) {
 // }
 
 if (isset($_POST['editEmployee'])) {
-    $id = $_POST['employee_id'];  // Use employee_id instead of edit_id
-    $EmployeeNumber = $_POST['EmployeeNumber'];
+    $id = $_POST['employee_id'];
+    $newEmployeeNumber = $_POST['EmployeeNumber'];
     $Lastname = $_POST['Lastname'];
     $Firstname = $_POST['Firstname'];
     $Middlename = $_POST['Middlename'];
@@ -69,9 +69,21 @@ if (isset($_POST['editEmployee'])) {
     $UnitSection = $_POST['UnitSection'];
     $coordinator_id = $_POST['coordinator_id'];
 
-    // SQL query to update employee details
+    $sql = "SELECT EmployeeNumber FROM tblemployee WHERE id='$id'";
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_assoc($result);
+    $oldEmployeeNumber = $row['EmployeeNumber'];
+
+    if ($oldEmployeeNumber != $newEmployeeNumber) {
+        $sql = "UPDATE tblemployeeremarks SET EmployeeNumber='$newEmployeeNumber' WHERE EmployeeNumber='$oldEmployeeNumber'";
+        mysqli_query($conn, $sql);
+
+        $sql = "UPDATE tblemployeeseminar SET EmployeeNumber='$newEmployeeNumber' WHERE EmployeeNumber='$oldEmployeeNumber'";
+        mysqli_query($conn, $sql);
+    }
+
     $sql = "UPDATE tblemployee SET 
-                EmployeeNumber='$EmployeeNumber', 
+                EmployeeNumber='$newEmployeeNumber', 
                 Lastname='$Lastname', 
                 Firstname='$Firstname', 
                 Middlename='$Middlename', 
@@ -89,14 +101,15 @@ if (isset($_POST['editEmployee'])) {
 
     if ($query_run) {
         $_SESSION['success'] = "Employee details updated successfully.";
-        header('Location:index.php');
+        header('Location: index.php');
         exit();
     } else {
         $_SESSION['error'] = "Error: " . mysqli_error($conn);
-        header('Location:index.php');
+        header('Location: index.php');
         exit();
     }
 }
+
 
 if (isset($_POST['getEmployeeDetails'])) {
     $employee_id = $_POST['employee_id'];
@@ -701,32 +714,24 @@ if (isset($_POST['certificateId']) && isset($_POST['newTitle'])) {
     $stmt = mysqli_prepare($conn, $query);
     mysqli_stmt_bind_param($stmt, 'si', $newTitle, $certificateId);
 
-    if (mysqli_stmt_execute($stmt)) {
-        echo 'success';
-    } else {
-        echo 'failure';
-    }
-
+    echo mysqli_stmt_execute($stmt) ? 'success' : 'failure';
     mysqli_stmt_close($stmt);
+    exit;
 }
 
-if (isset($_POST['id']) && isset($_POST['remark']) && isset($_POST['title'])) {
+if (isset($_POST['id']) && isset($_POST['title'])) {
     $id = $_POST['id'];
-    $remark = $_POST['remark'];
-    $title = $_POST['title'];
+    $title = trim($_POST['title']);
 
-    // Update both remarks and title
+    $remark = ($title === '' || $title === null) ? 0 : 1;
+
     $query = "UPDATE tblemployeeremarks SET Remarks = ?, Title = ? WHERE id = ?";
     $stmt = mysqli_prepare($conn, $query);
-    mysqli_stmt_bind_param($stmt, 'isi', $remark, $title, $id); // 'i' for integer, 's' for string
+    mysqli_stmt_bind_param($stmt, 'isi', $remark, $title, $id);
 
-    if (mysqli_stmt_execute($stmt)) {
-        echo 'success';
-    } else {
-        echo 'failure';
-    }
-
+    echo mysqli_stmt_execute($stmt) ? 'success' : 'failure';
     mysqli_stmt_close($stmt);
+    exit;
 }
 
 if (isset($_POST['insertEmployee'])) {

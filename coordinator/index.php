@@ -1,16 +1,15 @@
 <?php
+include('../admin/config/dbconn.php');
 include('authentication.php');
 include('includes/header.php');
 include('includes/topbar.php');
 include('includes/sidebar.php');
-include('../admin/config/dbconn.php');
 ?>
 
 <?php
 $user = $_SESSION['auth_user']['user_id'];
 $current_year = date("Y");
 
-// Fetching training and non-training employee counts
 $sql = "
   SELECT 
       tblemployeeremarks.Remarks AS training_status, 
@@ -24,11 +23,9 @@ $sql = "
 ";
 $query_run = mysqli_query($conn, $sql);
 
-// Initialize counts for training and non-training employees
 $with_training = 0;
 $without_training = 0;
 
-// Fetch the results
 if ($query_run && mysqli_num_rows($query_run) > 0) {
   while ($row = mysqli_fetch_array($query_run)) {
     if ($row['training_status'] == 1) {
@@ -39,7 +36,6 @@ if ($query_run && mysqli_num_rows($query_run) > 0) {
   }
 }
 
-// Calculate total number of employees
 $total_employees = $with_training + $without_training;
 ?>
 
@@ -260,24 +256,19 @@ $total_employees = $with_training + $without_training;
     </div>
 
     <?php include('includes/scripts.php'); ?>
-
     <script>
       var ctx = document.getElementById('trainingChart').getContext('2d');
 
-      // Get the data from PHP (with and without training employee counts)
       var totalEmployees = <?php echo $total_employees; ?>;
       var withTraining = <?php echo $with_training; ?>;
       var withoutTraining = <?php echo $without_training; ?>;
 
-      // Calculate the percentages
       var withTrainingPercentage = totalEmployees > 0 ? (withTraining / totalEmployees * 100).toFixed(1) : 0;
       var withoutTrainingPercentage = totalEmployees > 0 ? (withoutTraining / totalEmployees * 100).toFixed(1) : 0;
 
-      // Update the HTML to show the percentages
       document.getElementById('withTrainingPercent').innerText = withTrainingPercentage + '% / 100%';
       document.getElementById('withoutTrainingPercent').innerText = withoutTrainingPercentage + '%';
 
-      // Data for the pie chart
       var trainingData = {
         labels: ['With Training (' + withTrainingPercentage + '%)', 'Without Training (' + withoutTrainingPercentage + '%)'],
         datasets: [{
@@ -287,7 +278,6 @@ $total_employees = $with_training + $without_training;
         }]
       };
 
-      // Create the pie chart
       var trainingChart = new Chart(ctx, {
         type: 'pie',
         data: trainingData,
@@ -304,7 +294,6 @@ $total_employees = $with_training + $without_training;
                 }
               }
             },
-            // Adding the datalabels plugin for percentages on the chart itself
             datalabels: {
               display: true,
               formatter: function (value, context) {
@@ -323,4 +312,5 @@ $total_employees = $with_training + $without_training;
       });
     </script>
 
-    <?php include('includes/footer.php'); ?>
+  </div>
+  <?php include('includes/footer.php'); ?>
