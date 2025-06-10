@@ -12,6 +12,7 @@ if (isset($_POST['profile_details'])) {
     $unit_section_head_title = $_POST['unit_section_head_title'];
     $division_head_name = $_POST['division_head_name'];
     $division_head_position = $_POST['division_head_position'];
+    $email = $_POST['email'];
 
     $old_image = $_POST['old_image'];
     $image = $_FILES['img_url']['name'];
@@ -46,6 +47,7 @@ if (isset($_POST['profile_details'])) {
                     unit_section_head_title='$unit_section_head_title', 
                     division_head_name='$division_head_name', 
                     division_head_position='$division_head_position', 
+                    email='$email',
                     image='$update_filename'
                     WHERE id='$id'";
 
@@ -76,14 +78,14 @@ if (isset($_POST['change_password'])) {
     $confirm_pass = $_POST['confirm_pass'];
 
     if (!empty($current_pass) && !empty($new_pass) && !empty($confirm_pass)) {
-        $sql = "SELECT password FROM tblstaff WHERE id='$id'";
+        $sql = "SELECT password FROM tblcoordinator WHERE id='$id'";
         $result = mysqli_query($conn, $sql);
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
                 if (password_verify($current_pass, $row['password'])) {
                     if ($new_pass == $confirm_pass) {
                         $hash = password_hash($new_pass, PASSWORD_DEFAULT);
-                        $update_password = "UPDATE tblstaff SET password='$hash' WHERE id='$id' LIMIT 1";
+                        $update_password = "UPDATE tblcoordinator SET password='$hash' WHERE id='$id' LIMIT 1";
                         $update_password_run = mysqli_query($conn, $update_password);
 
                         if ($update_password_run) {

@@ -82,9 +82,7 @@ if (isset($_POST['updateadmin'])) {
 
     $checkemail = "SELECT email FROM tbladmin WHERE email='$admin_email'
         AND id != '$id'  
-        UNION ALL SELECT email FROM tblstaff WHERE email='$admin_email'
-        UNION ALL SELECT email FROM tblpatient WHERE email='$admin_email'
-        UNION ALL SELECT email FROM tbldoctor WHERE email='$admin_email' ";
+        UNION ALL SELECT email FROM tblcoordinator WHERE email='$admin_email'";
     $checkemail_run = mysqli_query($conn, $checkemail);
 
     if ($password == $confirmPassword) {
@@ -135,6 +133,29 @@ if (isset($_POST['updateadmin'])) {
     } else {
         $_SESSION['error'] = "Password does not match";
         header('Location:index.php');
+    }
+}
+
+if (isset($_POST['update_password'])) {
+    $admin_id = $_POST['admin_id'];
+    $new_password = $_POST['new_password'];
+    $confirm_password = $_POST['confirm_password'];
+
+    if ($new_password == $confirm_password) {
+        $hash = password_hash($new_password, PASSWORD_DEFAULT);
+        $update_password = "UPDATE tbladmin SET password='$hash' WHERE id='$admin_id' LIMIT 1";
+        $update_password_run = mysqli_query($conn, $update_password);
+
+        if ($update_password_run) {
+            $_SESSION['success'] = "Password has been changed";
+            header("Location:index.php");
+        } else {
+            $_SESSION['error'] = "Password has not been changed";
+            header("Location:index.php");
+        }
+    } else {
+        $_SESSION['error'] = "Password does not match";
+        header("Location:index.php");
     }
 }
 
@@ -208,14 +229,12 @@ if (isset($_POST['insertadmin'])) {
 
     $image = $_FILES['doc_image']['name'];
 
-    $uploadDirectory = $_SERVER['DOCUMENT_ROOT'] . '/TLAD/upload/admin/';
+    $uploadDirectory = '../../../upload/admin/';
 
     if ($password == $confirmPassword) {
         $hash = password_hash($password, PASSWORD_DEFAULT);
         $checkemail = "SELECT email FROM tbladmin WHERE email='$admin_email' 
-            UNION ALL SELECT email FROM tblstaff WHERE email='$admin_email'
-            UNION ALL SELECT email FROM tblpatient WHERE email='$admin_email'
-            UNION ALL SELECT email FROM tbldoctor WHERE email='$admin_email' ";
+            UNION ALL SELECT email FROM tblcoordinator WHERE email='$admin_email'";
         $checkemail_run = mysqli_query($conn, $checkemail);
 
         if (mysqli_num_rows($checkemail_run) > 0) {
@@ -274,4 +293,3 @@ if (isset($_POST['insertadmin'])) {
         header('Location:index.php');
     }
 }
-?>

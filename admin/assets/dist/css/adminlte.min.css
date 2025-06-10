@@ -181,13 +181,13 @@ sup {
 }
 
 a {
-	color: #0023C4;
+	color: #005640;
 	text-decoration: none;
 	background-color: transparent
 }
 
 a:hover {
-	color: #0056b3;
+	color: #00b44e;
 	text-decoration: none
 }
 
@@ -3851,7 +3851,7 @@ input[type=submit].btn-block {
 .dropdown-item:active {
 	color: #fff;
 	text-decoration: none;
-	background-color: #0023C4
+	background-color: #008138
 }
 
 .dropdown-item.disabled,
@@ -4796,7 +4796,7 @@ input[type=submit].btn-block {
 .nav-pills .nav-link.active,
 .nav-pills .show>.nav-link {
 	color: #fff;
-	background-color: #0023C4
+	background-color: #008138
 }
 
 .nav-fill .nav-item,
@@ -5653,14 +5653,14 @@ input[type=submit].btn-block {
 	padding: .5rem .75rem;
 	margin-left: -1px;
 	line-height: 1.25;
-	color: #0023C4;
+	color: #005640;
 	background-color: #fff;
 	border: 1px solid #dee2e6
 }
 
 .page-link:hover {
 	z-index: 2;
-	color: #0056b3;
+	color: #00cd5a;
 	text-decoration: none;
 	background-color: #e9ecef;
 	border-color: #dee2e6
@@ -5669,7 +5669,7 @@ input[type=submit].btn-block {
 .page-link:focus {
 	z-index: 3;
 	outline: 0;
-	box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25)
+	box-shadow: 0 0 0 .2rem rgba(57, 209, 40, .25)
 }
 
 .page-item:first-child .page-link {
@@ -5686,8 +5686,8 @@ input[type=submit].btn-block {
 .page-item.active .page-link {
 	z-index: 3;
 	color: #fff;
-	background-color: #0023C4;
-	border-color: #0023C4
+	background-color: #009a43;
+	border-color: #009a43
 }
 
 .page-item.disabled .page-link {
@@ -16655,7 +16655,7 @@ body.text-sm .control-sidebar {
 }
 
 .nav-pills .nav-link:not(.active):hover {
-	color: #0023C4
+	color: #398e68
 }
 
 .nav-pills .nav-item.dropdown.show .nav-link:hover {

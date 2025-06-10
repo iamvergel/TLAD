@@ -14,14 +14,14 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="employee.php" class="nav-link <?= $page == 'employee.php' ? 'active' : '' ?>">
-            <i class="nav-icon fa fa-users-medical "></i>
+          <a href="employee.php" class="nav-link <?= ($page == 'employee.php' || $page == 'employee_info.php') ? 'active' : '' ?>">
+            <i class="nav-icon fa fa-users"></i>
             <p>Employees</p>
           </a>
         </li>
         <li class="nav-item">
           <a href="report_section.php" class="nav-link <?= $page == 'report_section.php' ? 'active' : '' ?>">
-            <i class="nav-icon fas fa-file"></i>
+            <i class="nav-icon fas fa-file-alt"></i>
             <p>Report Section</p>
           </a>
         </li>

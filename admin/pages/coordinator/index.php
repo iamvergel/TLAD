@@ -92,6 +92,67 @@ include('../../config/dbconn.php');
 
 <body class="hold-transition sidebar-mini layout-fixed">
   <div class="wrapper">
+    <div class="modal fade" id="editPasswordModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Change Password</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form action="coordinator_action.php" method="POST" enctype="multipart/form-data">
+            <div class="modal-body">
+              <input type="hidden" name="admin_id" id="password_edit_id">
+              <h6 class="py-3">Change Password : <strong id="admin_name"></strong></h6>
+              <div class="row">
+                <div class="form-group col-md-6 position-relative">
+                  <label>New Password</label>
+                  <input type="password" autocomplete="new-password" name="new_password" id="new_password"
+                    class="form-control" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,}"
+                    title="Must contain at least one number and one uppercase and lowercase letter, at least one special character, and at least 8 or more characters"
+                    required>
+                  <i class="fa fa-eye" id="toggleNewPassword"
+                    style="cursor: pointer; position: absolute; top: 8px; right: 10px;"></i>
+                  <div class="show_hide" style="display:none;">
+                    <small>Password Strength: <span id="result"> </span></small>
+                  </div>
+                </div>
+                <div class="form-group col-md-6 position-relative">
+                  <label>Confirm Password</label>
+                  <input type="password" autocomplete="new-password" name="confirm_password" class="form-control"
+                    id="confirm_password" required>
+                </div>
+              </div>
+              <script>
+                const toggleNewPassword = document.querySelector('#toggleNewPassword');
+                const newPassword = document.querySelector('#new_password');
+                toggleNewPassword.addEventListener('click', function () {
+                  const type = newPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+                  newPassword.setAttribute('type', type);
+                  this.classList.toggle('fa-eye-slash');
+                });
+
+                function validateNewPassword() {
+                  if (newPassword.value !== confirmPassword.value) {
+                    confirmPassword.setCustomValidity("Passwords do not match");
+                  } else {
+                    confirmPassword.setCustomValidity('');
+                  }
+                }
+
+                newPassword.onchange = validateNewPassword;
+                confirmPassword.onkeyup = validateNewPassword;
+              </script>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close">Close</button>
+              <button type="submit" name="update_password" class="btn btn-success">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
     <div class="modal fade" id="AddAdminModal">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -496,7 +557,7 @@ include('../../config/dbconn.php');
                         <th class="export">Email</th>
                         <th class="export">Division</th>
                         <th class="export">unit</th>
-                        <th class="export" width="5%">Status</th>
+                        <th class="export" width="15%">Status</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -539,10 +600,14 @@ include('../../config/dbconn.php');
                             }
                             ?>
                           </td>
-                          <td>
-                            <button data-id="<?php echo $row['id']; ?>" class="btn btn-sm btn-info editAdminbtn">
+                          <td class="d-flex">
+                            <button title="Edit Coordinator" data-id="<?php echo $row['id']; ?>" class="btn btn-sm btn-info editAdminbtn mr-1">
                               <i class="fas fa-edit"></i>
                             </button>
+                            <button title="Change Password" data-id="<?php echo $row['id']; ?>"
+                              class="btn btn-sm btn-primary editPasswordbtn mr-1"><i class="fas fa-lock"></i></button>
+                            <a title="View Coordinator" href="coordinator_info.php?id=<?php echo $row['id']; ?>"
+                              class="btn btn-sm btn-secondary"><i class="fas fa-eye me-2"></i></a>
                             <!-- <button data-id="<?php echo $row['id']; ?>" class="btn btn-danger btn-sm deleteAdminbtn">
                               <i class="far fa-trash-alt"></i>
                             </button> -->
@@ -713,6 +778,28 @@ include('../../config/dbconn.php');
 
             $('.admin_viewing_data').html(response);
             $('#ViewAdminModal').modal('show');
+          }
+        });
+      });
+
+      //Admin Edit Password Modal
+      $(document).on('click', '.editPasswordbtn', function () {
+        var userid = $(this).data('id');
+
+        $.ajax({
+          type: "POST",
+          url: "coordinator_action.php",
+          data: {
+            'checking_editAdminbtn': true,
+            'user_id': userid,
+          },
+          success: function (response) {
+            $.each(response, function (key, value) {
+              $('#password_edit_id').val(value['id']);
+              $('#admin_name').text(value['name']);
+            });
+
+            $('#editPasswordModal').modal('show');
           }
         });
       });

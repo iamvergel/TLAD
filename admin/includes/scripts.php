@@ -55,28 +55,18 @@
 <script src="../../assets/plugins/inputmask/jquery.inputmask.bundle.min.js"></script>
 <script src="../../assets/dist/js/countrystatecity.js"></script>
 <script src="../../assets/dist/js/validations.js"></script>
-
-<script src="../../../vendor/purecounter/purecounter.js"></script>
-<script src="../../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="../../../vendor/glightbox/js/glightbox.min.js"></script>
-<script src="../../../vendor/swiper/swiper-bundle.min.js"></script>
-<script src="../../../dist/main.js"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
-
 <script>
     $.widget.bridge('uibutton', $.ui.button)
 </script>
 <script>
-    window.setTimeout(function () {
-        $(".alert").fadeTo(600, 0).slideUp(600, function () {
+    window.setTimeout(function() {
+        $(".alert").fadeTo(600, 0).slideUp(600, function() {
             $(this).remove();
         });
     }, 4000);
 </script>
 <script>
-    jQuery(function ($) {
+    jQuery(function($) {
         $(".js-phone").inputmask({
             mask: ["+639999999999"],
             jitMasking: 3,
@@ -86,8 +76,8 @@
     });
 </script>
 <script>
-    $(document).ready(function () {
-        $('#password').keyup(function () {
+    $(document).ready(function() {
+        $('#password').keyup(function() {
 
             if ($(this).val().length == 0) {
                 $('.show_hide').hide();
@@ -96,7 +86,7 @@
             }
         }).keyup();
 
-        $('#password').keyup(function () {
+        $('#password').keyup(function() {
             var password = $('#password').val();
             if (checkStrength(password) == false) {
                 password.setCustomValidity('');
@@ -219,8 +209,8 @@
     });
 </script>
 <script>
-    $(document).ready(function () {
-        $('.selectb').each(function () {
+    $(document).ready(function() {
+        $('.selectb').each(function() {
             $(this).select2({
                 theme: 'bootstrap4',
                 width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
@@ -229,7 +219,7 @@
                 closeOnSelect: !$(this).attr('multiple'),
             });
         });
-        $(document).on('click', '.logoutbtn', function () {
+        $(document).on('click', '.logoutbtn', function() {
             $('#logoutModal').modal('show');
         });
         $('#datepicker').datepicker({
@@ -243,10 +233,6 @@
             autoclose: true,
             endDate: new Date()
         })
-
-        $('#closeModalBtb').on('click', function () {
-            $('#logoutModal').modal('hide');
-        });
     });
 </script>
 
@@ -266,7 +252,7 @@
 
 
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         $('#example1').dataTable({
             "paging": true,
             "searching": true,

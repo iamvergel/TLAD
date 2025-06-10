@@ -13,12 +13,12 @@ include('../../config/dbconn.php');
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Employee</h1>
+                            <h1>Inactive Employee</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="../dashboard/">Home</a></li>
-                                <li class="breadcrumb-item active">Employee</li>
+                                <li class="breadcrumb-item active">Inactive Employee</li>
                             </ol>
                         </div>
                     </div>
@@ -30,8 +30,7 @@ include('../../config/dbconn.php');
                         <div class="card card-success card-outline">
                             <div class="card-header">
                                 <h3 class="card-title" id="EmployeeNumberTitle">Employee Information</h3>
-                                <button type="button" class="btn btn-secondary float-right" id="closeEmployeeDetails"
-                                    onclick="window.history.back()">
+                                <button type="button" class="btn btn-secondary float-right" id="closeEmployeeDetails" onclick="window.history.back()">
                                     BACK
                                 </button>
                             </div>
@@ -173,7 +172,7 @@ include('../../config/dbconn.php');
                                                                             <tr>
                                                                                 <th>Certificate</th>
                                                                                 <th>Title (Date of Training)</th>
-                                                                                <th>Action</th>
+                                                                                <th class="d-none">Action</th>
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
@@ -205,12 +204,12 @@ include('../../config/dbconn.php');
 
                                                                                             <!-- <td><?= $user['year']; ?></td> -->
                                                                                             <td class="w-50">
-                                                                                                <textarea
+                                                                                                <textarea readonly
                                                                                                     class="form-control title-input border-0"
                                                                                                     rows="3"
                                                                                                     data-id="<?= $user['id'] ?>"><?= htmlspecialchars($user['Title']) ?></textarea>
                                                                                             </td>
-                                                                                            <td class="">
+                                                                                            <td class="d-none">
                                                                                                 <div class="d-flex">
                                                                                                     <button
                                                                                                         class="btn btn-sm btn-success saveTitle"
@@ -246,7 +245,7 @@ include('../../config/dbconn.php');
                                                                                 <th class="bg-light">Year</th>
                                                                                 <th class="bg-light">Remarks</th>
                                                                                 <th class="bg-light">Title</th>
-                                                                                <th>Action</th>
+                                                                                <th class="d-none">Action</th>
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
@@ -263,15 +262,12 @@ include('../../config/dbconn.php');
                                                                                         ?>
                                                                                         <tr>
                                                                                             <td><?= $remarksYear ?></td>
-                                                                                            <td>
-                                                                                                <select
-                                                                                                    class="form-control remark-dropdown <?php echo $user['Remarks'] == 1 ? 'text-success' : ($user['Remarks'] == 0 ? 'text-danger' : ''); ?>"
-                                                                                                    disabled data-id="<?= $user['id'] ?>"
-                                                                                                    <?= $remarkDisabled ?>>
-                                                                                                    <option value="1" <?= $user['Remarks'] == 1 ? 'selected' : '' ?>>WITH TRAINING
-                                                                                                    </option>
-                                                                                                    <option value="0" <?= $user['Remarks'] == 0 ? 'selected' : '' ?>>WITHOUT TRAINING
-                                                                                                    </option>
+                                                                                            <td width="30%">
+                                                                                                <select class="form-control remark-dropdown <?php echo $user['Remarks'] == 1 ? 'text-success' : ($user['Remarks'] == 0 ? 'text-danger' : ''); ?>" disabled
+                                                                                                        data-id="<?= $user['id'] ?>"
+                                                                                                        <?= $remarkDisabled ?>>
+                                                                                                    <option value="1" <?= $user['Remarks'] == 1 ? 'selected' : '' ?>>WITH TRAINING</option>
+                                                                                                    <option value="0" <?= $user['Remarks'] == 0 ? 'selected' : '' ?>>WITHOUT TRAINING</option>
                                                                                                 </select>
                                                                                             </td>
 
@@ -282,7 +278,7 @@ include('../../config/dbconn.php');
 
                                                                                                 if (mysqli_num_rows($query_run) > 0) {
 
-                                                                                                    echo '<select class="form-control title-dropdown" data-id="' . $user['id'] . '">';
+                                                                                                    echo '<select class="form-control title-dropdown" data-id="' . $user['id'] . '" disabled>';
                                                                                                     echo '<option value="">Select Title</option>';
 
                                                                                                     while ($row = mysqli_fetch_array($query_run)) {
@@ -298,7 +294,7 @@ include('../../config/dbconn.php');
                                                                                             </td>
                                                                                             <td>
                                                                                                 <button
-                                                                                                    class="btn btn-sm btn-success saveRemarks ml-1"
+                                                                                                    class="btn btn-sm btn-success saveRemarks ml-1 d-none"
                                                                                                     data-id="<?= $user['id'] ?>">
                                                                                                     <i class="fas fa-save mr-1"></i> Save
                                                                                                 </button>
@@ -424,8 +420,6 @@ include('../../config/dbconn.php');
                                                 rel="stylesheet">
                                             <script
                                                 src="https://cdn.jsdelivr.net/npm/glightbox@3.0.1/dist/js/glightbox.min.js"></script>
-
-                                            
 
                                             <script>
                                                 $(document).ready(function () {

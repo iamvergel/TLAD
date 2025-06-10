@@ -8,6 +8,68 @@ include('../../config/dbconn.php');
 
 <body class="hold-transition sidebar-mini layout-fixed">
   <div class="wrapper">
+    <div class="modal fade" id="editPasswordModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Change Password</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form action="admin_action.php" method="POST" enctype="multipart/form-data">
+            <div class="modal-body">
+              <input type="hidden" name="admin_id" id="password_edit_id">
+              <h6 class="py-3">Change Password : <strong id="admin_name"></strong></h6>
+              <div class="row">
+                <div class="form-group col-md-6 position-relative">
+                  <label>New Password</label>
+                  <input type="password" autocomplete="new-password" name="new_password" id="new_password"
+                    class="form-control" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,}"
+                    title="Must contain at least one number and one uppercase and lowercase letter, at least one special character, and at least 8 or more characters"
+                    required>
+                  <i class="fa fa-eye" id="toggleNewPassword"
+                    style="cursor: pointer; position: absolute; top: 8px; right: 10px;"></i>
+                  <div class="show_hide" style="display:none;">
+                    <small>Password Strength: <span id="result"> </span></small>
+                  </div>
+                </div>
+                <div class="form-group col-md-6 position-relative">
+                  <label>Confirm Password</label>
+                  <input type="password" autocomplete="new-password" name="confirm_password" class="form-control"
+                    id="confirm_password" required>
+                </div>
+              </div>
+              <script>
+                const toggleNewPassword = document.querySelector('#toggleNewPassword');
+                const newPassword = document.querySelector('#new_password');
+                toggleNewPassword.addEventListener('click', function () {
+                  const type = newPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+                  newPassword.setAttribute('type', type);
+                  this.classList.toggle('fa-eye-slash');
+                });
+
+                function validateNewPassword() {
+                  if (newPassword.value !== confirmPassword.value) {
+                    confirmPassword.setCustomValidity("Passwords do not match");
+                  } else {
+                    confirmPassword.setCustomValidity('');
+                  }
+                }
+
+                newPassword.onchange = validateNewPassword;
+                confirmPassword.onkeyup = validateNewPassword;
+              </script>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close">Close</button>
+              <button type="submit" name="update_password" class="btn btn-success">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
     <div class="modal fade" id="AddAdminModal">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -64,7 +126,7 @@ include('../../config/dbconn.php');
                 </div>
               </div>
               <div class="row">
-              <div class="col-sm-6">
+                <div class="col-sm-6">
                   <div class="form-group position-relative">
                     <label>Password</label>
                     <span class="text-danger">*</span>
@@ -72,20 +134,11 @@ include('../../config/dbconn.php');
                       pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
                       title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters and one special character"
                       required>
-                    <i class="fa fa-eye" id="togglePassword" style="cursor: pointer; position: absolute; top: 8px; right: 10px;"></i>
+                    <i class="fa fa-eye" id="togglePassword"
+                      style="cursor: pointer; position: absolute; top: 8px; right: 10px;"></i>
                   </div>
                 </div>
-                <script>
-                  const togglePassword = document.querySelector('#togglePassword');
-                  const password = document.querySelector('#password');
-                  togglePassword.addEventListener('click', function (e) {
-                    // toggle the type attribute
-                    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-                    password.setAttribute('type', type);
-                    // toggle the eye slash icon
-                    this.classList.toggle('fa-eye-slash');
-                  });
-                </script>
+
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label>Confirm Password</label>
@@ -94,6 +147,17 @@ include('../../config/dbconn.php');
                   </div>
                 </div>
               </div>
+
+              <script>
+                const togglePassword = document.querySelector('#togglePassword');
+                const password = document.querySelector('#password');
+                togglePassword.addEventListener('click', function (e) {
+                  const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                  password.setAttribute('type', type);
+                  this.classList.toggle('fa-eye-slash');
+                });
+              </script>
+
               <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group">
@@ -130,6 +194,7 @@ include('../../config/dbconn.php');
         </div>
       </div>
     </div>
+
     <div class="modal fade" id="EditAdminModal">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -147,8 +212,7 @@ include('../../config/dbconn.php');
                   <div class="form-group">
                     <label>Full Name</label>
                     <span class="text-danger">*</span>
-                    <input type="text" name="fname" id="edit_fname" class="form-control text-capitalize" 
-                      required>
+                    <input type="text" name="fname" id="edit_fname" class="form-control text-capitalize" required>
                   </div>
                 </div>
               </div>
@@ -214,6 +278,7 @@ include('../../config/dbconn.php');
         </div>
       </div>
     </div>
+
     <div class="modal fade" id="DeleteAdminModal">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -280,13 +345,14 @@ include('../../config/dbconn.php');
                         <th>Action</th>
                       </tr>
                     </thead>
-                    <tbody><?php
-                    $i = 1;
-                    $user = $_SESSION['auth_user']['user_id'];
-                    $sql = "SELECT * FROM tbladmin";
-                    $query_run = mysqli_query($conn, $sql);
+                    <tbody>
+                      <?php
+                      $i = 1;
+                      $user = $_SESSION['auth_user']['user_id'];
+                      $sql = "SELECT * FROM tbladmin WHERE id != '$user'";
+                      $query_run = mysqli_query($conn, $sql);
 
-                    while ($row = mysqli_fetch_array($query_run)) { ?>
+                      while ($row = mysqli_fetch_array($query_run)) { ?>
                         <tr>
                           <td style="text-align: center;" width="10%"><img
                               src="../../../upload/admin/<?= $row['image'] ?>" class="img-thumbnail img-circle" width="50"
@@ -297,27 +363,26 @@ include('../../config/dbconn.php');
                           <td><?php echo $row['phone']; ?></td>
                           <td><?php echo $row['email']; ?></td>
                           <td><?php
-                          if ($row['id'] == $user) {
+                          if ($row['status'] == 1) {
+                            echo '<button data-id="' . $row['id'] . '" data-status="' . $row['status'] . '" class="btn btn-sm btn-primary activatebtn">Active</button>';
                           } else {
-                            if ($row['status'] == 1) {
-                              echo '<button data-id="' . $row['id'] . '" data-status="' . $row['status'] . '" class="btn btn-sm btn-primary activatebtn">Active</button>';
-                            } else {
-                              echo '<button data-id="' . $row['id'] . '" data-status="' . $row['status'] . '" class="btn btn-sm btn-danger activatebtn">Inactive</button>';
-                            }
+                            echo '<button data-id="' . $row['id'] . '" data-status="' . $row['status'] . '" class="btn btn-sm btn-danger activatebtn">Inactive</button>';
                           }
                           ?>
                           </td>
                           <td>
-                            <button data-id="<?php echo $row['id']; ?>" class="btn btn-sm btn-info editAdminbtn"><i
-                                class="fas fa-edit"></i></button>
+                            <button title="Edit Admin" data-id="<?php echo $row['id']; ?>"
+                              class="btn btn-sm btn-info editAdminbtn"><i class="fas fa-edit"></i></button>
+                            <button title="Change Password" data-id="<?php echo $row['id']; ?>"
+                              class="btn btn-sm btn-primary editPasswordbtn"><i class="fas fa-lock"></i></button>
                             <input type="hidden" name="del_image" value="<?php echo $row['image']; ?>">
-                            <button data-id="<?php echo $row['id']; ?>" class="btn btn-danger btn-sm deleteAdminbtn"><i
-                                class="far fa-trash-alt"></i></button>
+                            <button title="Delete Admin" data-id="<?php echo $row['id']; ?>"
+                              class="btn btn-danger btn-sm deleteAdminbtn"><i class="far fa-trash-alt"></i></button>
                           </td>
                         </tr>
                         <?php
-                    }
-                    ?>
+                      }
+                      ?>
                     </tbody>
                     <tfoot>
                       <tr>
@@ -458,6 +523,29 @@ include('../../config/dbconn.php');
           }
         });
       });
+
+      //Admin Edit Password Modal
+      $(document).on('click', '.editPasswordbtn', function () {
+        var userid = $(this).data('id');
+
+        $.ajax({
+          type: "POST",
+          url: "admin_action.php",
+          data: {
+            'checking_editAdminbtn': true,
+            'user_id': userid,
+          },
+          success: function (response) {
+            $.each(response, function (key, value) {
+              $('#password_edit_id').val(value['id']);
+              $('#admin_name').text(value['name']);
+            });
+
+            $('#editPasswordModal').modal('show');
+          }
+        });
+      });
+
       //Admin Delete Modal
       $(document).on('click', '.deleteAdminbtn', function () {
 

@@ -10,8 +10,7 @@ include('../../superglobal.php');
   <title><?= $system_name ?></title>
   <link href="../../../upload/<?= $system_logo ?>" rel="icon">
   <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="../../assets/plugins/font-awesome-pro/css/all.min.css">
   <!-- daterange picker -->
@@ -25,8 +24,7 @@ include('../../superglobal.php');
   <!-- <link rel="stylesheet" href="../../assets/plugins/select2/css/select2.min.css" /> -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css">
   <!-- select2-bootstrap4-theme -->
-  <link rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.min.css">
   <!-- Bootstrap4 Duallistbox -->
   <link rel="stylesheet" href="../../assets/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
   <!-- BS Stepper -->
@@ -38,8 +36,7 @@ include('../../superglobal.php');
   <!-- fullCalendar -->
   <link rel="stylesheet" href="../../assets/plugins/fullcalendar/main.css">
   <!-- Date Picker -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.css"
-    rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.css" rel="stylesheet" />
   <!-- Toastr -->
   <link rel="stylesheet" href="../../assets/plugins/toastr/toastr.min.css">
   <!-- DataTables -->

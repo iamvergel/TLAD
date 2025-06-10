@@ -16,13 +16,11 @@ include('../../config/dbconn.php');
     xhr.open("GET", "filter_admin_data.php?department_id=" + departmentId + "&unit_id=" + unitId, true);
     xhr.onreadystatechange = function () {
       if (xhr.readyState == 4 && xhr.status == 200) {
-        // Update the table with the filtered data
         document.querySelector('#employee_table tbody').innerHTML = xhr.responseText;
 
-        // Re-initialize DataTable after filtering and redrawing the table
         var table = $('#employee_table').DataTable();
-        table.clear().draw(); // Ensure it clears and redraws the table
-        table.rows.add($(xhr.responseText)).draw(); // Add new data to DataTable
+        table.clear().draw();
+        table.rows.add($(xhr.responseText)).draw();
       }
     };
     xhr.send();
@@ -317,12 +315,12 @@ include('../../config/dbconn.php');
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1>Employee</h1>
+              <h1>Inactive Employee</h1>
             </div>
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="../dashboard/">Home</a></li>
-                <li class="breadcrumb-item active">Employee</li>
+                <li class="breadcrumb-item active">Inactive Employee</li>
               </ol>
             </div>
           </div>
@@ -463,8 +461,8 @@ include('../../config/dbconn.php');
                           <td>
                             <!-- <button data-id="<?php echo $row['EmployeeNumber']; ?>"
                               class="btn btn-sm btn-success uploadCertificate"><i class="fas fa-upload me-2"></i></button> -->
-                            <button data-id="<?php echo $row['EmployeeNumber']; ?>"
-                              class="btn btn-sm btn-secondary viewEmployeebtn"><i class="fas fa-eye me-2"></i></button>
+                            <a title="View Employee" href="employee_info.php?EmployeeNumber=<?php echo $row['EmployeeNumber']; ?>"
+                              class="btn btn-sm btn-secondary"><i class="fas fa-eye me-2"></i></a>
                             <!-- <button data-id="<?php echo $row['id']; ?>" class="btn btn-sm btn-info editEmployeebtn"><i
                                 class="fas fa-edit me-2"></i></button> -->
                             <!-- <button data-id="<?php echo $row['id']; ?>" class="btn btn-danger btn-sm deleteAdminbtn"><i
@@ -520,8 +518,8 @@ include('../../config/dbconn.php');
             text: '<i class="fas fa-clipboard"></i>  Copy',
             exportOptions: {
               modifier: {
-                page: 'current',  // Only export the visible rows on the current page
-                search: 'none'    // Don't include search filters in export
+                page: 'current', 
+                search: 'none'    
               },
               columns: '.export'
             }
@@ -532,8 +530,8 @@ include('../../config/dbconn.php');
             text: '<i class="far fa-file-csv"></i>  CSV',
             exportOptions: {
               modifier: {
-                page: 'current',  // Only export the visible rows on the current page
-                search: 'none'    // Don't include search filters in export
+                page: 'current',  
+                search: 'none'   
               },
               columns: '.export'
             }
@@ -544,8 +542,8 @@ include('../../config/dbconn.php');
             text: '<i class="far fa-file-excel"></i>  Excel',
             exportOptions: {
               modifier: {
-                page: 'current',  // Only export the visible rows on the current page
-                search: 'none'    // Don't include search filters in export
+                page: 'current',  
+                search: 'none'   
               },
               columns: '.export'
             }
@@ -624,7 +622,6 @@ include('../../config/dbconn.php');
             }
           }],
           initComplete: function () {
-            // Apply the search filter to each column
             this.api().columns().every(function () {
               var that = this;
               $('input', this.footer()).on('keyup change clear', function () {
@@ -636,9 +633,8 @@ include('../../config/dbconn.php');
           }
         });
 
-        // Trigger filterTable when filter inputs change
         $('#filter_form').on('change', function () {
-          filterTable();  // Trigger the filtering
+          filterTable(); 
         });
       });
 
@@ -653,22 +649,18 @@ include('../../config/dbconn.php');
             'user_id': userid,
           },
           success: function (response) {
-            // Show employee details and hide the rest of the page
             $('#EmployeeNumberTitle').html('Employee Info');
             $('.admin_viewing_data').html(response);
 
-            // Hide the employee list and show the employee details section
-            $('#employeeDetails').removeClass('d-none'); // Show employee details
-            $('.main').addClass('d-none'); // Hide the main content
+            $('#employeeDetails').removeClass('d-none');
+            $('.main').addClass('d-none')
           }
         });
       });
 
-      // Close the employee details view
       $(document).on('click', '#closeEmployeeDetails', function () {
-        // Hide employee details and show the main content
-        $('#employeeDetails').addClass('d-none'); // Hide employee details
-        $('.main').removeClass('d-none'); // Show the main content
+        $('#employeeDetails').addClass('d-none'); 
+        $('.main').removeClass('d-none');
       });
 
       $(document).on('click', '.editEmployeebtn', function () {

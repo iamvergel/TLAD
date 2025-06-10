@@ -56,11 +56,11 @@ include('../../config/dbconn.php');
                                                                 value="<?= $_SESSION['auth_user']['user_id'] ?>">
                                                             <div class="col-md-4">
                                                                 <div class="form-group">
-                                                                    <label for="">Image</label>
+                                                                    <label for="">Admin Avatar</label> <br />
                                                                     <input type="file" name="img_url" placeholder="">
                                                                     <input type="hidden" name="old_image"
                                                                         value="<?= $row['image'] ?>" />
-                                                                    <div id="uploaded_image" class="p-5 w-100 bg-secondary object-cover overflow-hidden d-flex justify-content-center align-items-center">
+                                                                    <div id="uploaded_image" class="p-5 w-100 bg-secondary object-cover overflow-hidden d-flex justify-content-center align-items-center mt-1">
                                                                         <img src="../../../upload/admin/<?= $row['image'] ?>"
                                                                             class="" width="200"
                                                                             alt="Admin Image" class="img-thumbnail img-fluid object-cover">
@@ -99,7 +99,7 @@ include('../../config/dbconn.php');
                                                                         <label for="">Email</label>
                                                                         <span class="text-danger">*</span>
                                                                         <input type="email" class="form-control"
-                                                                            value="<?= $row['email'] ?>" readonly>
+                                                                            value="<?= $row['email'] ?>">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -121,25 +121,45 @@ include('../../config/dbconn.php');
                                                 <div class="row">
                                                     <input type="hidden" name="userid"
                                                         value="<?= $_SESSION['auth_user']['user_id'] ?>">
-                                                    <div class="form-group col-md-6">
+                                                    <div class="form-group col-md-6 position-relative">
                                                         <label>Current password</label>
                                                         <input type="password" autocomplete="off" name="current_pass"
                                                             class="form-control" required>
+                                                        <i class="fa fa-eye" id="toggleCurrentPassword"
+                                                            style="cursor: pointer; position: absolute; top: 8px; right: 10px;"></i>
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="form-group col-md-6">
+                                                    <div class="form-group col-md-6 position-relative">
                                                         <label>New Password</label>
                                                         <input type="password" autocomplete="new-password"
                                                             name="new_pass" id="password" class="form-control"
                                                             pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,}"
                                                             title="Must contain at least one number and one uppercase and lowercase letter,at least one special character, and at least 8 or more characters"
                                                             required>
+                                                        <i class="fa fa-eye" id="toggleNewPassword"
+                                                            style="cursor: pointer; position: absolute; top: 8px; right: 10px;"></i>
                                                         <div class="show_hide" style="display:none;">
                                                             <small>Password Strength: <span id="result"> </span></small>
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <script>
+                                                    const toggleCurrentPassword = document.querySelector('#toggleCurrentPassword');
+                                                    const currentPassword = document.querySelector('input[name="current_pass"]');
+                                                    toggleCurrentPassword.addEventListener('click', function (e) {
+                                                        const type = currentPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+                                                        currentPassword.setAttribute('type', type);
+                                                        this.classList.toggle('fa-eye-slash');
+                                                    });
+                                                    const toggleNewPassword = document.querySelector('#toggleNewPassword');
+                                                    const newPassword = document.querySelector('input[name="new_pass"]');
+                                                    toggleNewPassword.addEventListener('click', function (e) {
+                                                        const type = newPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+                                                        newPassword.setAttribute('type', type);
+                                                        this.classList.toggle('fa-eye-slash');
+                                                    });
+                                                </script>
                                                 <div class="row">
                                                     <div class="form-group col-md-6">
                                                         <label>Confirm Password</label>

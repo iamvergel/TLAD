@@ -634,7 +634,7 @@ if (isset($_POST['deletedata']) && isset($_POST['delete_id'])) {
     mysqli_stmt_close($stmt);
 
     if ($imagePath && file_exists('../../../upload/certificates/' . $imagePath)) {
-        unlink('../../../upload/certificates/' . $imagePath);  // Delete the image from the folder
+        unlink('../../../upload/certificates/' . $imagePath);
     }
 
     $query = "DELETE FROM tblemployeeseminar WHERE id = ?";
@@ -655,21 +655,18 @@ if (isset($_POST['addYear'])) {
     $year = $_POST['Year'];
 
     if (!empty($year)) {
-        // Check if the year already exists globally for any employee
         $checkQuery = "SELECT * FROM tblemployeeremarks WHERE Year = ?";
         if ($stmt = mysqli_prepare($conn, $checkQuery)) {
             mysqli_stmt_bind_param($stmt, 's', $year);
             mysqli_stmt_execute($stmt);
             $result = mysqli_stmt_get_result($stmt);
 
-            // If the year already exists for some employees, show an alert but proceed to add for missing employees
             if (mysqli_num_rows($result) > 0) {
                 echo "<script>alert('Year $year already exists for some employees.');
                         window.location.href = 'index.php';
                 </script>";
             }
 
-            // Fetch all EmployeeNumbers from tblemployee
             $getAllEmployeesQuery = "SELECT EmployeeNumber FROM tblemployee";
             $employees_result = mysqli_query($conn, $getAllEmployeesQuery);
 
@@ -677,14 +674,12 @@ if (isset($_POST['addYear'])) {
                 while ($employee = mysqli_fetch_assoc($employees_result)) {
                     $employeeNumber = $employee['EmployeeNumber'];
 
-                    // Check if the employee does not already have the year
                     $checkExistingQuery = "SELECT * FROM tblemployeeremarks WHERE EmployeeNumber = ? AND Year = ?";
                     if ($checkStmt = mysqli_prepare($conn, $checkExistingQuery)) {
                         mysqli_stmt_bind_param($checkStmt, 'ss', $employeeNumber, $year);
                         mysqli_stmt_execute($checkStmt);
                         $existingResult = mysqli_stmt_get_result($checkStmt);
 
-                        // If the year does not exist for the employee, insert it
                         if (mysqli_num_rows($existingResult) === 0) {
                             $insertQuery = "INSERT INTO tblemployeeremarks (EmployeeNumber, Year) VALUES (?, ?)";
                             if ($insertStmt = mysqli_prepare($conn, $insertQuery)) {
@@ -735,7 +730,6 @@ if (isset($_POST['id']) && isset($_POST['title'])) {
 }
 
 if (isset($_POST['insertEmployee'])) {
-    // Get form values
     $EmployeeNumber = $_POST['EmployeeNumber'];
     $Lastname = $_POST['Lastname'];
     $Firstname = $_POST['Firstname'];
@@ -747,11 +741,9 @@ if (isset($_POST['insertEmployee'])) {
     $Position = $_POST['Position'];
     $Department = $_POST['Department'];
     $UnitSection = $_POST['UnitSection'];
-    // Automatically set Status to 1
     $Status = 1;
     $coordinator_id = $_POST['coordinator_id'];
 
-    // Insert into the tblemployee table
     $regdate = date('Y-m-d H:i:s');
     $sql = "INSERT INTO tblemployee (EmployeeNumber, Lastname, Firstname, Middlename, Suffix, Birthday, ContactNumber, Sex, Position, Department, UnitSection, Status, coordinator_id, created_at)
             VALUES ('$EmployeeNumber', '$Lastname', '$Firstname', '$Middlename', '$Suffix', '$Birthday', '$ContactNumber', '$Sex', '$Position', '$Department', '$UnitSection', '$Status', '$coordinator_id', '$regdate')";
@@ -769,16 +761,14 @@ if (isset($_POST['insertEmployee'])) {
 
 if (isset($_POST['uploadCertificate'])) {
     $employeeNumber = $_POST['EmployeeNumber'];
-    $certificateFile = $_FILES['CertificateImage']['name']; // Now it's called CertificateFile for clarity
+    $certificateFile = $_FILES['CertificateImage']['name']; 
     $uploadDate = date('Y-m-d H:i:s');
     $Title = $_POST['Title'];
     $currentYear = $_POST['year'];
 
     $uploadDirectory = '../../../upload/certificates/';
 
-    // Check if a file was uploaded
     if ($certificateFile != NULL) {
-        // Allow jpg, jpeg, png, and pdf
         $allowed_file_format = array('jpg', 'jpeg', 'png', 'pdf');
         $file_extension = pathinfo($certificateFile, PATHINFO_EXTENSION);
 
@@ -791,16 +781,12 @@ if (isset($_POST['uploadCertificate'])) {
             header('Location:index.php');
             exit();
         } else {
-            // Generate a unique filename based on time
             $filename = time() . '.' . $file_extension;
-            
-            // Move the uploaded file to the directory
             move_uploaded_file($_FILES['CertificateImage']['tmp_name'], $uploadDirectory . $filename);
         }
     }
 
     if ($_SESSION['error'] == '') {
-        // Insert certificate data into the database
         $sql = "INSERT INTO tblemployeeseminar (EmployeeNumber, Date, CertificateImage, year, Title)
                 VALUES ('$employeeNumber', '$uploadDate', '$filename', '$currentYear', '$Title')";
         $query_run = mysqli_query($conn, $sql);
@@ -814,3 +800,4 @@ if (isset($_POST['uploadCertificate'])) {
         }
     }
 }
+

@@ -213,8 +213,8 @@ include('../../config/dbconn.php');
                                         }
                                         ?>
                                         <div class="row mt-5">
-                                            <div class="col-md-6">
-                                                <button type="submit" name="system_details" class="btn btn-success"
+                                            <div class="col-md-12">
+                                                <button type="submit" name="system_details" class="btn btn-success float-right"
                                                     onClick="return checkForm(this);">Update</button>
                                             </div>
                                         </div>

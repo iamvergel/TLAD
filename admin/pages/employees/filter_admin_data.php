@@ -56,9 +56,14 @@ while ($row = mysqli_fetch_array($query_run)) {
     }
 
     echo '<td>';
-    echo '<button data-id="' . $row['EmployeeNumber'] . '" class="btn btn-sm btn-primary uploadCertificate"><i class="fas fa-upload"></i></button>';
-    echo '<button data-id="' . $row['EmployeeNumber'] . '" class="btn btn-sm btn-secondary viewEmployeebtn ml-1"><i class="fas fa-eye me-2"></i></button>';
-    echo '<button data-id="' . $row['id'] . '" class="btn btn-sm btn-info editEmployeebtn ml-1"><i class="fas fa-edit"></i></button>';
+    echo '<button title="Upload Certificate" data-id="' . $row['EmployeeNumber'] . '"
+          data-Firstname="' . $row['Firstname'] . '"
+          data-Middlename="' . $row['Middlename'] . '"
+          data-Lastname="' . $row['Lastname'] . '" data-Suffix="' . $row['Suffix'] . '"
+          class="btn btn-sm btn-primary uploadCertificate"><i class="fas fa-upload me-2"></i></button>';
+    echo '<a title="View Employee" href="employee_info.php?EmployeeNumber=' . $row["EmployeeNumber"] . '"
+          class="btn btn-sm btn-secondary ml-1"><i class="fas fa-eye me-2"></i></a>';
+    echo '<button title="Edit Employee" data-id="' . $row['id'] . '" class="btn btn-sm btn-info editEmployeebtn ml-1"><i class="fas fa-edit"></i></button>';
     echo '</td>';
     echo '</tr>';
 }

@@ -16,13 +16,13 @@
         </li>
         <li class="nav-item">
           <a href="../admins" class="nav-link <?= $page == 'admins' ? 'active' : '' ?>">
-            <i class="fas fa-users nav-icon"></i>
+            <i class="fas fa-user-shield nav-icon"></i>
             <p>Admins </p>
           </a>
         </li>
         <li class="nav-item">
           <a href="../coordinator" class="nav-link <?= $page == 'coordinator' ? 'active' : '' ?>">
-            <i class="nav-icon fas fa-users"></i>
+            <i class="nav-icon fas fa-user-nurse"></i>
             <p>Coordinators</p>
           </a>
         </li>
@@ -34,13 +34,13 @@
         </li>
         <li class="nav-item">
           <a href="../report section" class="nav-link <?= $page == 'report section' ? 'active' : '' ?>">
-            <i class="nav-icon fas fa-file"></i>
+            <i class="nav-icon fas fa-file-alt"></i>
             <p>Report Section</p>
           </a>
         </li>
         <li class="nav-item">
           <a href="../inactive_employees" class="nav-link <?= $page == 'inactive_employees' ? 'active' : '' ?>">
-            <i class="nav-icon fas fa-times"></i>
+            <i class="nav-icon fas fa-user-slash"></i>
             <p>Inactive Employees</p>
           </a>
         </li>

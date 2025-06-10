@@ -1,9 +1,9 @@
 <?php
-include('../../authentication.php');
-include('../../includes/header.php');
-include('../../includes/topbar.php');
-include('../../includes/sidebar.php');
-include('../../config/dbconn.php');
+include('authentication.php');
+include('includes/header.php');
+include('includes/topbar.php');
+include('includes/sidebar.php');
+include('../admin/config/dbconn.php');
 ?>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -419,7 +419,7 @@ include('../../config/dbconn.php');
                                                 </div>
                                             </div>
 
-                                            <?php include('../../includes/scripts.php'); ?>
+                                            <?php include('includes/scripts.php'); ?>
                                             <link href="https://cdn.jsdelivr.net/npm/glightbox@3.0.1/dist/css/glightbox.min.css"
                                                 rel="stylesheet">
                                             <script
@@ -582,4 +582,4 @@ include('../../config/dbconn.php');
         </div>
     </div>
 
-    <?php include('../../includes/footer.php'); ?>
+   <?php include('includes/footer.php'); ?>

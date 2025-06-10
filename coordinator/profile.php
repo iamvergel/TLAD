@@ -36,8 +36,8 @@ include('../admin/config/dbconn.php');
                                     <ul class="nav nav-pills">
                                         <li class="nav-item"><a class="nav-link active" href="#info"
                                                 data-toggle="tab">Edit Profile</a></li>
-                                        <!-- <li class="nav-item"><a class="nav-link" href="#pass" data-toggle="tab">Change
-                                                Password</a></li> -->
+                                        <li class="nav-item"><a class="nav-link" href="#pass" data-toggle="tab">Change
+                                                Password</a></li>
                                     </ul>
                                 </div>
                                 <div class="card-body">
@@ -62,16 +62,15 @@ include('../admin/config/dbconn.php');
                                                         ?>
                                                         <div class="row">
                                                             <div class="form-group col-md-4">
-                                                                <div class="form-group col-md-12 h-100 w-100"
-                                                                    style="background-color: #d9dbda">
-                                                                    <label for="">Department/Unit Logo</label> <br />
+                                                                <div class="form-group col-md-12 h-100 w-100">
+                                                                    <label for="">Coordinator Avatar</label> <br />
                                                                     <input type="file" name="img_url" placeholder="">
                                                                     <input type="hidden" name="old_image"
                                                                         value="<?= $row['image'] ?>" />
                                                                     <div id="uploaded_image"
-                                                                        class="d-flex justify-content-center align-items-center">
+                                                                        class="p-5 w-100 bg-secondary object-cover overflow-hidden d-flex justify-content-center align-items-center mt-1">
                                                                         <img src="../upload/coordinators/<?= $row['image'] ?>"
-                                                                            class="img-thumbnail img-fluid mt-5" width="250"
+                                                                            class="img-thumbnail img-fluid" width="250"
                                                                             alt="Coordiantor Image">
                                                                     </div>
                                                                 </div>
@@ -166,10 +165,10 @@ include('../admin/config/dbconn.php');
                                                                     <div class="form-group col-md-6">
                                                                         <label for="">Email</label>
                                                                         <span class="text-danger">*</span>
-                                                                        <input type="email" class="form-control"
+                                                                        <input type="email" class="form-control" name="email"
                                                                             value="<?= $row['email'] ?>"
                                                                             pattern="^[-+.\w]{1,64}@[-.\w]{1,64}\.[-.\w]{2,6}$"
-                                                                            readonly>
+                                                                            >
                                                                     </div>
 
 
@@ -188,7 +187,7 @@ include('../admin/config/dbconn.php');
                                                 </div>
                                             </form>
                                         </div>
-                                        <!-- <div class="tab-pane" id="pass">
+                                        <div class="tab-pane" id="pass">
                                             <form action="profile_action.php" method="post">
                                                 <div class="row">
                                                     <input type="hidden" name="userid"
@@ -197,6 +196,8 @@ include('../admin/config/dbconn.php');
                                                         <label>Current password</label>
                                                         <input type="password" autocomplete="off" name="current_pass"
                                                             class="form-control" required>
+                                                            <i class="fa fa-eye" id="toggleCurrentPassword"
+                                                            style="cursor: pointer; position: absolute; top: 8px; right: 10px;"></i>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -207,11 +208,29 @@ include('../admin/config/dbconn.php');
                                                             pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,}"
                                                             title="Must contain at least one number and one uppercase and lowercase letter,at least one special character, and at least 8 or more characters"
                                                             required>
+                                                            <i class="fa fa-eye" id="toggleNewPassword"
+                                                            style="cursor: pointer; position: absolute; top: 8px; right: 10px;"></i>
                                                         <div class="show_hide" style="display:none;">
                                                             <small>Password Strength: <span id="result"> </span></small>
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <script>
+                                                    const toggleCurrentPassword = document.querySelector('#toggleCurrentPassword');
+                                                    const currentPassword = document.querySelector('input[name="current_pass"]');
+                                                    toggleCurrentPassword.addEventListener('click', function (e) {
+                                                        const type = currentPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+                                                        currentPassword.setAttribute('type', type);
+                                                        this.classList.toggle('fa-eye-slash');
+                                                    });
+                                                    const toggleNewPassword = document.querySelector('#toggleNewPassword');
+                                                    const newPassword = document.querySelector('input[name="new_pass"]');
+                                                    toggleNewPassword.addEventListener('click', function (e) {
+                                                        const type = newPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+                                                        newPassword.setAttribute('type', type);
+                                                        this.classList.toggle('fa-eye-slash');
+                                                    });
+                                                </script>
                                                 <div class="row">
                                                     <div class="form-group col-md-6">
                                                         <label>Confirm Password</label>
@@ -223,11 +242,11 @@ include('../admin/config/dbconn.php');
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <button type="submit" name="change_password"
-                                                            class="btn btn-danger float-right">Update</button>
+                                                            class="btn btn-success float-right">Update</button>
                                                     </div>
                                                 </div>
                                             </form>
-                                        </div> -->
+                                        </div>
                                         <!-- /.tab-pane -->
 
                                     </div>

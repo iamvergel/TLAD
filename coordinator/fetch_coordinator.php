@@ -5,7 +5,7 @@ include('../admin/config/dbconn.php');
 if (isset($_GET['unit_id'])) {
     $unit_id = $_GET['unit_id'];
 
-    $stmt = $conn->prepare("SELECT * FROM tblcoordinator WHERE unit_id = ?");
+    $stmt = $conn->prepare("SELECT * FROM tblcoordinator WHERE unit_id = ? AND status = 1");
     $stmt->bind_param('i', $unit_id);  
     $stmt->execute();
     $result = $stmt->get_result();

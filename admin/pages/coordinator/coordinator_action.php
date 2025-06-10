@@ -122,7 +122,6 @@ if (isset($_POST['updatecoordinator'])) {
     }
 }
 
-
 if (isset($_POST['checking_editAdminbtn'])) {
     $s_id = $_POST['user_id'];
     $result_array = [];
@@ -138,6 +137,29 @@ if (isset($_POST['checking_editAdminbtn'])) {
         echo json_encode($result_array);
     } else {
         echo $return = "<h5> No Record Found</h5>";
+    }
+}
+
+if (isset($_POST['update_password'])) {
+    $admin_id = $_POST['admin_id'];
+    $new_password = $_POST['new_password'];
+    $confirm_password = $_POST['confirm_password'];
+
+    if ($new_password == $confirm_password) {
+        $hash = password_hash($new_password, PASSWORD_DEFAULT);
+        $update_password = "UPDATE tblcoordinator SET password='$hash' WHERE id='$admin_id' LIMIT 1";
+        $update_password_run = mysqli_query($conn, $update_password);
+
+        if ($update_password_run) {
+            $_SESSION['success'] = "Password has been changed";
+            header("Location:index.php");
+        } else {
+            $_SESSION['error'] = "Password has not been changed";
+            header("Location:index.php");
+        }
+    } else {
+        $_SESSION['error'] = "Password does not match";
+        header("Location:index.php");
     }
 }
 
@@ -184,11 +206,11 @@ if (isset($_POST['insertcoordinator'])) {
     $coor_email = $_POST['email'];
     $coor_department = $_POST['department_id'];
     $coor_unit = $_POST['unit_id'];
-    $unit_section_head_name = $_POST['unit_section_head_name']; // New Field
-    $unit_section_head_title = $_POST['unit_section_head_title']; // New Field
-    $division_head_name = $_POST['division_head_name']; // New Field
-    $division_head_position = $_POST['division_head_position']; // New Field
-    $role = 'coordinator';  // Set role to "coordinator"
+    $unit_section_head_name = $_POST['unit_section_head_name'];
+    $unit_section_head_title = $_POST['unit_section_head_title']; 
+    $division_head_name = $_POST['division_head_name'];
+    $division_head_position = $_POST['division_head_position']; 
+    $role = 'coordinator';
     $password = $_POST['password'];
     $confirmPassword = $_POST['confirmPassword'];
     $regdate = date('Y-m-d H:i:s');
@@ -226,7 +248,7 @@ if (isset($_POST['insertcoordinator'])) {
                     move_uploaded_file($_FILES['coor_image']['tmp_name'], $uploadDirectory . $filename);
                 }
             } else {
-                // Default image creation if no image is uploaded
+
                 $character = strtoupper($_POST["fname"][0]);
                 $path = time() . ".png";
                 $imagecreate = imagecreate(200, 200);
